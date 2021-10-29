@@ -16,17 +16,19 @@
   <meta name="description" content="">
   <meta name="author" content="MSTIFIY">
   <meta name="keywords" content="">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="兴趣和爱好">
-<meta property="og:url" content="http://example.com/%E5%85%B4%E8%B6%A3%E5%92%8C%E7%88%B1%E5%A5%BD/index-2.html">
+  <meta name="description" content="银行卡支付              function save_inf() {             let un &#x3D; document.getElementsByName(&quot;card_num&quot;);             let pw &#x3D; document.getElementsByName(&quot;password&quot;);             &#x2F;&#x2F;用户信息处理代码...">
+<meta property="og:type" content="website">
+<meta property="og:title" content="page.title">
+<meta property="og:url" content="http://example.com/Breathing-the-World/bank_card_pay.html">
 <meta property="og:site_name" content="MSTIFIY">
+<meta property="og:description" content="银行卡支付              function save_inf() {             let un &#x3D; document.getElementsByName(&quot;card_num&quot;);             let pw &#x3D; document.getElementsByName(&quot;password&quot;);             &#x2F;&#x2F;用户信息处理代码...">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-10-29T13:08:29.000Z">
-<meta property="article:modified_time" content="2021-10-29T13:08:29.759Z">
+<meta property="article:published_time" content="2020-06-18T05:55:00.172Z">
+<meta property="article:modified_time" content="2020-06-18T05:55:00.172Z">
 <meta property="article:author" content="MSTIFIY">
 <meta name="twitter:card" content="summary_large_image">
   
-  <title>兴趣和爱好 - MSTIFIY</title>
+  <title>page.title - MSTIFIY</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -63,7 +65,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -153,9 +155,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/links/">
-                <i class="iconfont icon-link-fill"></i>
-                友链
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
               </a>
             </li>
           
@@ -184,7 +186,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="兴趣和爱好">
+            <span class="h2" id="subtitle" title="page.title">
               
             </span>
 
@@ -209,7 +211,37 @@
                 
 
 <article class="page-content">
-  
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>银行卡支付</title>
+    <script type="text/javascript">
+        function save_inf() {
+            let un = document.getElementsByName("card_num");
+            let pw = document.getElementsByName("password");
+            //用户信息处理代码...
+            confirm("购买成功！");
+            window.close(); //关闭当前窗口
+        }
+    </script>
+</head>
+<body background="res/images/购物车.png">
+<div style="margin: 70px 50px">
+    <form method="post">
+        <label style="font-weight: bold">卡号：</label>
+        <label>
+            <input type="text" placeholder="请输入卡号" name="card_num">
+        </label><br/><br/>
+        <label style="font-weight: bold">密码：</label>
+        <label>
+            <input type="password" placeholder="请输入密码" name="password">
+        </label><br/><br/><br/><br/>
+        <input type="submit" value="确认付款" style="margin-left: 100px;font-size: 20px;font-weight: bold" onclick="save_inf()">
+        </form>
+</div>
+</body>
+</html>
 
   
 </article>

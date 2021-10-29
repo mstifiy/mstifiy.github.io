@@ -16,17 +16,19 @@
   <meta name="description" content="">
   <meta name="author" content="MSTIFIY">
   <meta name="keywords" content="">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="兴趣和爱好">
-<meta property="og:url" content="http://example.com/%E5%85%B4%E8%B6%A3%E5%92%8C%E7%88%B1%E5%A5%BD/index-1.html">
+  <meta name="description" content="支付界面                   function get_value() {             let Inf &#x3D; []             let str &#x3D; window.location.search;   &#x2F;&#x2F;location.search是从当前URL的?号开始的字符串             Inf[0] &#x3D; str.split(&quot;&amp;&quot;)">
+<meta property="og:type" content="website">
+<meta property="og:title" content="page.title">
+<meta property="og:url" content="http://example.com/Breathing-the-World/payment.html">
 <meta property="og:site_name" content="MSTIFIY">
+<meta property="og:description" content="支付界面                   function get_value() {             let Inf &#x3D; []             let str &#x3D; window.location.search;   &#x2F;&#x2F;location.search是从当前URL的?号开始的字符串             Inf[0] &#x3D; str.split(&quot;&amp;&quot;)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-10-29T13:08:22.000Z">
-<meta property="article:modified_time" content="2021-10-29T13:08:22.195Z">
+<meta property="article:published_time" content="2020-06-18T11:03:10.518Z">
+<meta property="article:modified_time" content="2020-06-18T11:03:10.518Z">
 <meta property="article:author" content="MSTIFIY">
 <meta name="twitter:card" content="summary_large_image">
   
-  <title>兴趣和爱好 - MSTIFIY</title>
+  <title>page.title - MSTIFIY</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -63,7 +65,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -153,9 +155,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/links/">
-                <i class="iconfont icon-link-fill"></i>
-                友链
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
               </a>
             </li>
           
@@ -184,7 +186,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="兴趣和爱好">
+            <span class="h2" id="subtitle" title="page.title">
               
             </span>
 
@@ -209,7 +211,153 @@
                 
 
 <article class="page-content">
-  
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付界面</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script language="JavaScript" type="text/javascript">
+        function get_value() {
+            let Inf = []
+            let str = window.location.search;   //location.search是从当前URL的?号开始的字符串
+            Inf[0] = str.split("&")[0].replace("?match=","")
+            Inf[1] = str.split("&")[1].replace("price_all=","")
+            return Inf;
+        }
+
+        function load() {
+            let inf = get_value();
+            let match = inf[0];
+            let price_all = inf[1];
+            let matchs = match.split("")
+            //点击复选框
+            for(let i = 0;i<8;i++){
+                if(matchs[i] === String(1)){
+                    document.getElementById("item_" + (i + 1).toString()).checked = true;
+                }
+                document.getElementById("item_" + (i + 1).toString()).disabled = true;
+            }
+            document.getElementById("price_all").innerText = price_all;
+            display_match(match);
+        }
+
+        function go_bank_card() {
+            window.open("bank_card_pay.html","_blank","toolbar=yes"+
+                " location=no, directories=no, status=no, menubar=yes, top=100px, left=200px" +
+                "scrollbars=no, resizable=no, copy history=yes, width=400, height=400")
+        }
+
+        function go_wechat() {
+            window.open("wechat_pay.html","_blank","toolbar=yes"+
+                " location=no, directories=no, status=no, menubar=yes, top=100px, left=200px" +
+                "scrollbars=no, resizable=no, copy history=yes, width=400, height=400")
+        }
+
+        function display_match(match) {
+            let e = document.getElementById("效果展示");
+            //按不同搭配情况展示效果图
+            switch (match.toString()) {
+                case "11111111":
+                    e.src = "res/images/全套.jpg";break;
+                case "10111111":
+                    e.src = "res/images/涡轮机过滤便携结构温湿出口.jpg";break;
+                case "11001111":
+                    e.src = "res/images/涡轮机过滤氧气罐出口无便携环.jpg";break;
+                default:
+                    //默认情况
+                    e.src = "res/images/此效果图正在制作中.jpg";break;
+            }
+        }
+    </script>
+</head>
+
+<body class="bg" leftmargin="80" rightmargin="120" background="res/images/bg_img1.jpg" onload="load()">
+<h1 style="font-weight: bold;text-align: center;font-family: 'Copperplate Gothic Bold',sans-serif;font-size: 50px">Breathing the World!</h1>
+<div>
+    <div style="display: flex">
+        <div>
+            <p><h1 style="text-align: center">效果图</h1>
+            <img id="效果展示" height="400" width="400" class="img_show">
+        </div>
+        <div style="border-style: solid;margin-left: 50px;height:400px;margin-top:85px;width: 700px">
+            <div>
+                <table class="table">
+                    <thead>
+                        <caption style="font-size: 30px;margin-bottom: 10px;font-weight: bold">选择区</caption>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td ><label>
+                            <input type="checkbox" value="0" class="check_view_state"
+                                   id="item_1" style="display: none;">
+                            <label for="item_1"></label>
+                        </label>管道</td>
+                        <td><label>
+                            <input type="checkbox" value="0" class="check_view_state"
+                                   id="item_2" style="display: none;">
+                            <label for="item_2"></label>
+                        </label>氧气罐</td>
+                    </tr>
+                    <tr>
+                        <td><label>
+                            <input type="checkbox" value="0" class="check_view_state"
+                                   id="item_3" style="display: none;">
+                            <label for="item_3"></label>
+                        </label>温湿度控制器</td>
+                        <td><label>
+                            <input type="checkbox" value="0" class="check_view_state"
+                                   id="item_4" style="display: none;">
+                            <label for="item_4"></label>
+                        </label>便携结构</td>
+                    </tr>
+                    <tr>
+                        <td><label>
+                            <input type="checkbox" value="0" class="check_view_state"
+                                   id="item_5" style="display: none;">
+                            <label for="item_5"></label>
+                        </label>涡轮机呼吸</td>
+                        <td><label>
+                            <input type="checkbox" value="0" class="check_view_state"
+                                   id="item_6" style="display: none;">
+                            <label for="item_6"></label>
+                        </label>出气口</td>
+                    </tr>
+                    <tr>
+                        <td><label>
+                            <input type="checkbox" value="0" class="check_view_state"
+                                   id="item_7" style="display: none;">
+                            <label for="item_7"></label>
+                        </label>面罩</td>
+                        <td><label>
+                            <input type="checkbox" value="0" class="check_view_state"
+                                   id="item_8" style="display: none;">
+                            <label for="item_8"></label>
+                        </label>过滤层</td>
+                    </tr>
+                    </tbody>
+                </table><br>
+                <div style="margin-top: 50px">
+                    <label class="price">总金额：</label>
+                    <label class="price" id="price_all"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="payment-way">
+    <p><h1>支付方式</h1>
+    <button class="pay_way" onclick="go_bank_card()">
+        <input type="image" src="res/images/bank_card.png" alt="bank_card">
+    </button>
+    <button class="pay_way" style="margin-right: 10px" onclick="go_wechat()">
+        <input type="image" src="res/images/wechat.png" alt="wechat">
+    </button>
+</div>
+<!--APP下载链接-->
+<p><h3><a href="https://github.com/mstifiy/Portable_Ventilator/blob/master/app/release/app-release.apk" target="_blank">APP下载</a></h3>
+</body>
+</html>
 
   
 </article>
