@@ -4,13 +4,38 @@
   
   
   <entry>
-    <title>Hello World</title>
-    <link href="/2021/10/28/hello-world/"/>
-    <url>/2021/10/28/hello-world/</url>
+    <title>测试文章</title>
+    <link href="/2021/10/29/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/"/>
+    <url>/2021/10/29/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</url>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="西洲曲"><a href="#西洲曲" class="headerlink" title="西洲曲"></a>西洲曲</h3><h6 id="【作者】佚名-【朝代】南北朝"><a href="#【作者】佚名-【朝代】南北朝" class="headerlink" title="【作者】佚名 【朝代】南北朝"></a>【作者】佚名 【朝代】南北朝</h6><p>忆梅下西洲，折梅寄江北。</p><p>单衫杏子红，双鬓鸦雏色。</p><p>西洲在何处？两桨桥头渡。</p><p>日暮伯劳飞，风吹乌臼树。</p><p>树下即门前，门中露翠钿。</p><p>开门郎不至，出门采红莲。</p><p>采莲南塘秋，莲花过人头。</p><p>低头弄莲子，莲子清如水。</p><p>置莲怀袖中，莲心彻底红。</p><p>忆郎郎不至，仰首望飞鸿。</p><p>鸿飞满西洲，望郎上青楼。</p><p>楼高望不见，尽日栏杆头。</p><p>栏杆十二曲，垂手明如玉。</p><p>卷帘天自高，海水摇空绿。</p><p>海水梦悠悠，君愁我亦愁。</p><p>南风知我意，吹梦到西洲。</p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>test</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>MATLAB数学建模学习Day1</title>
+    <link href="/2021/10/29/MATLAB%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E5%AD%A6%E4%B9%A0Day1/"/>
+    <url>/2021/10/29/MATLAB%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E5%AD%A6%E4%B9%A0Day1/</url>
+    
+    <content type="html"><![CDATA[<h1 id="数据的获取"><a href="#数据的获取" class="headerlink" title="数据的获取"></a>数据的获取</h1><h6 id="EXCEL-lt-—-gt-MATLAB"><a href="#EXCEL-lt-—-gt-MATLAB" class="headerlink" title="EXCEL &lt;—&gt; MATLAB"></a>EXCEL &lt;—&gt; MATLAB</h6><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs matlab">xlsread()<br>xlswrite()<br></code></pre></td></tr></table></figure><blockquote><p><em>读写过程中勿打开excel</em></p></blockquote><h6 id="TXT-lt-—-gt-MATLAB"><a href="#TXT-lt-—-gt-MATLAB" class="headerlink" title="TXT&lt;—&gt;MATLAB"></a>TXT&lt;—&gt;MATLAB</h6><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs matlab">txt:<br>load()<br>textread()<br>fprintf()<br>M:<br>fopen()<br>fread()<br>fclose()<br></code></pre></td></tr></table></figure><blockquote><p><em>‘\n’不能正常换行，将替换成‘\r\n’</em></p></blockquote><h6 id="image、video"><a href="#image、video" class="headerlink" title="image、video"></a>image、video</h6><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs matlab">image:<br>imread()<br>video:<br><span class="hljs-number">1.</span>videoFReader = vision.VideoFileReader()<span class="hljs-comment">% read the data of the video</span><br>  videoPlayer = vision.VideoPlayer<br>  videoFrame = step(videoFReader)<br>  step(videoPlayer,videoFrame)<br>  release(videoPlayer)<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>数学建模</tag>
+      
+    </tags>
     
   </entry>
   
