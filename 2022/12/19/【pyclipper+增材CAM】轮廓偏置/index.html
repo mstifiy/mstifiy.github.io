@@ -26,8 +26,11 @@
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221219150924658.png">
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221219151007271.png">
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221219151126533.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221219150924658.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221219151007271.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221219151126533.png">
 <meta property="article:published_time" content="2022-12-19T07:23:32.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:51.049Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.246Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -212,7 +215,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      4.2k 字
     </span>
   
 
@@ -221,7 +224,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6 分钟
+      13 分钟
     </span>
   
 
@@ -289,6 +292,48 @@
 <p>按理来讲装饰器定义和调用应该分开来，这里为了方便所以写在一个文件中。</p>
 </blockquote>
 <h2 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h2><p>偏置轮廓填充结果如下图所示，其中黑色为切片得到的轮廓，红色为偏置填充的路径。</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221219150924658.png" srcset="/img/loading.gif" lazyload alt="image-20221219150924658"></p>
+<p>第24层偏置填充结果：</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221219151007271.png" srcset="/img/loading.gif" lazyload alt="image-20221219151007271"></p>
+<p>第27层偏置填充结果：</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221219151126533.png" srcset="/img/loading.gif" lazyload alt="image-20221219151126533"></h2><p>title: 【pyclipper+增材CAM】轮廓偏置<br>date: 2022-12-19 15:23:32<br>tags: 学习记录</p>
+<hr>
+<p><font color=gray>在增材打印CAM中，我们需要在切片得到的每层轮廓中规划生成打印路径。传统的三轴3D打印的常见填充方式有：<strong>轮廓平行填充</strong>和<strong>方向平行填充</strong>。其中轮廓平行填充主要是通过<strong>轮廓偏置</strong>实现的。</font></p>
+<h2 id="pyclipper安装使用-1"><a href="#pyclipper安装使用-1" class="headerlink" title="pyclipper安装使用"></a>pyclipper安装使用</h2><p>Python下安装pyclipper库，命令行输入pip指令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pip install pyclipper<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>通过 <code>import pyclipper</code> 导入使用。</p>
+</blockquote>
+<h2 id="pyclipper基础-1"><a href="#pyclipper基础-1" class="headerlink" title="pyclipper基础"></a>pyclipper基础</h2><p>pyclipper是Python环境下的Clipper库，主要用于平面闭合多边形或非闭合多线段的<strong>裁剪</strong>（clipping）和<strong>偏置</strong>（offsetting）。</p>
+<p><font color=gray size=4><b>重要术语：</b></font></p>
+<ul>
+<li><p><strong>裁剪(Clipping):</strong> 指二维平面图形之间的四个布尔操作：交集(intersection)、并(union)、差(difference )和异或(exclusive-or))中的任何一个。 </p>
+</li>
+<li><p><strong>路径(Path):</strong>  是一个有序的顶点集合，它定义一个单一的几何轮廓(contour)，要么是一条线(一个开放的路径)，要么是一个多边形(一个闭合的轮廓)。 </p>
+</li>
+<li><p><strong>直线(Line):</strong> 或者多线段(polyline)  是一个包含两个或多个顶点的开放路径。 </p>
+</li>
+<li><p><strong>多边形(Polygon):</strong> 通常是指一个二维的区域，其边界是一个外部不相交的闭合轮廓。</p>
+</li>
+<li><p><strong>轮廓(Contour):</strong> 同路径(path)。</p>
+</li>
+<li><p><strong>孔(Hole):</strong> 是一个多边形中不属于多边形的封闭区域。一个“孔多边形”是一个封闭的路径。</p>
+</li>
+<li><p><strong>多边形填充规则(Polygon Filling Rule):</strong>  填充规则，定义了平面封闭区域中的内部区域(即需要填充的区域)和外部的区域(即“孔”，不需要填充的区域)。</p>
+</li>
+</ul>
+<p>需要掌握的Clipper基础：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/128353064">Clipper库 | 坐标圆整和精度控制</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/128360554">Clipper库 | 类型和填充规则</a></li>
+</ul>
+<h2 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> math<br><span class="hljs-keyword">import</span> vtk<br><span class="hljs-keyword">from</span> pyclipper <span class="hljs-keyword">import</span> *<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">numeric_scaling</span>(<span class="hljs-params">digits: <span class="hljs-string">&#x27;int &gt; 0&#x27;</span> = <span class="hljs-number">7</span>, *, pos: <span class="hljs-built_in">list</span></span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decorate</span>(<span class="hljs-params">func</span>):</span><br>        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">scaled</span>(<span class="hljs-params">*_args</span>):</span><br>            __args = <span class="hljs-built_in">list</span>(_args)<br>            f = math.<span class="hljs-built_in">pow</span>(<span class="hljs-number">10</span>, digits)  <span class="hljs-comment"># 数值精度,默认为7位小数</span><br>            <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> pos:<br>                <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(_args[p], <span class="hljs-built_in">int</span>) <span class="hljs-keyword">or</span> <span class="hljs-built_in">isinstance</span>(_args[p], <span class="hljs-built_in">float</span>):<br>                    __args[p] *= f<br>                <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(_args[p], <span class="hljs-built_in">list</span>):<br>                    __args[p] = [[<span class="hljs-built_in">tuple</span>(<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x: x * f, pt)) <span class="hljs-keyword">for</span> pt <span class="hljs-keyword">in</span> path] <span class="hljs-keyword">for</span> path <span class="hljs-keyword">in</span> _args[p]]<br>                <span class="hljs-keyword">else</span>:<br>                    <span class="hljs-keyword">pass</span><br>            _result = func(*<span class="hljs-built_in">tuple</span>(__args))  <span class="hljs-comment"># _result is list of paths</span><br>            _result = [[<span class="hljs-built_in">tuple</span>(<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x: x / f, pt)) <span class="hljs-keyword">for</span> pt <span class="hljs-keyword">in</span> path] <span class="hljs-keyword">for</span> path <span class="hljs-keyword">in</span> _result]<br>            <span class="hljs-keyword">return</span> _result<br><br>        <span class="hljs-keyword">return</span> scaled<br><br>    <span class="hljs-keyword">return</span> decorate<br><br><br><span class="hljs-meta">@numeric_scaling(<span class="hljs-params">digits = <span class="hljs-number">7</span>, pos = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">offset</span>(<span class="hljs-params">polys, delta, jt = JT_SQUARE</span>):</span>  <span class="hljs-comment"># 偏置函数,输人多边形：[[[pt1_x,pt2_y],...,[ptN_x,ptN_y]],[...],...]</span><br>    pco = PyclipperOffset()<br>    pco.AddPaths(polys, jt, ET_CLOSEDPOLYGON)<br>    sln = pco.Execute(delta)  <span class="hljs-comment"># 偏置距离delta</span><br>    <span class="hljs-keyword">return</span> sln  <span class="hljs-comment"># 返回偏置曲线</span><br><br><span class="hljs-comment"># 轮廓平行路径填充</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">genCpPath_clipper</span>(<span class="hljs-params">boundaries, interval, shellThk</span>):</span>  <span class="hljs-comment"># 输人:轮廓、偏置距离、填充带宽</span><br>    offsetPolyses = []  <span class="hljs-comment"># 偏置曲线列表</span><br>    delta = interval / <span class="hljs-number">2</span>  <span class="hljs-comment"># 首次偏置距离</span><br>    polys = offset(boundaries, -delta, JT_SQUARE)<br>    offsetPolyses.append(polys)  <span class="hljs-comment"># 偏置曲线存放在offsetPolys中</span><br>    <span class="hljs-keyword">while</span> math.fabs(delta) &lt; shellThk:  <span class="hljs-comment"># 循环直至偏置距离大于填充带宽</span><br>        delta += interval<br>        polys = offset(boundaries, -delta, JT_SQUARE)<br>        <span class="hljs-keyword">if</span> polys <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">len</span>(polys) == <span class="hljs-number">0</span>:<br>            <span class="hljs-keyword">break</span>  <span class="hljs-comment"># 已到偏置区域中心,则退出</span><br>        offsetPolyses.append(polys)<br>    <span class="hljs-keyword">return</span> offsetPolyses<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>按理来讲装饰器定义和调用应该分开来，这里为了方便所以写在一个文件中。</p>
+</blockquote>
+<h2 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h2><p>偏置轮廓填充结果如下图所示，其中黑色为切片得到的轮廓，红色为偏置填充的路径。</p>
 <p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221219150924658.png" srcset="/img/loading.gif" lazyload alt="image-20221219150924658"></p>
 <p>第24层偏置填充结果：</p>
 <p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221219151007271.png" srcset="/img/loading.gif" lazyload alt="image-20221219151007271"></p>

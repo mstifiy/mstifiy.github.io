@@ -16,20 +16,20 @@
   <meta name="description" content="">
   <meta name="author" content="MSTIFIY">
   <meta name="keywords" content="">
-  <meta name="description" content="[TOC] 1. Hexo�����1.1 ��װGitWindows���أ�Git for Windows Linux���أ�sudo apt-get install git 1.2 ��װNode.jsWindows���أ�Download | Node.js (nodejs.org) Linux���أ� 12sudo apt-get install nodejssudo apt-g">
+  <meta name="description" content="[TOC] 1. Hexo搭建步骤1.1 安装GitWindows下载：Git for Windows Linux下载：sudo apt-get install git 1.2 安装Node.jsWindows下载：Download | Node.js (nodejs.org) Linux下载： 12sudo apt-get install nodejssudo apt-get install n">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo����˲�����վ">
+<meta property="og:title" content="hexo搭建个人博客网站">
 <meta property="og:url" content="http://example.com/2023/01/02/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/index.html">
 <meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
-<meta property="og:description" content="[TOC] 1. Hexo�����1.1 ��װGitWindows���أ�Git for Windows Linux���أ�sudo apt-get install git 1.2 ��װNode.jsWindows���أ�Download | Node.js (nodejs.org) Linux���أ� 12sudo apt-get install nodejssudo apt-g">
+<meta property="og:description" content="[TOC] 1. Hexo搭建步骤1.1 安装GitWindows下载：Git for Windows Linux下载：sudo apt-get install git 1.2 安装Node.jsWindows下载：Download | Node.js (nodejs.org) Linux下载： 12sudo apt-get install nodejssudo apt-get install n">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-02T15:39:55.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:50.760Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.226Z">
 <meta property="article:author" content="MSTIFIY">
-<meta property="article:tag" content="ѧϰ��¼">
+<meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
   
-  <title>hexo����˲�����վ - MSTIFIY&#39;S BLOG</title>
+  <title>hexo搭建个人博客网站 - MSTIFIY&#39;S BLOG</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -187,7 +187,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="hexo����˲�����վ">
+            <span class="h2" id="subtitle" title="hexo搭建个人博客网站">
               
             </span>
 
@@ -208,7 +208,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.1k 字
+      1.8k 字
     </span>
   
 
@@ -217,7 +217,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      6 分钟
     </span>
   
 
@@ -246,71 +246,10 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">hexo����˲�����վ</h1>
+            <h1 style="display: none">hexo搭建个人博客网站</h1>
             
             <div class="markdown-body">
               <p>[TOC]</p>
-<h1 id="1-Hexo�����"><a href="#1-Hexo�����" class="headerlink" title="1. Hexo�����"></a>1. Hexo�����</h1><h2 id="1-1-��װGit"><a href="#1-1-��װGit" class="headerlink" title="1.1 ��װGit"></a>1.1 ��װGit</h2><p>Windows���أ�<a target="_blank" rel="noopener" href="https://gitforwindows.org/">Git for Windows</a></p>
-<p>Linux���أ�<code>sudo apt-get install git</code></p>
-<h2 id="1-2-��װNode-js"><a href="#1-2-��װNode-js" class="headerlink" title="1.2 ��װNode.js"></a>1.2 ��װNode.js</h2><p>Windows���أ�<a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">Download | Node.js (nodejs.org)</a></p>
-<p>Linux���أ�</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get install nodejs<br>sudo apt-get install npm<br></code></pre></td></tr></table></figure>
-
-<h2 id="1-3-��װHexo"><a href="#1-3-��װHexo" class="headerlink" title="1.3 ��װHexo"></a>1.3 ��װHexo</h2><ul>
-<li><p>�½��ļ�������blog��</p>
-</li>
-<li><p>����git bash��<code>cd</code>��blog�ļ����¡�����</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install -g hexo-cli		<span class="hljs-comment"># ��װhexo</span><br>hexo -v						<span class="hljs-comment"># ����Ƿ�װ�ɹ�</span><br>hexo init mstifiyblog		<span class="hljs-comment"># ��ʼ��hexo��&quot;mstifiyblog&quot;Ϊ���ɵ�hexo�ļ����������Զ���</span><br><span class="hljs-built_in">cd</span> mstifiyblog 				<span class="hljs-comment"># �������mstifiyblog�ļ���</span><br>npm install<br></code></pre></td></tr></table></figure>
-
-<p><strong>mstifiyblog�ļ���Ŀ¼���ݣ�</strong></p>
-<ul>
-<li>node_modules��������</li>
-<li>public��������ɵ�ҳ��</li>
-<li>scaffolds���������µ�һЩģ��</li>
-<li>source����������������</li>
-<li>themes������</li>
-<li>** _config.yml: ���͵������ļ�**</li>
-</ul>
-<p><strong>���ز鿴������ҳ</strong></p>
-<p>����hexo����</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo g<br>hexo server<br></code></pre></td></tr></table></figure>
-
-<p>���������<code>localhost:4000</code>��</p>
-</li>
-</ul>
-<h2 id="1-4-GitHub�������˲ֿ�"><a href="#1-4-GitHub�������˲ֿ�" class="headerlink" title="1.4 GitHub�������˲ֿ�"></a>1.4 GitHub�������˲ֿ�</h2><p>����public�ֿ�<code>&lt;github�û���&gt;.github.io</code>��</p>
-<h2 id="1-5-����SSH���ӵ�GitHub"><a href="#1-5-����SSH���ӵ�GitHub" class="headerlink" title="1.5 ����SSH���ӵ�GitHub"></a>1.5 ����SSH���ӵ�GitHub</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># ����git</span><br>git config --global user.name <span class="hljs-string">&quot;yourname&quot;</span><br>git config --global user.email <span class="hljs-string">&quot;youremail&quot;</span><br><span class="hljs-comment"># ��֤����</span><br>git config user.name<br>git config user.email<br><span class="hljs-comment"># ����SSH</span><br>ssh-keygen -t rsa -C <span class="hljs-string">&quot;youremail&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>����<code>id_rsa</code>��˽����Կ����<code>id_rsa.pub</code>��������Կ����</p>
-<p>GitHub-&gt;setting-&gt;SSH keys-&gt;New SSH key����<code>id_rsa.pub</code>�������Ϣ���ƽ�ȥ��</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh -T git@github.com	<span class="hljs-comment"># ��֤SSH</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="1-6-��hexo����GitHub"><a href="#1-6-��hexo����GitHub" class="headerlink" title="1.6 ��hexo����GitHub"></a>1.6 ��hexo����GitHub</h2><p><code>_config.yml</code>���ļ�ĩβ�޸ģ�</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">deploy:</span><br><span class="hljs-symbol">  type:</span> git<br><span class="hljs-symbol">  repo:</span> https:<span class="hljs-comment">//github.com/&lt;github�˻���&gt;/&lt;github�˻���&gt;.github.io.git</span><br><span class="hljs-symbol">  branch:</span> master<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install hexo-deployer-git --save	<span class="hljs-comment"># ��װdeploy-git</span><br>hexo clean								<span class="hljs-comment"># ���ԭ����</span><br>hexo generate							<span class="hljs-comment"># ���ɾ�̬���£�������д��hexo g</span><br>hexo deploy								<span class="hljs-comment"># �������£�������д��hexo d</span><br></code></pre></td></tr></table></figure>
-
-<p>���óɹ���ͨ����������룺<code>http://&lt;github�˻���&gt;.github.io</code>���ɲ鿴�����ˡ�</p>
-<h2 id="1-7-���o�������"><a href="#1-7-���o�������" class="headerlink" title="1.7 ���ø�������"></a>1.7 ���ø�������</h2><p><font color=gray>Ŀǰû�и��������������ݲ���¼��</font></p>
-<h2 id="1-8-��������"><a href="#1-8-��������" class="headerlink" title="1.8 ��������"></a>1.8 ��������</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new newpapername<br></code></pre></td></tr></table></figure>
-
-<p>��<code>source/_post</code>�д�markdown�ļ��༭��д����٣�</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo clean<br>hexo g<br>hexo d<br></code></pre></td></tr></table></figure>
-
-<p>���³ɹ���</p>
-<h1 id="2-��չ����"><a href="#2-��չ����" class="headerlink" title="2. ��չ����"></a>2. ��չ����</h1><h2 id="2-1-hexo��������"><a href="#2-1-hexo��������" class="headerlink" title="2.1 hexo��������"></a>2.1 hexo��������</h2><p>�ο�hexo�ٷ��ĵ���<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">�ĵ� | Hexo</a></p>
-<h2 id="2-2-��������"><a href="#2-2-��������" class="headerlink" title="2.2 ��������"></a>2.2 ��������</h2><p>������Դ���github�������������ŵ�<code>theme</code>�ļ����¡�Ȼ����<code>_config.yml</code>�����ļ��а�<code>theme</code>����Ŀ�������ļ��е����֣����ͻ��Զ���<code>theme</code>�ļ������������õ����⡣</p>
-<p>��Ŀ�������ļ����£�Ҳ��һ�������ļ�<code>_config.xml</code>����������ļ����޸���������������ļ���</p>
-<p><strong>menu���˵�����</strong></p>
-<p>�½��Զ���˵���ѡ�</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new page yourdiy		<span class="hljs-comment"># yourdirΪ�˵�����</span><br></code></pre></td></tr></table></figure>
-
-<p>Ȼ�������������ļ���menu�˵�������һ�� <code>Yourdiy : /yourdiy</code>��ע��ð�ź���Ҫ�пո��Լ�ǰ��Ŀո�Ҫ��menu��Ĭ�ϵı������롣Ȼ����<code>languages</code>�ļ����У��ҵ�<code>zh-CN.yml</code>����index������<code>yourdiy: &#39;������˼&#39;</code>�Ϳ�����ʾ�����ˡ�</p>
-<p><strong>fluid����</strong></p>
-<p><a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/docs/guide/">����ָ�� | Hexo Fluid �û��ֲ� (fluid-dev.com)</a></p>
-<h2 id="2-3-git��֧���ж��ն˹���"><a href="#2-3-git��֧���ж��ն˹���" class="headerlink" title="2.3 git��֧���ж��ն˹���"></a>2.3 git��֧���ж��ն˹���</h2><h2 id="2-4-������չ"><a href="#2-4-������չ" class="headerlink" title="2.4 ������չ"></a>2.4 ������չ</h2><p>�ο����£�<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexoʷ����ȫ��̳�</a>—<br>title: hexo搭建个人博客网站<br>date: 2023-01-02 23:39:55<br>tags: 学习记录</p>
-<hr>
-<p>[TOC]</p>
 <h1 id="1-Hexo搭建步骤"><a href="#1-Hexo搭建步骤" class="headerlink" title="1. Hexo搭建步骤"></a>1. Hexo搭建步骤</h1><h2 id="1-1-安装Git"><a href="#1-1-安装Git" class="headerlink" title="1.1 安装Git"></a>1.1 安装Git</h2><p>Windows下载：<a target="_blank" rel="noopener" href="https://gitforwindows.org/">Git for Windows</a></p>
 <p>Linux下载：<code>sudo apt-get install git</code></p>
 <h2 id="1-2-安装Node-js"><a href="#1-2-安装Node-js" class="headerlink" title="1.2 安装Node.js"></a>1.2 安装Node.js</h2><p>Windows下载：<a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">Download | Node.js (nodejs.org)</a></p>
@@ -380,7 +319,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%D1%A7%CF%B0%EF%BF%BD%EF%BF%BD%C2%BC/">ѧϰ��¼</a>
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
                     
                   </div>
                 

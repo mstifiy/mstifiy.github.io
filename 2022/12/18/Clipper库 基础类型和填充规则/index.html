@@ -37,8 +37,15 @@
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218095529324.png">
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218100844645.png">
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218103400376.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218092444226.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218093353310.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218094605442.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218095018604.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218095529324.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218100844645.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218103400376.png">
 <meta property="article:published_time" content="2022-12-18T03:05:10.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:50.758Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.224Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="ѧϰ��¼">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,7 +230,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.8k 字
+      10k 字
     </span>
   
 
@@ -232,7 +239,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      21 分钟
+      31 分钟
     </span>
   
 
@@ -440,6 +447,98 @@
 <p><b><code>PolyFillType</code> 的用法：</b></p>
 <p>在使用 <code>Clipper</code> 对象对多边形进行裁剪时，可以通过在执行方法 <code>Execute</code> 中传入 <code>PolyFillType</code> 指定 <code>subj_fill_type</code> （主体多边形的填充规则）和 <code>clip_fill_type</code> （裁剪多边形的填充规则）参数。</p>
 <h2 id="裁剪属性-PolyType"><a href="#裁剪属性-PolyType" class="headerlink" title="裁剪属性(PolyType)"></a>裁剪属性(PolyType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">PT_CLIP = <span class="hljs-number">1</span><br>PT_SUBJECT = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p>裁剪属性有2个：</p>
+<ul>
+<li>主体多边形(<strong>ptSubject</strong> )：被裁剪多边形，也就是主体多边形。  </li>
+<li>裁剪多边形(<strong>ptClip</strong> )：裁剪多边形，使用此多边形裁剪主体多边形。</li>
+</ul>
+<p><b><code>PolyType</code> 的用法：</b></p>
+<p>在使用 <code>Clipper</code> 对象对多边形进行裁剪时，可以通过在执行方法 <code>AddPaths</code> 中传入 <code>PolyType</code> 指定传入的多边形（<code>paths</code>）的裁剪属性 <code>poly_type</code>（即是裁剪对象还是被裁剪对象）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">AddPaths</span>(<span class="hljs-params">self, *args, **kwargs</span>):</span> <span class="hljs-comment"># real signature unknown</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Add a list of paths.</span><br><span class="hljs-string">    </span><br><span class="hljs-string">            Keyword arguments:</span><br><span class="hljs-string">            paths     -- paths to be added</span><br><span class="hljs-string">            poly_type -- type of added paths - subject or clip</span><br><span class="hljs-string">            closed    -- True if added paths are closed, False if open</span><br><span class="hljs-string">    </span><br><span class="hljs-string">            Returns:</span><br><span class="hljs-string">            True -- all or some paths are valid for clipping and were added</span><br><span class="hljs-string">    </span><br><span class="hljs-string">            Raises:</span><br><span class="hljs-string">            ClipperException -- all paths are invalid for clipping</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">pass</span><br>```---<br>title: Clipper库 基础类型和填充规则<br>date: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">18</span> <span class="hljs-number">11</span>:05:<span class="hljs-number">10</span><br>tags: 学习记录<br>---<br><span class="hljs-comment">## 裁剪类型(ClipType)</span><br><br>```python<br>CT_INTERSECTION = <span class="hljs-number">0</span><br>CT_UNION = <span class="hljs-number">1</span><br>CT_DIFFERENCE = <span class="hljs-number">2</span><br>CT_XOR = <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>交集，AND (intersection) ：主体和裁剪多边形相交的区域。  </li>
+<li>并集，OR (union) - 主体和裁剪多边形两者合并的区域。   </li>
+<li>非/差，NOT (difference) - 裁剪多边形以外主体的区域。</li>
+<li>异或，XOR (exclusive or) - 主体和裁剪多边形两者相交以外的区域。</li>
+</ul>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218092444226.png" srcset="/img/loading.gif" lazyload alt="image-20221218092444226"></p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218093353310.png" srcset="/img/loading.gif" lazyload alt="image-20221218093353310"></p>
+<p><b><code>ClipType</code> 的用法：</b></p>
+<p>在使用 <code>Clipper</code> 对象对多边形进行裁剪时，可以通过在执行方法 <code>Execute</code> 中传入 <code>ClipType</code> 参数指定裁剪（布尔运算）类型。</p>
+<p><code>Clipper.Execute </code> 方法描述如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Execute</span>(<span class="hljs-params">self, *args, **kwargs</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Performs the clipping operation and returns a list of paths.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Keyword arguments:</span><br><span class="hljs-string">        clip_type      -- type of the clipping operation</span><br><span class="hljs-string">        subj_fill_type -- fill rule of subject paths</span><br><span class="hljs-string">        clip_fill_type -- fill rule of clip paths</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Returns:</span><br><span class="hljs-string">        list of resulting paths</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Raises:</span><br><span class="hljs-string">        ClipperException -- operation did not succeed</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="闭合类型-EndType-1"><a href="#闭合类型-EndType-1" class="headerlink" title="闭合类型(EndType)"></a>闭合类型(EndType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">ET_CLOSEDPOLYGON = <span class="hljs-number">0</span><br>ET_CLOSEDLINE = <span class="hljs-number">1</span><br>ET_OPENBUTT = <span class="hljs-number">2</span><br>ET_OPENSQUARE = <span class="hljs-number">3</span><br>ET_OPENROUND = <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>etClosedPolygon:</strong>  末端根据<code>JoinType</code>的值连接，填充路径使用多边形。  </li>
+<li><strong>etClosedLine:</strong>  末端根据<code>JoinType</code>的值连接，填充路径使用多线段。</li>
+<li><strong>etOpenButt:</strong> 末端为直角，且没有延伸。 </li>
+<li><strong>etOpenSquare:</strong> 末端为直角，并且向路径外延伸一部分。</li>
+<li><strong>etOpenRound:</strong> 末端为圆角，并且向路径外延伸一部分。</li>
+<li><del><strong>etOpenSingle:</strong>  在一个方向上偏移一个开放路径，计划在未来更新。（我在Python下用的6.2.1版本还没有。）</del></li>
+</ul>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218094605442.png" srcset="/img/loading.gif" lazyload alt="image-20221218094605442"></p>
+<blockquote>
+<p><code>EndType</code> 参数只在 <code>ClipperOffset.AddPath</code> 和 <code>ClipperOffset.AddPaths</code> 中用到，用于规定偏置轮廓的闭合方式。</p>
+</blockquote>
+<h2 id="连接类型-JoinType-1"><a href="#连接类型-JoinType-1" class="headerlink" title="连接类型(JoinType)"></a>连接类型(JoinType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">JT_MITER = <span class="hljs-number">2</span><br>JT_ROUND = <span class="hljs-number">1</span><br>JT_SQUARE = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218095018604.png" srcset="/img/loading.gif" lazyload alt="image-20221218095018604"></p>
+<ul>
+<li><p><strong>jtMiter</strong>：斜角衔接。对一些窄角度，向外偏置可能会产生非常长的“尖峰”。</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218095529324.png" srcset="/img/loading.gif" lazyload alt="image-20221218095529324"></p>
+<p>因此我们需要设置 <code> ClippOffset.MiterLimit</code> 属性用来指定原始顶点将被偏移的最大距离(以 <code>delta</code> 的倍数)，即在距离原始顶点 <code>delta</code> 倍数的距离上，将斜边截断成倒方角（这样就变成和 <strong>jtSquare</strong> 一样的连接效果了）。</p>
+</li>
+<li><p><strong>jtRound</strong>: 圆弧衔接。将所有斜边角进行到圆角处理。我们知道圆角其实是由倒角近似形成的，所以Clipper库引入<code>ClipperOffset.ArcTolerance</code> 属性（圆弧精度）指定了近似处理弧线时可接受的最大不精确性(“公差”)。</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218100844645.png" srcset="/img/loading.gif" lazyload alt="image-20221218100844645"></p>
+<p><code>ArcTolerance</code> 默认值为0.25，说明qd（倒角偏离真实圆弧的最大距离）不超过0.25。我们可以发现，qd越小，整个近似圆弧越光滑，代价就是我们需要插入更多的顶点。</p>
+</li>
+<li><p><strong>jtSquare</strong>: 矩形衔接。将所有斜边角进行倒角 <code>C1×delta</code> 。 </p>
+</li>
+</ul>
+<blockquote>
+<p>感觉和数控技术中刀具偏置路径连接差不多。</p>
+</blockquote>
+<p>其中提到的 <code>delta</code> 是在 <code>ClipperOffset.Execute</code> 方法中传入的参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Execute</span>(<span class="hljs-params">self, *args, **kwargs</span>):</span> <span class="hljs-comment"># real signature unknown</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Performs the offset operation and returns a list of offset paths.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        	Keyword arguments:</span><br><span class="hljs-string">            delta -- amount to which the supplied paths will be offset - negative delta shrinks polygons,</span><br><span class="hljs-string">            	positive delta expands them.</span><br><span class="hljs-string"></span><br><span class="hljs-string">            Returns:</span><br><span class="hljs-string">            list of offset paths</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="裁剪填充类型-PolyFillType-填充规则-1"><a href="#裁剪填充类型-PolyFillType-填充规则-1" class="headerlink" title="裁剪填充类型(PolyFillType) - 填充规则"></a>裁剪填充类型(PolyFillType) - 填充规则</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">PFT_EVENODD = <span class="hljs-number">0</span><br>PFT_NEGATIVE = <span class="hljs-number">3</span><br>PFT_NONZERO = <span class="hljs-number">1</span><br>PFT_POSITIVE = <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>填充规则（fill rule）</strong>用于判断在封闭图形中，哪些区域是内部，哪些区域是外部（如’孔‘）。Clipper库支持4个填充规则：</p>
+<ul>
+<li>Even-Odd(奇偶)</li>
+<li>Non-Zero(非零)</li>
+<li>Positive(正)</li>
+<li>Negative(负)</li>
+</ul>
+<p>我认为下面这张图比官方描述更加易于理解。我们赋予每个多边形子区域一个<strong>绕数</strong>。根据多边形的方向和一条外部到内部的射线来计算区域的绕数。</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218103400376.png" srcset="/img/loading.gif" lazyload alt="image-20221218103400376"></p>
+<blockquote>
+<p>图源自：《计算机辅助制造实践——Python实现三维打印路径规划》P163。</p>
+</blockquote>
+<p>填充规则描述如下：</p>
+<ul>
+<li><p>奇偶填充 : 奇数子区域填充，偶数子区域不填充。</p>
+<blockquote>
+<p>奇偶填充最简单，不需要借助绕数。奇偶填充规定：和射线相交的第奇数个轮廓内部区域是填充区域，第偶数个轮廓内部区域是非填充区域。适用于多边形本身和多边形之间不存在自相交的情况。</p>
+</blockquote>
+</li>
+<li><p>非零填充：所有<code>绕数非零</code>的区域都填充。</p>
+</li>
+<li><p>正填充：所有<code>绕数 &gt;0</code>的区域都填充。</p>
+</li>
+<li><p>负填充：所有<code>绕数 &lt; 0</code>的区域都填充。</p>
+</li>
+</ul>
+<blockquote>
+<p>目前使用最广泛的填充规则是奇偶和非零填充。</p>
+</blockquote>
+<p><b><code>PolyFillType</code> 的用法：</b></p>
+<p>在使用 <code>Clipper</code> 对象对多边形进行裁剪时，可以通过在执行方法 <code>Execute</code> 中传入 <code>PolyFillType</code> 指定 <code>subj_fill_type</code> （主体多边形的填充规则）和 <code>clip_fill_type</code> （裁剪多边形的填充规则）参数。</p>
+<h2 id="裁剪属性-PolyType-1"><a href="#裁剪属性-PolyType-1" class="headerlink" title="裁剪属性(PolyType)"></a>裁剪属性(PolyType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">PT_CLIP = <span class="hljs-number">1</span><br>PT_SUBJECT = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
 
 <p>裁剪属性有2个：</p>
 <ul>

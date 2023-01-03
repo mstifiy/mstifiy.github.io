@@ -25,8 +25,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/df-dp.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/df-dp.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/df-dp.png">
 <meta property="article:published_time" content="2022-11-02T07:39:20.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:50.761Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.227Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="ѧϰ��¼">
 <meta name="twitter:card" content="summary_large_image">
@@ -211,7 +212,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.1k 字
+      5.9k 字
     </span>
   
 
@@ -220,7 +221,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      19 分钟
     </span>
   
 
@@ -405,6 +406,84 @@
 </li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://www.runoob.com/pandas/pandas-tutorial.html">Pandas 教程 | 菜鸟教程 (runoob.com)</a></p>
+<hr>
+<p>title: Pandas快速笔记<br>date: 2022-11-02 15:39:20<br>tags: 学习记录</p>
+<hr>
+<h2 id="1-Pandas-1-2"><a href="#1-Pandas-1-2" class="headerlink" title="1 Pandas$^{[1]}$"></a>1 Pandas$^{[1]}$</h2><p>python下数据分析库。</p>
+<h3 id="1-1-数据结构-1"><a href="#1-1-数据结构-1" class="headerlink" title="1.1 数据结构"></a>1.1 数据结构</h3><h4 id="1-1-1-Series-2"><a href="#1-1-1-Series-2" class="headerlink" title="1.1.1 Series"></a>1.1.1 <strong>Series</strong></h4><p>Pandas Series 类似表格中的一个<strong>列</strong>（column），类似于一维数组，可以保存任何数据类型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pandas.Series( data, index, dtype, name, copy)<br></code></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<ul>
+<li><strong>data</strong>：一组数据(ndarray 类型)。</li>
+<li><strong>index</strong>：数据索引标签，如果不指定，默认从 0 开始。</li>
+<li><strong>dtype</strong>：数据类型，默认会自己判断。</li>
+<li><strong>name</strong>：设置名称。</li>
+<li><strong>copy</strong>：拷贝数据，默认为 False。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(pd.Series([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&quot;数据3&quot;</span>], [<span class="hljs-string">&quot;数据1&quot;</span>, <span class="hljs-string">&quot;数据2&quot;</span>, <span class="hljs-number">3</span>]))	<span class="hljs-comment">#data,index构造</span><br><span class="hljs-built_in">print</span>(pd.Series(&#123;<span class="hljs-string">&quot;数据1&quot;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&quot;数据2&quot;</span>: <span class="hljs-number">2</span>, <span class="hljs-number">3</span>: <span class="hljs-string">&quot;数据3&quot;</span>&#125;))	<span class="hljs-comment">#字典key:value构造</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">数据<span class="hljs-number">1</span>      <span class="hljs-number">1</span><br>数据<span class="hljs-number">2</span>      <span class="hljs-number">2</span><br><span class="hljs-number">3</span>      数据<span class="hljs-number">3</span><br>dtype: <span class="hljs-built_in">object</span><br>数据<span class="hljs-number">1</span>      <span class="hljs-number">1</span><br>数据<span class="hljs-number">2</span>      <span class="hljs-number">2</span><br><span class="hljs-number">3</span>      数据<span class="hljs-number">3</span><br>dtype: <span class="hljs-built_in">object</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>左侧一列是索引，右侧一列是数据，一一对应。</p>
+</blockquote>
+<h4 id="1-1-2-DataFrame-2"><a href="#1-1-2-DataFrame-2" class="headerlink" title="1.1.2 DataFrame"></a>1.1.2 <strong>DataFrame</strong></h4><p>DataFrame 是一个<strong>表格型</strong>的数据结构）。DataFrame 既有行索引也有列索引，它可以被看做由 Series 组成的字典（共同用一个索引）。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/df-dp.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pandas.DataFrame( data, index, columns, dtype, copy)<br></code></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<ul>
+<li><strong>data</strong>：一组数据(ndarray、series, map, lists, dict 等类型)。</li>
+<li><strong>index</strong>：索引值，或者可以称为行标签。</li>
+<li><strong>columns</strong>：列标签，默认为 RangeIndex (0, 1, 2, …, n) 。</li>
+<li><strong>dtype</strong>：数据类型。</li>
+<li><strong>copy</strong>：拷贝数据，默认为 False。</li>
+</ul>
+<h5 id="loc属性-1"><a href="#loc属性-1" class="headerlink" title=".loc属性"></a>.loc属性</h5><p>返回指定行的数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df.loc[<span class="hljs-number">0</span>]	<span class="hljs-comment">#返回第一行（单行），返回一个Series</span><br>df.loc[[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>]]	<span class="hljs-comment">#返回第一行和第二行（多行），返回一个DataFrame</span><br>df.loc[<span class="hljs-string">&quot;行索引&quot;</span>]<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-1-3-CSV文件-1"><a href="#1-1-3-CSV文件-1" class="headerlink" title="1.1.3 CSV文件"></a>1.1.3 <strong>CSV文件</strong></h4><p>CSV（Comma-Separated Values，逗号分隔值，有时也称为字符分隔值，因为分隔字符也可以不是逗号），其文件以纯文本形式存储表格数据（数字和文本）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.read_csv(<span class="hljs-string">&quot;xxx.csv&quot;</span>)	<span class="hljs-comment">#读取csv文件并返回一个DataFrame</span><br>df.to_csv(<span class="hljs-string">&quot;xxx.csv&quot;</span>)	<span class="hljs-comment">#将DataFrame保存为csv文件</span><br>df.head(n)	<span class="hljs-comment">#返回前n行，默认为5</span><br>df.tail(n)	<span class="hljs-comment">#返回最后n行，默认为5</span><br>df.info()	<span class="hljs-comment">#返回表格的一些基本信息</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="1-1-4-数据操作-1"><a href="#1-1-4-数据操作-1" class="headerlink" title="1.1.4 数据操作"></a>1.1.4 <strong>数据操作</strong></h4><ul>
+<li><p>**<code>dropna()</code>**删除包含空字段的行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.dropna(axis=<span class="hljs-number">0</span>, how=<span class="hljs-string">&#x27;any&#x27;</span>, thresh=<span class="hljs-literal">None</span>, subset=<span class="hljs-literal">None</span>, inplace=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>参数说明：</strong></p>
+<ul>
+<li>axis：默认为 <strong>0</strong>，表示逢空值剔除整行，如果设置参数 <strong>axis＝1</strong> 表示逢空值去掉整列。</li>
+<li>how：默认为 <strong>‘any’</strong> 如果一行（或一列）里任何一个数据有出现 NA 就去掉整行，如果设置 <strong>how=’all’</strong> 一行（或列）都是 NA 才去掉这整行。</li>
+<li>thresh：设置需要多少非空值的数据才可以保留下来的。</li>
+<li>subset：设置想要检查的列。如果是多个列，可以使用列名的 list 作为参数。</li>
+<li>inplace：如果设置 True，将计算得到的值直接覆盖之前的值并返回 None，修改的是源数据。</li>
+</ul>
+</li>
+<li><p>**<code>isnull()</code>**判断各个单元格是否为空。</p>
+</li>
+<li><p>**<code>fillna()</code>**替换空字段。</p>
+</li>
+<li><p>**<code>duplicated()</code>**判断对应数据是否重复。</p>
+</li>
+<li><p><strong><code>drop_duplicates()</code></strong> 删除重复数据。</p>
+</li>
+<li><p>**<code>merge</code>**合并表格（DataFrame）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">newData = pd.merge(left, right, how: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;inner&quot;</span>, on=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>left和right均为DataFrame类型</li>
+<li>how指定合并方式：<ul>
+<li>inner（缺省）：求交</li>
+<li>left：以左表格为主进行合并</li>
+<li>right：以右表格为主进行合并</li>
+<li>outer：求并</li>
+</ul>
+</li>
+<li>on指定按某一列进行合并</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://www.runoob.com/pandas/pandas-tutorial.html">Pandas 教程 | 菜鸟教程 (runoob.com)</a></p>
 
             </div>
             <hr>

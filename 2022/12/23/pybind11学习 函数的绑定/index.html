@@ -24,7 +24,7 @@
 <meta property="og:description" content="本文主要记录官方文档中 FUNCTIONS 一章的学习笔记。 对于C++ 函数的Python绑定，在前面的学习中已经有所涉及了，详见：pybind11学习 | 迈出第一步。本文主要是记录一些更加深入的知识。  [TOC]  1 返回值策略Python和C++在内存管理和对象生命周期管理上存在本质的区别。为此，pybind11提供了一些返回值策略来确定由哪方管理资源。pybind11在绑定C++函">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-23T10:21:58.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:50.816Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.232Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,7 +208,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.1k 字
+      8.3k 字
     </span>
   
 
@@ -217,7 +217,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      26 分钟
     </span>
   
 
@@ -335,6 +335,95 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;floats_only&quot;</span>, [](<span class="hljs-keyword">double</span> f) &#123; <span class="hljs-keyword">return</span> <span class="hljs-number">0.5</span> * f; &#125;, py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;f&quot;</span>).<span class="hljs-built_in">noconvert</span>());	<br></code></pre></td></tr></table></figure>
 
 <h2 id="7-允许-禁止None参数"><a href="#7-允许-禁止None参数" class="headerlink" title="7 允许/禁止None参数"></a>7 允许/禁止None参数</h2><p>使用<code>py::arg</code>对象的<code>.none(bool)</code>方法来显式地允许或禁止在Python中传入的该参数为<code>None</code>。在不显式指定的情况下，默认支持传递<code>None</code>。</p>
+<hr>
+<p>title: pybind11学习 函数的绑定<br>date: 2022-12-23 18:21:58<br>tags: 学习记录</p>
+<hr>
+<blockquote>
+<p>本文主要记录官方文档中 <strong>FUNCTIONS</strong> 一章的学习笔记。</p>
+<p>对于C++ 函数的Python绑定，在前面的学习中已经有所涉及了，详见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/128399398">pybind11学习 | 迈出第一步</a>。本文主要是记录一些更加深入的知识。</p>
+</blockquote>
+<p>[TOC] </p>
+<h2 id="1-返回值策略-1"><a href="#1-返回值策略-1" class="headerlink" title="1 返回值策略"></a>1 返回值策略</h2><p>Python和C++在内存管理和对象生命周期管理上存在本质的区别。为此，pybind11提供了一些返回值策略来<strong>确定由哪方管理资源</strong>。pybind11在绑定C++函数时，一个有7个返回值策略，都在<code>py::return_value_policy</code>（py为pybind11的别名）枚举类型中。这些策略通过<code>model_::def()</code>（模块函数）和<code>class_::def()</code>（类成员方法）来指定，默认策略为<code>return_value_policy::automatic</code>。</p>
+<table>
+<thead>
+<tr>
+<th>返回值策略</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>return_value_policy::take_ownership</code></td>
+<td>引用现有对象（不创建一个新对象），并获取所有权。在引用计数为0时，Pyhton将调用析构函数和delete操作销毁对象。</td>
+</tr>
+<tr>
+<td><code>return_value_policy::copy</code></td>
+<td>拷贝返回值，这样Python将拥有拷贝的对象。该策略相对来说比较安全，因为两个实例的生命周期是分离的。</td>
+</tr>
+<tr>
+<td><code>return_value_policy::move</code></td>
+<td>使用<code>std::move</code>来移动返回值的内容到新实例，新实例的所有权在Python。该策略相对来说比较安全，因为两个实例的生命周期是分离的。</td>
+</tr>
+<tr>
+<td><code>return_value_policy::reference</code></td>
+<td>引用现有对象，但不拥有所有权。C++侧负责该对象的生命周期管理，并在对象不再被使用时负责析构它。注意：当Python侧还在使用引用的对象时，C++侧删除对象将导致未定义行为。</td>
+</tr>
+<tr>
+<td><code>return_value_policy::reference_internal</code></td>
+<td>返回值的生命周期与父对象的生命周期相绑定，即被调用函数或属性的<code>this</code>或<code>self</code>对象。这种策略与reference策略类似，但附加了<code>keep_alive&lt;0, 1&gt;</code>调用策略保证返回值还被Python引用时，其父对象就不会被垃圾回收掉。这是由<code>def_property</code>、<code>def_readwrite</code>创建的属性getter方法的默认返回值策略。</td>
+</tr>
+<tr>
+<td><code>return_value_policy::automatic</code></td>
+<td>当返回值是指针时，该策略使用<code>return_value_policy::take_ownership</code>。反之对左值和右值引用使用<code>return_value_policy::copy</code>。</td>
+</tr>
+<tr>
+<td><code>return_value_policy::automatic_reference</code></td>
+<td>和上面一样，但是当返回值是指针时，使用<code>return_value_policy::reference</code>策略。这是在C++代码手动调用Python函数和使用<code>pybind11/stl.h</code>中的casters时的默认转换策略。你可能不需要显式地使用该策略。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<ul>
+<li><font color=red>代码使用无效的返回值策略将导致未初始化内存或多次释放数据结构，这将导致难以调试的、不确定的问题和段错误。</font></li>
+<li>如果函数返回值为智能指针，可以不必指定返回值策略。</li>
+</ul>
+</blockquote>
+<h2 id="2-调用策略-1"><a href="#2-调用策略-1" class="headerlink" title="2 调用策略"></a>2 调用策略</h2><p>通过指定调用策略可以<strong>表明参数间的依赖关系</strong>，确保<strong>函数调用的稳定性</strong>。</p>
+<h3 id="2-1-keep-alive-1"><a href="#2-1-keep-alive-1" class="headerlink" title="2.1 keep alive"></a>2.1 keep alive</h3><p><strong>当一个C++容器对象包含另一个C++对象</strong>时，我们需要使用该策略。<code>keep_alive&lt;Nurse, Patient&gt;</code>表明在索引<code>Nurse</code>被回收前，索引<code>Patient</code>应该被keep alive。0表示返回值，1及以上表示参数索引。1表示隐含的参数<code>this</code>指针，而常规参数索引从2开始。当<code>Nurse</code>的值在运行前被检测到为<code>None</code>时，调用策略将什么都不做。</p>
+<p>通过该策略，我们可以实现将被包含对象的声明周期绑定到包含对象上，示例如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">py::class_&lt;List&gt;(m, <span class="hljs-string">&quot;List&quot;</span>).<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;append&quot;</span>, &amp;List::append, py::keep_alive&lt;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&gt;());<br><br>py::class_&lt;Nurse&gt;(m, <span class="hljs-string">&quot;Nurse&quot;</span>).<span class="hljs-built_in">def</span>(py::init&lt;Patient &amp;&gt;(), py::keep_alive&lt;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&gt;());<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-call-guard-1"><a href="#2-2-call-guard-1" class="headerlink" title="2.2 call guard"></a>2.2 call guard</h3><p><code>call_guard&lt;T&gt;</code>策略允许任意<code>T</code>类型的scope guard应用于整个函数调用。示例如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;foo&quot;</span>, foo, py::call_guard&lt;T&gt;());<br></code></pre></td></tr></table></figure>
+
+<p><code>call_guard</code>类模板源码声明如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/** \rst</span><br><span class="hljs-comment">    A call policy which places one or more guard variables (``Ts...``) around the function call. </span><br><span class="hljs-comment"> \endrst */</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span>... Ts&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">call_guard</span>;</span><br><br><span class="hljs-keyword">template</span> &lt;&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">call_guard</span>&lt;</span>&gt; &#123;<br>    <span class="hljs-keyword">using</span> type = detail::void_type;<br>&#125;;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">call_guard</span>&lt;</span>T&gt; &#123;<br>    <span class="hljs-built_in"><span class="hljs-keyword">static_assert</span></span>(std::is_default_constructible&lt;T&gt;::value,<br>                  <span class="hljs-string">&quot;The guard type must be default constructible&quot;</span>);<br><br>    <span class="hljs-keyword">using</span> type = T;<br>&#125;;<br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span>... Ts&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">call_guard</span>&lt;</span>T, Ts...&gt; &#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">type</span> &#123;</span><br>        T guard&#123;&#125;; <span class="hljs-comment">// Compose multiple guard types with left-to-right default-constructor order</span><br>        <span class="hljs-keyword">typename</span> call_guard&lt;Ts...&gt;::type next&#123;&#125;;<br>    &#125;;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-默认参数-1"><a href="#3-默认参数-1" class="headerlink" title="3 默认参数"></a>3 默认参数</h2><p><strong>默认参数在声明时就已经被转换为Python对象了</strong>。如果默认参数为自定义类型，需要保证在<code>class_::def</code>中声明默认参数前，先将该自定义类型进行绑定。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp">py::class_&lt;SomeType&gt;(<span class="hljs-string">&quot;SomeType&quot;</span>)<br>    <span class="hljs-comment">//...</span><br><br>py::class_&lt;MyClass&gt;(<span class="hljs-string">&quot;MyClass&quot;</span>).<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;myFunction&quot;</span>, py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;arg&quot;</span>) = <span class="hljs-built_in">SomeType</span>(<span class="hljs-number">123</span>));<br></code></pre></td></tr></table></figure>
+
+<p>使用<code>py::arg_v</code>给默认参数手动添加方便阅读的注释。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">py::class_&lt;MyClass&gt;(<span class="hljs-string">&quot;MyClass&quot;</span>)<br>    .<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;myFunction&quot;</span>, py::<span class="hljs-built_in">arg_v</span>(<span class="hljs-string">&quot;arg&quot;</span>, <span class="hljs-built_in">SomeType</span>(<span class="hljs-number">123</span>), <span class="hljs-string">&quot;SomeType(123)&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<p>使用空指针作为默认参数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">py::class_&lt;MyClass&gt;(<span class="hljs-string">&quot;MyClass&quot;</span>)<br>    .<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;myFunction&quot;</span>, py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;arg&quot;</span>) = <span class="hljs-keyword">static_cast</span>&lt;SomeType *&gt;(<span class="hljs-literal">nullptr</span>));<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-Keyword-only参数-1"><a href="#4-Keyword-only参数-1" class="headerlink" title="4 Keyword-only参数"></a>4 Keyword-only参数</h2><p>Python3引入Keyword-only参数语法。用法参见<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/128289169">《Fluent Python》笔记 | 函数对象和装饰器</a>中<strong>仅限关键字参数</strong>部分。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">f</span>(<span class="hljs-params">a, *, b</span>):</span>  <span class="hljs-comment"># a can be positional or via keyword; b must be via keyword</span><br>    <span class="hljs-keyword">pass</span><br><br>f(a=<span class="hljs-number">1</span>, b=<span class="hljs-number">2</span>)  <span class="hljs-comment"># good</span><br>f(b=<span class="hljs-number">2</span>, a=<span class="hljs-number">1</span>)  <span class="hljs-comment"># good</span><br>f(<span class="hljs-number">1</span>, b=<span class="hljs-number">2</span>)  <span class="hljs-comment"># good</span><br>f(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)  <span class="hljs-comment"># TypeError: f() takes 1 positional argument but 2 were given</span><br></code></pre></td></tr></table></figure>
+
+<p>pybind11提供了<code>py::kw_only</code>对象来实现相同的功能：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;f&quot;</span>, [](<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b) &#123; <span class="hljs-comment">/* ... */</span> &#125;,<br>      py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;a&quot;</span>), py::<span class="hljs-built_in">kw_only</span>(), py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;b&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注，该特性不能与<code>py::args</code>一起使用。</p>
+</blockquote>
+<h2 id="5-Positional-only参数-1"><a href="#5-Positional-only参数-1" class="headerlink" title="5 Positional-only参数"></a>5 Positional-only参数</h2><p>python3.8引入了Positional-only参数语法。即只能按位置赋值，不能通过关键字赋值。</p>
+<p>pybind11通过<code>py::pos_only()</code>来提供相同的功能：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++">m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;f&quot;</span>, [](<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b) &#123; <span class="hljs-comment">/* ... */</span> &#125;,<br>       py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;a&quot;</span>), py::<span class="hljs-built_in">pos_only</span>(), py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;b&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-Non-converting参数-1"><a href="#6-Non-converting参数-1" class="headerlink" title="6 Non-converting参数"></a>6 Non-converting参数</h2><p>当对Non-converting参数进行转换（包含隐式转换）时，代码会抛出错误。</p>
+<p>Non-converting参数通过<code>py::arg</code>来调用<code>.noconvert()</code>方法指定。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;floats_only&quot;</span>, [](<span class="hljs-keyword">double</span> f) &#123; <span class="hljs-keyword">return</span> <span class="hljs-number">0.5</span> * f; &#125;, py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;f&quot;</span>).<span class="hljs-built_in">noconvert</span>());	<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-允许-禁止None参数-1"><a href="#7-允许-禁止None参数-1" class="headerlink" title="7 允许/禁止None参数"></a>7 允许/禁止None参数</h2><p>使用<code>py::arg</code>对象的<code>.none(bool)</code>方法来显式地允许或禁止在Python中传入的该参数为<code>None</code>。在不显式指定的情况下，默认支持传递<code>None</code>。</p>
 
             </div>
             <hr>

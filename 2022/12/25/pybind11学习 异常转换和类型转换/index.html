@@ -24,7 +24,7 @@
 <meta property="og:description" content="本文主要记录官方文档中 EXCEPTIONS 和 TYPE CONVERSIONS 一章的学习笔记。  [TOC] 一 异常转换1.1 C++内置异常到Python异常的转换当Python通过pybind11调用C++代码时，pybind11将捕获C++异常，并将其翻译为对应的Python异常后抛出，这样Python代码就能够处理它们。    C++抛出的异常 转换到Python的异常类型">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-25T07:58:41.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:50.836Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.233Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,7 +208,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.3k 字
+      13k 字
     </span>
   
 
@@ -217,7 +217,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20 分钟
+      40 分钟
     </span>
   
 
@@ -621,6 +621,383 @@
 
 <p>pybind11提供了<code>PYBIND11_MAKE_OPAQUE(T)</code>来禁用基于模板的类型转换机制，从而使他们变得不透明（<em>opaque</em>）。opaque对象的内容永远不会被检查或提取，因此它们可以通过<strong>引用传递</strong>。这样一来避免对大型列表进行<strong>拷贝操作</strong>带来的耗时。</p>
 <h2 id="2-3-函数对象"><a href="#2-3-函数对象" class="headerlink" title="2.3 函数对象"></a>2.3 函数对象</h2><p>如果一个将函数对象作为函数的参数，那么设计Python中函数和C++函数对象之间的转换。有一如下示例函数，接收一函数对象，返回一函数对象：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pybind11/functional.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">func_arg</span><span class="hljs-params">(<span class="hljs-keyword">const</span> std::function&lt;<span class="hljs-keyword">int</span>(<span class="hljs-keyword">int</span>)&gt; &amp;f)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">f</span>(<span class="hljs-number">10</span>);<br>&#125;<br><br><span class="hljs-function">std::function&lt;<span class="hljs-title">int</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span>&gt; <span class="hljs-title">func_ret</span><span class="hljs-params">(<span class="hljs-keyword">const</span> std::function&lt;<span class="hljs-keyword">int</span>(<span class="hljs-keyword">int</span>)&gt; &amp;f)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> [f](<span class="hljs-keyword">int</span> i) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">f</span>(i) + <span class="hljs-number">1</span>;<br>    &#125;;<br>&#125;<br><br><span class="hljs-function">py::cpp_function <span class="hljs-title">func_cpp</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> py::<span class="hljs-built_in">cpp_function</span>([](<span class="hljs-keyword">int</span> i) &#123; <span class="hljs-keyword">return</span> i+<span class="hljs-number">1</span>; &#125;,<br>       py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;number&quot;</span>));<br>&#125;<br><br><span class="hljs-built_in">PYBIND11_MODULE</span>(example, m) &#123;<br>    m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;func_arg&quot;</span>, &amp;func_arg);<br>    m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;func_ret&quot;</span>, &amp;func_ret);<br>    m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;func_cpp&quot;</span>, &amp;func_cpp);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>title: pybind11学习 异常转换和类型转换<br>date: 2022-12-25 15:58:41<br>tags: 学习记录</p>
+<hr>
+<blockquote>
+<p>本文主要记录官方文档中 <strong>EXCEPTIONS</strong> 和 <strong>TYPE CONVERSIONS</strong> 一章的学习笔记。</p>
+</blockquote>
+<p>[TOC]</p>
+<h1 id="一-异常转换-1"><a href="#一-异常转换-1" class="headerlink" title="一 异常转换"></a>一 异常转换</h1><h2 id="1-1-C-内置异常到Python异常的转换-1"><a href="#1-1-C-内置异常到Python异常的转换-1" class="headerlink" title="1.1 C++内置异常到Python异常的转换"></a>1.1 C++内置异常到Python异常的转换</h2><p>当Python通过pybind11调用C++代码时，pybind11将捕获C++异常，并将其翻译为对应的Python异常后抛出，这样Python代码就能够处理它们。</p>
+<table>
+<thead>
+<tr>
+<th>C++抛出的异常</th>
+<th>转换到Python的异常类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>std::exception</code></td>
+<td><code>RuntimeError</code></td>
+</tr>
+<tr>
+<td><code>std::bad_alloc</code></td>
+<td><code>MemoryError</code></td>
+</tr>
+<tr>
+<td><code>std::domain_error</code></td>
+<td><code>ValueError</code></td>
+</tr>
+<tr>
+<td><code>std::invalid_argument</code></td>
+<td><code>ValueError</code></td>
+</tr>
+<tr>
+<td><code>std::length_error</code></td>
+<td><code>ValueError</code></td>
+</tr>
+<tr>
+<td><code>std::out_of_range</code></td>
+<td><code>IndexError</code></td>
+</tr>
+<tr>
+<td><code>std::range_error</code></td>
+<td><code>ValueError</code></td>
+</tr>
+<tr>
+<td><code>std::overflow_error</code></td>
+<td><code>OverflowError</code></td>
+</tr>
+<tr>
+<td><code>pybind11::stop_iteration</code></td>
+<td><code>StopIteration</code></td>
+</tr>
+<tr>
+<td><code>pybind11::index_error</code></td>
+<td><code>IndexError</code></td>
+</tr>
+<tr>
+<td><code>pybind11::key_error</code></td>
+<td><code>KeyError</code></td>
+</tr>
+<tr>
+<td><code>pybind11::value_error</code></td>
+<td><code>ValueError</code></td>
+</tr>
+<tr>
+<td><code>pybind11::type_error</code></td>
+<td><code>TypeError</code></td>
+</tr>
+<tr>
+<td><code>pybind11::buffer_error</code></td>
+<td><code>BufferError</code></td>
+</tr>
+<tr>
+<td><code>pybind11::import_error</code></td>
+<td><code>ImportError</code></td>
+</tr>
+<tr>
+<td><code>pybind11::attribute_error</code></td>
+<td><code>AttributeError</code></td>
+</tr>
+<tr>
+<td>其他异常</td>
+<td><code>RuntimeError</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>当入参不能转化为Python对象时，<code>handle::call()</code>将抛出<code>pybind11::cast_error</code>异常。</p>
+</blockquote>
+<h2 id="1-2-注册自定义异常转换-1"><a href="#1-2-注册自定义异常转换-1" class="headerlink" title="1.2 注册自定义异常转换"></a>1.2 注册自定义异常转换</h2><p>当上述的异常转换不能满足我们需求时，我们可以注册一个自定义的C++到Python的异常转换。使用下面的方法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">py::register_exception&lt;CppExp&gt;(<span class="hljs-keyword">module</span>, <span class="hljs-string">&quot;PyExp&quot;</span>);		<span class="hljs-comment">// 全局</span><br>py::register_local_exception&lt;CppExp&gt;(<span class="hljs-keyword">module</span>, <span class="hljs-string">&quot;PyExp&quot;</span>);	<span class="hljs-comment">// 模块内</span><br>py::register_exception&lt;CppExp&gt;(<span class="hljs-keyword">module</span>, <span class="hljs-string">&quot;PyExp&quot;</span>, PyExc_RuntimeError);	<span class="hljs-comment">// 第三个参数可以指定异常基类，实现PyExp异常可以捕获PyExp和RuntimeError</span><br></code></pre></td></tr></table></figure>
+
+<p>这个调用在指定模块创建了一个名称为PyExp的Python异常，并自动将CppExp相关的异常转换为PyExp异常。</p>
+<h2 id="1-3-在C-中处理Python异常-1"><a href="#1-3-在C-中处理Python异常-1" class="headerlink" title="1.3 在C++中处理Python异常"></a>1.3 在C++中处理Python异常</h2><p>[1.1节](##1.1 C++内置异常到Python异常的转换)是C++异常到Python异常的转换，这一节为Python异常到C++异常的转换。</p>
+<table>
+<thead>
+<tr>
+<th>在Python中抛出的异常</th>
+<th>作为C++异常类型抛出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Any Python <code>Exception</code></td>
+<td><code>pybind11::error_already_set</code></td>
+</tr>
+</tbody></table>
+<p>下面例子演示了如何在C++侧处理捕获到的Python异常。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">try</span> &#123;<br>    <span class="hljs-comment">// open(&quot;missing.txt&quot;, &quot;r&quot;)</span><br>    <span class="hljs-keyword">auto</span> file = py::module_::<span class="hljs-built_in"><span class="hljs-keyword">import</span></span>(<span class="hljs-string">&quot;io&quot;</span>).<span class="hljs-built_in">attr</span>(<span class="hljs-string">&quot;open&quot;</span>)(<span class="hljs-string">&quot;missing.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br>    <span class="hljs-keyword">auto</span> text = file.<span class="hljs-built_in">attr</span>(<span class="hljs-string">&quot;read&quot;</span>)();<br>    file.<span class="hljs-built_in">attr</span>(<span class="hljs-string">&quot;close&quot;</span>)();<br>&#125; <span class="hljs-built_in"><span class="hljs-keyword">catch</span></span> (py::error_already_set &amp;e) &#123;<br>    <span class="hljs-keyword">if</span> (e.<span class="hljs-built_in">matches</span>(PyExc_FileNotFoundError)) &#123;<br>        py::<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;missing.txt not found&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (e.<span class="hljs-built_in">matches</span>(PyExc_PermissionError)) &#123;<br>        py::<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;missing.txt found but not accessible&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">throw</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="二-类型转换-1"><a href="#二-类型转换-1" class="headerlink" title="二 类型转换"></a>二 类型转换</h1><h2 id="2-1-包装和类型转换-1"><a href="#2-1-包装和类型转换-1" class="headerlink" title="2.1 包装和类型转换"></a>2.1 包装和类型转换</h2><p>在C++中使用原生的Python类型（如list或tuple等），我们有两种方式。第一，通过包装，将原生Python类型通过<code>py::object</code>派生包装器包装，在C++中撕掉包装后再使用，其核心仍然是一个Python对象。示例如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">namespace</span> py = pybind11;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_list</span><span class="hljs-params">(py::list my_list)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> item : my_list)<br>        std::cout &lt;&lt; item &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>print_list([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br><span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其中<code>py::list</code>便是Python原生类型<code>list</code>在C++中的包装类型。</p>
+</blockquote>
+<p>第二种方式是通过类型转换，将原生Python类型转换成原生C++类型后再在C++侧使用，即两侧都使用各自的原生类型。示例如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_vector</span><span class="hljs-params">(<span class="hljs-keyword">const</span> std::vector&lt;<span class="hljs-keyword">int</span>&gt; &amp;v)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> item : v)<br>        std::cout &lt;&lt; item &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>print_vector([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br><span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<p>上面这个例子中，Python原生类型<code>list</code>到C++原生类型<code>vector</code>的转换时通过pybind11自动完成的。更多开箱即用（pybind11内置转换，不需要我们自定义类型转换）的类型转换见下表。</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>描述</th>
+<th>头文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int8_t</code>, <code>uint8_t</code></td>
+<td>8-bit integers</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>int16_t</code>, <code>uint16_t</code></td>
+<td>16-bit integers</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>int32_t</code>, <code>uint32_t</code></td>
+<td>32-bit integers</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>int64_t</code>, <code>uint64_t</code></td>
+<td>64-bit integers</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>ssize_t</code>, <code>size_t</code></td>
+<td>Platform-dependent size</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>float</code>, <code>double</code></td>
+<td>Floating point types</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>bool</code></td>
+<td>Two-state Boolean type</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td>Character literal</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>char16_t</code></td>
+<td>UTF-16 character literal</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>char32_t</code></td>
+<td>UTF-32 character literal</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>wchar_t</code></td>
+<td>Wide character literal</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>const char *</code></td>
+<td>UTF-8 string literal</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>const char16_t *</code></td>
+<td>UTF-16 string literal</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>const char32_t *</code></td>
+<td>UTF-32 string literal</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>const wchar_t *</code></td>
+<td>Wide string literal</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>std::string</code></td>
+<td>STL dynamic UTF-8 string</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>std::u16string</code></td>
+<td>STL dynamic UTF-16 string</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>std::u32string</code></td>
+<td>STL dynamic UTF-32 string</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>std::wstring</code></td>
+<td>STL dynamic wide string</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>std::string_view</code>, <code>std::u16string_view</code>, etc.</td>
+<td>STL C++17 string views</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>std::pair&lt;T1, T2&gt;</code></td>
+<td>Pair of two custom types</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>std::tuple&lt;...&gt;</code></td>
+<td>Arbitrary tuple of types</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>std::reference_wrapper&lt;...&gt;</code></td>
+<td>Reference type wrapper</td>
+<td><code>pybind11/pybind11.h</code></td>
+</tr>
+<tr>
+<td><code>std::complex&lt;T&gt;</code></td>
+<td>Complex numbers</td>
+<td><code>pybind11/complex.h</code></td>
+</tr>
+<tr>
+<td><code>std::array&lt;T, Size&gt;</code></td>
+<td>STL static array</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::vector&lt;T&gt;</code></td>
+<td>STL dynamic array</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::deque&lt;T&gt;</code></td>
+<td>STL double-ended queue</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::valarray&lt;T&gt;</code></td>
+<td>STL value array</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::list&lt;T&gt;</code></td>
+<td>STL linked list</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::map&lt;T1, T2&gt;</code></td>
+<td>STL ordered map</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::unordered_map&lt;T1, T2&gt;</code></td>
+<td>STL unordered map</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::set&lt;T&gt;</code></td>
+<td>STL ordered set</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::unordered_set&lt;T&gt;</code></td>
+<td>STL unordered set</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::optional&lt;T&gt;</code></td>
+<td>STL optional type (C++17)</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::experimental::optional&lt;T&gt;</code></td>
+<td>STL optional type (exp.)</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::variant&lt;...&gt;</code></td>
+<td>Type-safe union (C++17)</td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::filesystem::path&lt;T&gt;</code></td>
+<td>STL path (C++17) <a target="_blank" rel="noopener" href="https://pybind11.readthedocs.io/en/stable/advanced/cast/overview.html#id2">1</a></td>
+<td><code>pybind11/stl.h</code></td>
+</tr>
+<tr>
+<td><code>std::function&lt;...&gt;</code></td>
+<td>STL polymorphic function</td>
+<td><code>pybind11/functional.h</code></td>
+</tr>
+<tr>
+<td><code>std::chrono::duration&lt;...&gt;</code></td>
+<td>STL time duration</td>
+<td><code>pybind11/chrono.h</code></td>
+</tr>
+<tr>
+<td><code>std::chrono::time_point&lt;...&gt;</code></td>
+<td>STL date/time</td>
+<td><code>pybind11/chrono.h</code></td>
+</tr>
+<tr>
+<td><code>Eigen::Matrix&lt;...&gt;</code></td>
+<td>Eigen: dense matrix</td>
+<td><code>pybind11/eigen.h</code></td>
+</tr>
+<tr>
+<td><code>Eigen::Map&lt;...&gt;</code></td>
+<td>Eigen: mapped memory</td>
+<td><code>pybind11/eigen.h</code></td>
+</tr>
+<tr>
+<td><code>Eigen::SparseMatrix&lt;...&gt;</code></td>
+<td>Eigen: sparse matrix</td>
+<td><code>pybind11/eigen.h</code></td>
+</tr>
+</tbody></table>
+<p><font color=green>注意：上述的内置转换都是基于<strong>数据拷贝</strong>的。这对小型的不变的类型相当友好，对于大型数据结构则相当昂贵。这可以通过自定义包装类型重载自动转换来解决。</font></p>
+<h2 id="2-2-STL容器-1"><a href="#2-2-STL容器-1" class="headerlink" title="2.2 STL容器"></a>2.2 STL容器</h2><p>包含头文件<code>pybind11/stl.h</code>，将支持如下内置转换：</p>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Python</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>std::vector&lt;&gt;</code>/<code>std::deque&lt;&gt;</code>/<code>std::list&lt;&gt;</code>/<code>std::array&lt;&gt;</code>/<code>std::valarray&lt;&gt;</code></td>
+<td>list</td>
+</tr>
+<tr>
+<td><code>std::set&lt;&gt;</code>/<code>std::unordered_set&lt;&gt;</code></td>
+<td>set</td>
+</tr>
+<tr>
+<td><code>std::map&lt;&gt;</code>/<code>std::unordered_map&lt;&gt;</code></td>
+<td>dict</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>这些类型任意嵌套都是可以自动转换的。</p>
+</blockquote>
+<h3 id="2-2-1-绑定STL容器-1"><a href="#2-2-1-绑定STL容器-1" class="headerlink" title="2.2.1 绑定STL容器"></a>2.2.1 绑定STL容器</h3><p>有时，我们需要创建STL容器的Python绑定，使在Python中将STL容器作为对象进行使用。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 必须包含的头文件</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pybind11/stl_bind.h&gt;</span></span><br><br><span class="hljs-built_in">PYBIND11_MAKE_OPAQUE</span>(std::vector&lt;<span class="hljs-keyword">int</span>&gt;);<br><span class="hljs-built_in">PYBIND11_MAKE_OPAQUE</span>(std::map&lt;std::string, <span class="hljs-keyword">double</span>&gt;);<br><br><span class="hljs-comment">// ...</span><br><br><span class="hljs-comment">// 绑定代码</span><br>py::bind_vector&lt;std::vector&lt;<span class="hljs-keyword">int</span>&gt;&gt;(m, <span class="hljs-string">&quot;VectorInt&quot;</span>);<br>py::bind_map&lt;std::map&lt;std::string, <span class="hljs-keyword">double</span>&gt;&gt;(m, <span class="hljs-string">&quot;MapStringDouble&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>pybind11提供了<code>PYBIND11_MAKE_OPAQUE(T)</code>来禁用基于模板的类型转换机制，从而使他们变得不透明（<em>opaque</em>）。opaque对象的内容永远不会被检查或提取，因此它们可以通过<strong>引用传递</strong>。这样一来避免对大型列表进行<strong>拷贝操作</strong>带来的耗时。</p>
+<h2 id="2-3-函数对象-1"><a href="#2-3-函数对象-1" class="headerlink" title="2.3 函数对象"></a>2.3 函数对象</h2><p>如果一个将函数对象作为函数的参数，那么设计Python中函数和C++函数对象之间的转换。有一如下示例函数，接收一函数对象，返回一函数对象：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pybind11/functional.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">func_arg</span><span class="hljs-params">(<span class="hljs-keyword">const</span> std::function&lt;<span class="hljs-keyword">int</span>(<span class="hljs-keyword">int</span>)&gt; &amp;f)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">f</span>(<span class="hljs-number">10</span>);<br>&#125;<br><br><span class="hljs-function">std::function&lt;<span class="hljs-title">int</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span>&gt; <span class="hljs-title">func_ret</span><span class="hljs-params">(<span class="hljs-keyword">const</span> std::function&lt;<span class="hljs-keyword">int</span>(<span class="hljs-keyword">int</span>)&gt; &amp;f)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> [f](<span class="hljs-keyword">int</span> i) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">f</span>(i) + <span class="hljs-number">1</span>;<br>    &#125;;<br>&#125;<br><br><span class="hljs-function">py::cpp_function <span class="hljs-title">func_cpp</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> py::<span class="hljs-built_in">cpp_function</span>([](<span class="hljs-keyword">int</span> i) &#123; <span class="hljs-keyword">return</span> i+<span class="hljs-number">1</span>; &#125;,<br>       py::<span class="hljs-built_in">arg</span>(<span class="hljs-string">&quot;number&quot;</span>));<br>&#125;<br><br><span class="hljs-built_in">PYBIND11_MODULE</span>(example, m) &#123;<br>    m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;func_arg&quot;</span>, &amp;func_arg);<br>    m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;func_ret&quot;</span>, &amp;func_ret);<br>    m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;func_cpp&quot;</span>, &amp;func_cpp);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 

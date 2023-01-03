@@ -25,8 +25,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221217110430264.png">
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221217110430264.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221217110430264.png">
 <meta property="article:published_time" content="2022-12-17T05:59:20.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:50.757Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.224Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="ѧϰ��¼">
 <meta name="twitter:card" content="summary_large_image">
@@ -211,7 +212,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.2k 字
+      4.7k 字
     </span>
   
 
@@ -220,7 +221,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10 分钟
+      15 分钟
     </span>
   
 
@@ -291,6 +292,33 @@
 <p>上图中，三个黑点是黄色和紫色多边形区域的实际交点，三个红点是三个黑点经坐标圆整之后的位置，黑点与红点之间的虚线表示对应关系。经过圆整后，造成了一个微小的自交区域。</p>
 </blockquote>
 <h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>对于第一个问题，官方给出的解决方案为<strong>适当的缩放</strong>。同时指出Clipper库能接受范围为<code>±0x3fffffffffffffffff (4.6e+18)</code>的整数坐标值，支持扩展到非常高的精度 。这说明我们可以放心得对极小数值或极小数值差进行一个较大倍数的缩放，不会造成算法上的问题。</p>
+<p>我们可以简单写一个装饰器，装饰我们用于多边形处理的函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> math<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">numeric_scaling</span>(<span class="hljs-params">digits: <span class="hljs-string">&#x27;int &gt; 0&#x27;</span> = <span class="hljs-number">7</span>, *, pos: <span class="hljs-built_in">list</span></span>):</span>	<span class="hljs-comment"># 必需参数pos：指定缩放参数</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decorate</span>(<span class="hljs-params">func</span>):</span><br>        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">scaled</span>(<span class="hljs-params">*_args</span>):</span><br>            __args = <span class="hljs-built_in">list</span>(_args)<br>            f = math.<span class="hljs-built_in">pow</span>(<span class="hljs-number">10</span>, digits)  <span class="hljs-comment"># 数值精度,默认为7位小数</span><br>            <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> pos:<br>                <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(_args[p], <span class="hljs-built_in">int</span>) <span class="hljs-keyword">or</span> <span class="hljs-built_in">isinstance</span>(_args[p], <span class="hljs-built_in">float</span>):<br>                    __args[p] *= f<br>                <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(_args[p], <span class="hljs-built_in">list</span>):<br>                    __args[p] = [[<span class="hljs-built_in">tuple</span>(<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x: x * f, pt)) <span class="hljs-keyword">for</span> pt <span class="hljs-keyword">in</span> path] <span class="hljs-keyword">for</span> path <span class="hljs-keyword">in</span> _args[p]]<br>                <span class="hljs-keyword">else</span>:<br>                    <span class="hljs-keyword">pass</span><br>            _result = func(*<span class="hljs-built_in">tuple</span>(__args))  <span class="hljs-comment"># _result is list of paths</span><br>            _result = [[<span class="hljs-built_in">tuple</span>(<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x: x / f, pt)) <span class="hljs-keyword">for</span> pt <span class="hljs-keyword">in</span> path] <span class="hljs-keyword">for</span> path <span class="hljs-keyword">in</span> _result]<br>            <span class="hljs-keyword">return</span> _result<br><br>        <span class="hljs-keyword">return</span> scaled<br><br>    <span class="hljs-keyword">return</span> decorate<br></code></pre></td></tr></table></figure>
+
+<p>用例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pyclipper <span class="hljs-keyword">import</span> *<br><br><span class="hljs-meta">@numeric_scaling(<span class="hljs-params">digits = <span class="hljs-number">7</span>, pos = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">offset</span>(<span class="hljs-params">polys, delta, jt = JT_SQUARE</span>):</span>  <span class="hljs-comment"># 偏置函数,输人多边形：[[[pt1_x,pt2_y],...,[ptN_x,ptN_y]],[...],...]</span><br>    pco = PyclipperOffset()<br>    pco.AddPaths(polys, jt, ET_CLOSEDPOLYGON)<br>    sln = pco.Execute(delta)  <span class="hljs-comment"># 偏置距离delta</span><br>    <span class="hljs-keyword">return</span> sln  <span class="hljs-comment"># 返回Polyline列表</span><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    polys = [[(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), (<span class="hljs-number">100</span>, <span class="hljs-number">0</span>), (<span class="hljs-number">100</span>, <span class="hljs-number">100</span>), (<span class="hljs-number">0</span>, <span class="hljs-number">100</span>)]]<br>    <span class="hljs-built_in">print</span>(offset(polys, -<span class="hljs-number">7.5</span>))  <span class="hljs-comment"># 向内偏置7.5</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码中 <code>digits</code> 为数值精度，其大小同样为输出结果中点坐标的小数位数。</p>
+</blockquote>
+<p>对于第二个问题，官方给出两种解决方案：</p>
+<ul>
+<li>使用 <code>CleanPolygons </code>函数去除。</li>
+<li>将 <code>Clipper</code> 的 <code>StrictlySimple</code> 属性设置为<code>true</code>。—<br>title: Clipper库  坐标圆整和精度控制<br>date: 2022-12-17 13:59:20<br>tags: 学习记录</li>
+</ul>
+<hr>
+<h2 id="坐标圆整造成的问题-1"><a href="#坐标圆整造成的问题-1" class="headerlink" title="坐标圆整造成的问题"></a>坐标圆整造成的问题</h2><p>在Clipper库中顶点（<code>IntPoint</code>）的坐标使用的是<strong>整数</strong>类型， 目的是为了保持数字的鲁棒性，所以用整数类型来存储坐标，而不是我们常见的浮点数类型（浮点存在不精确性）。然而坐标圆整会带来如下两个问题：</p>
+<ul>
+<li><p>参与计算的顶点位置和真实的顶点位置存在一定偏差。对于一些数值极小的或相差极小的顶点难以处理。</p>
+</li>
+<li><p>造成微小的自交。</p>
+</li>
+</ul>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221217110430264.png" srcset="/img/loading.gif" lazyload alt="image-20221217110430264"></p>
+<blockquote>
+<p>上图中，三个黑点是黄色和紫色多边形区域的实际交点，三个红点是三个黑点经坐标圆整之后的位置，黑点与红点之间的虚线表示对应关系。经过圆整后，造成了一个微小的自交区域。</p>
+</blockquote>
+<h2 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h2><p>对于第一个问题，官方给出的解决方案为<strong>适当的缩放</strong>。同时指出Clipper库能接受范围为<code>±0x3fffffffffffffffff (4.6e+18)</code>的整数坐标值，支持扩展到非常高的精度 。这说明我们可以放心得对极小数值或极小数值差进行一个较大倍数的缩放，不会造成算法上的问题。</p>
 <p>我们可以简单写一个装饰器，装饰我们用于多边形处理的函数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> math<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">numeric_scaling</span>(<span class="hljs-params">digits: <span class="hljs-string">&#x27;int &gt; 0&#x27;</span> = <span class="hljs-number">7</span>, *, pos: <span class="hljs-built_in">list</span></span>):</span>	<span class="hljs-comment"># 必需参数pos：指定缩放参数</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decorate</span>(<span class="hljs-params">func</span>):</span><br>        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">scaled</span>(<span class="hljs-params">*_args</span>):</span><br>            __args = <span class="hljs-built_in">list</span>(_args)<br>            f = math.<span class="hljs-built_in">pow</span>(<span class="hljs-number">10</span>, digits)  <span class="hljs-comment"># 数值精度,默认为7位小数</span><br>            <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> pos:<br>                <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(_args[p], <span class="hljs-built_in">int</span>) <span class="hljs-keyword">or</span> <span class="hljs-built_in">isinstance</span>(_args[p], <span class="hljs-built_in">float</span>):<br>                    __args[p] *= f<br>                <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(_args[p], <span class="hljs-built_in">list</span>):<br>                    __args[p] = [[<span class="hljs-built_in">tuple</span>(<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x: x * f, pt)) <span class="hljs-keyword">for</span> pt <span class="hljs-keyword">in</span> path] <span class="hljs-keyword">for</span> path <span class="hljs-keyword">in</span> _args[p]]<br>                <span class="hljs-keyword">else</span>:<br>                    <span class="hljs-keyword">pass</span><br>            _result = func(*<span class="hljs-built_in">tuple</span>(__args))  <span class="hljs-comment"># _result is list of paths</span><br>            _result = [[<span class="hljs-built_in">tuple</span>(<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x: x / f, pt)) <span class="hljs-keyword">for</span> pt <span class="hljs-keyword">in</span> path] <span class="hljs-keyword">for</span> path <span class="hljs-keyword">in</span> _result]<br>            <span class="hljs-keyword">return</span> _result<br><br>        <span class="hljs-keyword">return</span> scaled<br><br>    <span class="hljs-keyword">return</span> decorate<br></code></pre></td></tr></table></figure>
 

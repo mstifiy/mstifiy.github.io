@@ -24,7 +24,7 @@
 <meta property="og:description" content="本章主要围绕Python的特殊方法进行介绍，通过实现特殊方法利用Python数据模型。 首先看两个例子：  一个表示一副扑克牌的类。  123456789101112131415161718import collectionsCard &#x3D; collections.namedtuple(&amp;#x27;Card&amp;#x27;, [&amp;#x27;rank&amp;#x27;, &amp;#x27;suit&amp;#x27;])cl">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-09T09:14:14.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:50.996Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.242Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,7 +208,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.6k 字
+      3.3k 字
     </span>
   
 
@@ -217,7 +217,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5 分钟
+      10 分钟
     </span>
   
 
@@ -250,6 +250,38 @@
             
             <div class="markdown-body">
               <p>本章主要围绕Python的<strong>特殊方法</strong>进行介绍，通过实现特殊方法利用Python数据模型。</p>
+<p>首先看两个例子：</p>
+<ul>
+<li>一个表示一副扑克牌的类。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> collections<br><br>Card = collections.namedtuple(<span class="hljs-string">&#x27;Card&#x27;</span>, [<span class="hljs-string">&#x27;rank&#x27;</span>, <span class="hljs-string">&#x27;suit&#x27;</span>])<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FrenchDeck</span>:</span><br>    ranks = [<span class="hljs-built_in">str</span>(n) <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>, <span class="hljs-number">11</span>)] + <span class="hljs-built_in">list</span>(<span class="hljs-string">&#x27;JQKA&#x27;</span>)<br>    suits = <span class="hljs-string">&#x27;spades diamonds clubs hearts&#x27;</span>.split()<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self</span>):</span><br>        self._cards = [Card(rank, suit) <span class="hljs-keyword">for</span> suit <span class="hljs-keyword">in</span> self.suits<br>                       <span class="hljs-keyword">for</span> rank <span class="hljs-keyword">in</span> self.ranks]<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__len__</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(self._cards)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__getitem__</span>(<span class="hljs-params">self, position</span>):</span><br>        <span class="hljs-keyword">return</span> self._cards[position]<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>一个表示二维向量的类。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> hypot<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Vector</span>:</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, x=<span class="hljs-number">0</span>, y=<span class="hljs-number">0</span></span>):</span><br>        self.x = x<br>        self.y = y<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__repr__</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Vector(%r, %r)&#x27;</span> % (self.x, self.y)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__abs__</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">return</span> hypot(self.x, self.y)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__bool__</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">bool</span>(<span class="hljs-built_in">abs</span>(self))<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__add__</span>(<span class="hljs-params">self, other</span>):</span><br>        x = self.x + other.x<br>        y = self.y + other.y<br>        <span class="hljs-keyword">return</span> Vector(x, y)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__mul__</span>(<span class="hljs-params">self, scalar</span>):</span><br>        <span class="hljs-keyword">return</span> Vector(self.x * scalar, self.y * scalar)<br></code></pre></td></tr></table></figure>
+
+<p>上面两个类中，实现的形如<code>__xxx__</code>的方法都叫做<strong>特殊方法</strong>。在自定义的数据类型中实现这些特殊方法的用处在于，可以使其变得和Python中的内置类型（比如list）一样，能够具有内置类型的一些性质（如list的切片索引）和使用标准库中的一些算法（如random.choice()）。举个例子，如果在自定义类<code>A</code>中实现了<code>__len__</code>特殊方法，那么可以通过Python内置方法<code>len(A)</code>得到<code>A</code>对象的大小，而不是在<code>A</code>中写一个<code>size()</code>普通方法，然后通过<code>A.size()</code>进行调用，为此我们需要记住每个数据类中返回其元素总数的方法名称，没有前者实用和便捷。</p>
+<p>我们要明确，<strong>特殊方法的存在是为了被Python解释器调用</strong>，在代码中我们一般并不需要对其进行形如<code>A.__getitem__()</code>的调用。很多情况下，特殊方法的调用时隐式的，如当我们使用内置函数（例如len、str等）时，解释器就会调用对应的特殊方法（例如<code>__len__、__str__</code>等）。</p>
+<p>示例代码中的一些特殊方法作用如下：</p>
+<ul>
+<li><p><code>__repr__</code>：把一个对象用字符串形式进行表达，即返回一个对象的字符串表示形式。</p>
+</li>
+<li><p><code>__str__</code>：返回一个对象的字符串表示形式，相较于<code>__repr__</code>其返回的字符串更适合打印到终端。</p>
+<blockquote>
+<p>如果一个对象没有<code>__str__</code>函数，Python解释器会调用<code>__repr__</code>作为替代。</p>
+</blockquote>
+</li>
+<li><p><code>__add__</code>：能够实现自定义数据类型的<code>+</code>运算。</p>
+</li>
+<li><p><code>__mul__</code>：能够实现自定义数据类型的<code>*</code>运算。</p>
+</li>
+<li><p><code>__bool__</code>：定义自定义数据类型什么时候为True或False。</p>
+</li>
+</ul>
+<p>关于更多特殊方法的信息详见：<a target="_blank" rel="noopener" href="https://docs.python.org/3/reference/datamodel.html">3. Data model — Python 3.11.1 documentation</a>—<br>title: 《Fluent Python》笔记 数据模型<br>date: 2022-12-09 17:14:14<br>tags: 学习记录</p>
+<hr>
+<p>本章主要围绕Python的<strong>特殊方法</strong>进行介绍，通过实现特殊方法利用Python数据模型。</p>
 <p>首先看两个例子：</p>
 <ul>
 <li>一个表示一副扑克牌的类。</li>

@@ -33,8 +33,13 @@
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121154018.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121317939.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121803246.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118115803405.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118120304365.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121154018.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121317939.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121803246.png">
 <meta property="article:published_time" content="2022-11-18T04:23:28.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:50.762Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.228Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="ѧϰ��¼">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,7 +224,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.4k 字
+      5k 字
     </span>
   
 
@@ -228,7 +233,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11 分钟
+      16 分钟
     </span>
   
 
@@ -297,6 +302,31 @@
 
 <p>在文件中，保存了四面体单元数据（ELEMENT）和节点数据（NODE）。</p>
 <h2 id="节点属性数据导出"><a href="#节点属性数据导出" class="headerlink" title="节点属性数据导出"></a>节点属性数据导出</h2><p>节点属性数据包括：节点上的温度、应力等等标量或向量数据。</p>
+<p>切换到Visual-Viewer。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121154018.png" srcset="/img/loading.gif" lazyload alt="image-20221118121154018"></p>
+<p>同样，将不需要导出的零件隐藏。其次，导出的数据以主视图窗口中显示的数据为准。选择<code>Export As</code>。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121317939.png" srcset="/img/loading.gif" lazyload alt="image-20221118121317939"></p>
+<p>选择PATRAN类型，导出ntl格式文件。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121803246.png" srcset="/img/loading.gif" lazyload alt="image-20221118121803246"></p>
+<p>导出文件详细信息如下：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs tap">ProCAST TEMPERATURE RESULTS<br>   <span class="hljs-number"> 24154 </span>      <span class="hljs-number"> 0 </span>      0.000000       <span class="hljs-number"> 0 </span>       1<br>ESI<br><br>      <span class="hljs-number"> 1 </span> 2.585213E+02<br>      <span class="hljs-number"> 2 </span> 2.587285E+02<br>      <span class="hljs-number"> 3 </span> 2.594008E+02<br>       ......<br></code></pre></td></tr></table></figure>
+
+<p>其中第一列为Node的编号，第二列为属性数据值。</p>
+<hr>
+<p>title: ProCAST一键导出有限元模型的几何拓扑和属性信息<br>date: 2022-11-18 12:23:28<br>tags: 学习记录</p>
+<hr>
+<p>第一次将ProCast有限元后处理中的数据导出，当时没有经验，方法比较粗暴，详情见文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/127621354">ProCast导出节点应力数据并格式化</a>。</p>
+<p>最近发现了一种更高效的数据导出“新姿势”，能够快速得到有限元模型的几何拓扑和节点属性数据，在此记录并分享二三。</p>
+<h2 id="几何拓扑导出-1"><a href="#几何拓扑导出-1" class="headerlink" title="几何拓扑导出"></a>几何拓扑导出</h2><p>打开有限元模型文件，切换到Visual-Mesh。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118115803405.png" srcset="/img/loading.gif" lazyload alt="image-20221118115803405"></p>
+<p>如果模型是装配体，而我们只需要导出其中一个零件的几何信息，这时需要<strong>将其他零件隐藏</strong>。</p>
+<p>然后，点击File–&gt;Export。选择ABAQUS类型，导出文件为inp格式。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118120304365.png" srcset="/img/loading.gif" lazyload alt="image-20221118120304365"></p>
+<p>导出文件详细信息如下：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs routeros">** -------------------------------------------------------<br>** ABAQUS input file<br>** File exported by VISUAL-ENVIRONMENT : Version17.5 <br>**      on 2022-11-18, at 11Hr:3min<br>** -------------------------------------------------------<br>**LENGTH UNITS: mm <br><span class="hljs-number">*E</span>LEMENT, <span class="hljs-attribute">TYPE</span>=C3D4, <span class="hljs-attribute">ELSET</span>=zhujian<br>         1,         1,         2,         3,         4<br>         2,         5,         1,         3,         4<br>         <span class="hljs-built_in">..</span><span class="hljs-built_in">..</span><span class="hljs-built_in">..</span><br>         101388,     24146,     24143,     24141,     24142<br>    	 101389,     24146,     24143,     24142,     24144<br>*NODE<br>         1,  -13.858259916305541992,  -4.2456129193305969238,   310.65000534057617188<br>         2,   -14.32300567626953125,  -5.8872079849243164062,   310.3173065185546875<br>         3,  -14.427429437637329102,  -5.7955080270767211914,   309.04352188110351562  <br>         <span class="hljs-built_in">..</span><span class="hljs-built_in">..</span><span class="hljs-built_in">..</span><br>         24153,  -24.285211563110351562,   50.369749069213867188,   517.00000762939453125<br>         24154,   3.8816422224044799805,   6.9511991739273071289,   517.00000762939453125<br><span class="hljs-number">*E</span>LEMENT, <span class="hljs-attribute">TYPE</span>=C3D4, <span class="hljs-attribute">ELSET</span>=lengtong<br><span class="hljs-number">*E</span>LEMENT, <span class="hljs-attribute">TYPE</span>=C3D4, <span class="hljs-attribute">ELSET</span>=moke<br><span class="hljs-number">*E</span>LEMENT, <span class="hljs-attribute">TYPE</span>=S3, <span class="hljs-attribute">ELSET</span>=ENCLOSURE<br>*SOLID SECTION, <span class="hljs-attribute">ELSET</span>=zhujian, <span class="hljs-attribute">MATERIAL</span>=Material<br>*SOLID SECTION, <span class="hljs-attribute">ELSET</span>=lengtong, <span class="hljs-attribute">MATERIAL</span>=Material<br>*SOLID SECTION, <span class="hljs-attribute">ELSET</span>=moke, <span class="hljs-attribute">MATERIAL</span>=Material<br>*SHELL SECTION, <span class="hljs-attribute">ELSET</span>=ENCLOSURE, SECTION <span class="hljs-attribute">INTEGRATION</span>=GAUSS<br>                      0.,         0<br></code></pre></td></tr></table></figure>
+
+<p>在文件中，保存了四面体单元数据（ELEMENT）和节点数据（NODE）。</p>
+<h2 id="节点属性数据导出-1"><a href="#节点属性数据导出-1" class="headerlink" title="节点属性数据导出"></a>节点属性数据导出</h2><p>节点属性数据包括：节点上的温度、应力等等标量或向量数据。</p>
 <p>切换到Visual-Viewer。</p>
 <p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221118121154018.png" srcset="/img/loading.gif" lazyload alt="image-20221118121154018"></p>
 <p>同样，将不需要导出的零件隐藏。其次，导出的数据以主视图窗口中显示的数据为准。选择<code>Export As</code>。</p>

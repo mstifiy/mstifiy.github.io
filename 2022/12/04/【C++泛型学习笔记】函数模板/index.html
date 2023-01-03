@@ -26,8 +26,11 @@
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221203172956885.png">
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221203173317433.png">
 <meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221203173340176.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221203172956885.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221203173317433.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221203173340176.png">
 <meta property="article:published_time" content="2022-12-04T04:04:54.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:51.014Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.243Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -212,7 +215,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.4k 字
+      8.9k 字
     </span>
   
 
@@ -221,7 +224,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14 分钟
+      28 分钟
     </span>
   
 
@@ -328,6 +331,95 @@
 <li><strong>并非任何类型的参数都能作为非类型模板参数</strong>。int类型可以，float、double或类类型不可以。</li>
 </ul>
 <h2 id="一些奇怪但合法的语法"><a href="#一些奇怪但合法的语法" class="headerlink" title="一些奇怪但合法的语法"></a>一些奇怪但合法的语法</h2><ul>
+<li><p>```c++<br>template&lt;typename, int&gt;<br>auto Add2()<br>{</p>
+<pre><code>return 100;
+</code></pre>
+<p>}</p>
+<figure class="highlight nim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nim"><br>  &gt; 模板参数未用到，可以省略标识符。<br><br>- ```c++<br>  <span class="hljs-keyword">template</span>&lt;typename T, typename <span class="hljs-built_in">int</span> val&gt;<br>  <span class="hljs-built_in">auto</span> <span class="hljs-type">Add2</span>()<br>  &#123;<br>  	<span class="hljs-keyword">return</span> <span class="hljs-number">100</span>;<br>  &#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第一个typename修饰类型模板参数T，第二个typename表示其后修饰的int是一个类型，虽然多余但是合法。</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<p>title: 【C++泛型学习笔记】函数模板<br>date: 2022-12-04 12:04:54<br>tags: 学习记录</p>
+<hr>
+<p>提到C++的程序设计方法，最先想到的便是两种：<strong>面向过程和面向对象编程</strong>。但是当我们去阅读一些优秀的C++库源码时（比如CGAL），就会直接被其的<strong>泛型编程</strong>劝退。泛型编程也是C++程序设计方法中的一种，不同于上述两种设计方法，其最突出的特点是<strong>提高代码复用性和减少代码冗余</strong>，这也是大型开源项目使用泛型的原因之一。而我学习泛型编程的目的在于，能够看懂CGAL等库的源码和具备高复用性代码编写能力，并且为学习STL、Boost等库打下基础。</p>
+<blockquote>
+<p> 学习参考书籍：王健伟《C++新经典：模板与泛型编程》</p>
+</blockquote>
+<h2 id="函数模板-1"><a href="#函数模板-1" class="headerlink" title="函数模板"></a>函数模板</h2><h3 id="基本范例-1"><a href="#基本范例-1" class="headerlink" title="基本范例"></a>基本范例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-comment">// 函数重载</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Sub</span><span class="hljs-params">(<span class="hljs-keyword">int</span> tv1,<span class="hljs-keyword">int</span> tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">Sub</span><span class="hljs-params">(<span class="hljs-keyword">double</span> tv1, <span class="hljs-keyword">double</span> tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-comment">// 函数模板</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function">T <span class="hljs-title">Sub</span><span class="hljs-params">(T tv1, T tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> subv1 = <span class="hljs-built_in">Sub</span>(<span class="hljs-number">3</span>, <span class="hljs-number">5</span>);<br>	cout &lt;&lt; <span class="hljs-string">&quot;subv1 = &quot;</span> &lt;&lt; subv1 &lt;&lt; endl;<br>	<span class="hljs-keyword">double</span> subv2 = <span class="hljs-built_in">Sub</span>(<span class="hljs-number">4.7</span>, <span class="hljs-number">2.1</span>);<br>	cout &lt;&lt; <span class="hljs-string">&quot;subv2 = &quot;</span> &lt;&lt; subv2 &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>对于C++这种强类型语言，我们创建一个Sub函数用于返回两数相减结果，如果希望该函数不仅支持整数相减还支持浮点数相减，那么我们会通过重载函数的方式，写两个不同参数类型的同名Sub函数。这时，如果我们定义一个模板函数Sub，便可以减少一半的代码量。通过定义一个通用的模板函数，避免为每个类型都定义一个不同的函数。</p>
+<p>函数模板的定义范例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function">T <span class="hljs-title">Sub</span><span class="hljs-params">(T tv1, T tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>T：称为<strong>模板参数</strong>，确切讲是一个<strong>类型模板参数</strong>，代表的是一个<strong>类型</strong>。“T”也可以换成其他标识符。</p>
+</li>
+<li><p>模板的定义以关键字<strong>template</strong>开头。</p>
+</li>
+<li><p>模板参数前面用<strong>typename</strong>进行修饰。</p>
+<blockquote>
+<p>也可以使用<strong>class</strong>代替<strong>typename</strong>对模板参数进行修饰。一般人们习惯用<strong>typename</strong>表明模板实参可以是任一类型，而<strong>class</strong>表明模板实参必须是一个类类型。</p>
+</blockquote>
+</li>
+<li><p>模板参数及其修饰符都用一对**尖括号&lt;&gt;**括起来。</p>
+</li>
+<li><p>虽然模板参数不限制类型，但是需要注意的是传入参数类型必须合法，即对函数中进行的操作是合法的，不然在编译阶段编译器将会判断出来，并报错。</p>
+</li>
+</ul>
+<h2 id="模板实例化-1"><a href="#模板实例化-1" class="headerlink" title="模板实例化"></a>模板实例化</h2><p>我们会疑惑，既然没有声明函数参数的类型，那么程序是怎么计算出来的呢？其实在编译过程中，若我们调用了某个函数模板，那么编译器会对这个函数模板进行实例化，用具体的“类型”代替“类型模板参数”的过程叫做<strong>实例化</strong>（也称<strong>代码生成器</strong>）。</p>
+<p>所以，我们可以认为虽然我们没有完成对函数参数进行类型声明，但是编译器却很智能的根据我们调用函数输入的参数类型自动对模板进行了实例化。为了证实这个想法，我们通过在Developer Command Prompt for VS中使用dumpbin工具将编译生成的.obj文件转换成.txt便于我们分析编译结果。</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221203172956885.png" srcset="/img/loading.gif" lazyload alt="image-20221203172956885"></p>
+<blockquote>
+<p>注意需要用管理员权限打开命令行，并且进入到.obj所在文件夹下执行如上语句。</p>
+</blockquote>
+<p>在生成的.txt文件中，我们可以找到如下字段：</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221203173317433.png" srcset="/img/loading.gif" lazyload alt="image-20221203173317433"></p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221203173340176.png" srcset="/img/loading.gif" lazyload alt="image-20221203173340176"></p>
+<p>如上则是Sub函数模板实例化的结果，实例化后的函数名分别为Sub&lt;int&gt;和Sub&lt;double&gt;。该函数名由三部分组成：模板名、一对尖括号&lt;&gt;和括号间一个具体类型。</p>
+<h2 id="模板参数推断-1"><a href="#模板参数推断-1" class="headerlink" title="模板参数推断"></a>模板参数推断</h2><p>前面讲到，编译器能根据传入参数类型自动推断模板参数类型。但是如果出现下面这种情况。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T,<span class="hljs-keyword">typename</span> U,<span class="hljs-keyword">typename</span> V&gt;</span><br><span class="hljs-function">V <span class="hljs-title">Sub</span><span class="hljs-params">(T tv1, U tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">double</span> subv1 = <span class="hljs-built_in">Sub</span>(<span class="hljs-number">3</span>, <span class="hljs-number">5.1</span>);<br>	cout &lt;&lt; <span class="hljs-string">&quot;subv1 = &quot;</span> &lt;&lt; subv1 &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>模板参数有三个，分别是传入类型T、U和返回类型V，运行报错：<code>error C2783: &quot;V Sub(T,U)&quot;: 无法推导 &quot;V&quot; 的 模板 参数</code>。虽然T、U的类型能够像之前那样根据传入参数类型推断出来，但是这里完全没有告诉任何返回值的类型，所以会报错。解决方法如下：</p>
+<ul>
+<li>手动指定类型。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">double</span> subv1 = Sub&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">double</span>,<span class="hljs-keyword">double</span>&gt;(<span class="hljs-number">3</span>, <span class="hljs-number">5.1</span>);<br></code></pre></td></tr></table></figure>
+
+<p>这里可以看到，我们为了指定第三个模板参数V的类型，将前两个都指定了。因为规定我们可以在调用时通过尖括号<strong>指定一部分模板参数</strong>，另一部分则可以由编译器去推断。规定语法为：一旦某一位置模板参数需要编译器推断，那么之后的所有参数都应该由编译器推断。故我们可以将需要推断的模板参数置后，需指定的参数置前，就得到如下写法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> V,<span class="hljs-keyword">typename</span> T,<span class="hljs-keyword">typename</span> U&gt;</span><br><span class="hljs-function">V <span class="hljs-title">Sub</span><span class="hljs-params">(T tv1, U tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">double</span> subv1 = Sub&lt;<span class="hljs-keyword">double</span>&gt;(<span class="hljs-number">3</span>, <span class="hljs-number">5.1</span>);<br>	cout &lt;&lt; <span class="hljs-string">&quot;subv1 = &quot;</span> &lt;&lt; subv1 &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>再者，还可以通过<strong>返回类型后置语法</strong>进行改写：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T,<span class="hljs-keyword">typename</span> U&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">Sub</span><span class="hljs-params">(T tv1, U tv2)</span> -&gt; <span class="hljs-title">decltype</span><span class="hljs-params">(tv1 + tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">double</span> subv1 = <span class="hljs-built_in">Sub</span>(<span class="hljs-number">3</span>, <span class="hljs-number">5.1</span>);<br>	cout &lt;&lt; <span class="hljs-string">&quot;subv1 = &quot;</span> &lt;&lt; subv1 &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码中，使用<strong>auto</strong>结合<strong>decltype</strong>完成返回类型推断。当然也能去掉 <code>-&gt; decltype(tv1 + tv2)</code>，使用<strong>auto</strong>关键字对类型进行自动推断。</p>
+<blockquote>
+<p><strong>空模板参数列表</strong>：&lt;&gt;，在调用函数时，在函数名后加上&lt;&gt;，可以明确所调用的对象为函数模板，而非同名的普通函数。</p>
+</blockquote>
+<h2 id="重载-1"><a href="#重载-1" class="headerlink" title="重载"></a>重载</h2><p>函数模板重载概念：函数模板名字相同，但参数数量和参数类型不同。对于重载函数模板和同名普通函数，编译器会选择最合适的一个进行使用。当同名普通函数和函数模板都比较合适时，优先选择普通函数；在两个重载函数模板之间选择形参数量和类型最接近函数调用输入实参的一个。</p>
+<h2 id="泛化、全特化和偏特化-1"><a href="#泛化、全特化和偏特化-1" class="headerlink" title="泛化、全特化和偏特化"></a>泛化、全特化和偏特化</h2><p>通常我们写的函数模板（如上面的示例）都是<strong>泛化</strong>的函数模板。而<strong>特化</strong>版本是从函数模板的泛化版本中抽出的一个<strong>子集</strong>。</p>
+<p><strong>全特化</strong>：把泛化版本中所有的模板参数都用具体类型替代。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 函数模板（泛化版本）</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T,<span class="hljs-keyword">typename</span> U&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">Sub</span><span class="hljs-params">(T tv1, U tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;泛化版本&quot;</span>);<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-comment">// 全特化版本</span><br><span class="hljs-keyword">template</span>&lt;&gt; <span class="hljs-comment">// 全特化&lt;&gt;中为空，所有模板参数都用具体类型替代</span><br><span class="hljs-keyword">auto</span> Sub&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">double</span>&gt;(<span class="hljs-keyword">int</span> tv1, <span class="hljs-keyword">double</span> tv2)<br>&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;全特化版本&quot;</span>);<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-comment">// 偏特化版本（局部特化）-模板参数数量上的偏特化</span><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">Sub</span><span class="hljs-params">(T tv1, <span class="hljs-keyword">int</span> tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;偏特化版本&quot;</span>);<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> a = <span class="hljs-number">3</span>, b = <span class="hljs-number">5</span>;			<span class="hljs-comment">// 调用偏特化版本</span><br>	<span class="hljs-comment">//double a = 3.0, b = 5.0;	// 调用泛化版本</span><br>	<span class="hljs-comment">//int a = 3; double b = 5.0;	// 调用全特化版本</span><br>	cout &lt;&lt; <span class="hljs-built_in">Sub</span>(a, b) &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>函数调用顺序：同名普通函数&gt;模板特化版本&gt;模板泛化版本</p>
+</blockquote>
+<h2 id="默认参数-1"><a href="#默认参数-1" class="headerlink" title="默认参数"></a>默认参数</h2><p>函数模板中的类型模板参数可以设置默认值。这样就可以不用指定形参类型。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> V </span>= <span class="hljs-keyword">double</span>, <span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span> U&gt;<br><span class="hljs-function">V <span class="hljs-title">Sub</span><span class="hljs-params">(T tv1, U tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> tv1 - tv2;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cout &lt;&lt; <span class="hljs-string">&quot;subv1 = &quot;</span> &lt;&lt; <span class="hljs-built_in">Sub</span>(<span class="hljs-number">3</span>, <span class="hljs-number">5.1</span>) &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="非类型模板参数-1"><a href="#非类型模板参数-1" class="headerlink" title="非类型模板参数"></a>非类型模板参数</h2><p>除了类型模板参数以外，函数模板还可以有非类型的普通模板参数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">int</span> val, <span class="hljs-keyword">typename</span> V </span>= <span class="hljs-keyword">double</span>, <span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span> U&gt;<br><span class="hljs-function">V <span class="hljs-title">Sub</span><span class="hljs-params">(T tv1, U tv2)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> tv1 - tv2 - val;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cout &lt;&lt; <span class="hljs-string">&quot;subv1 = &quot;</span> &lt;&lt; Sub&lt;<span class="hljs-number">10</span>&gt;(<span class="hljs-number">3</span>, <span class="hljs-number">5.1</span>) &lt;&lt; endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>同样，非类型模板参数val也能设置默认值。</p>
+<p>Tips：</p>
+<ul>
+<li>非类型模板参数的值一般为<strong>常量</strong>。</li>
+<li><strong>并非任何类型的参数都能作为非类型模板参数</strong>。int类型可以，float、double或类类型不可以。</li>
+</ul>
+<h2 id="一些奇怪但合法的语法-1"><a href="#一些奇怪但合法的语法-1" class="headerlink" title="一些奇怪但合法的语法"></a>一些奇怪但合法的语法</h2><ul>
 <li><p>```c++<br>template&lt;typename, int&gt;<br>auto Add2()<br>{</p>
 <pre><code>return 100;
 </code></pre>

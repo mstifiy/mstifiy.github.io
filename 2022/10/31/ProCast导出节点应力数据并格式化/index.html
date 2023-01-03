@@ -47,8 +47,20 @@
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183803088.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184638793.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184840198.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180111886.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180315074.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180809860.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031181331668.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182001997.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182258778.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182557960.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182946438.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183411239.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183803088.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184638793.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184840198.png">
 <meta property="article:published_time" content="2022-10-31T11:01:37.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:50.763Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.229Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="ѧϰ��¼">
 <meta name="twitter:card" content="summary_large_image">
@@ -233,7 +245,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.3k 字
+      4.8k 字
     </span>
   
 
@@ -242,7 +254,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10 分钟
+      15 分钟
     </span>
   
 
@@ -362,6 +374,54 @@
 <p>如果导出多个文件的话，在完成格式化后，还需将文件进行合并。或者先合并再格式化。</p>
 </blockquote>
 <h2 id="Python脚本格式化"><a href="#Python脚本格式化" class="headerlink" title="Python脚本格式化"></a>Python脚本格式化</h2><p>相较于使用Excel表格进行格式化操作，写脚本进行格式化更方便快捷。</p>
+<p><strong><code>procast_ES_format.py</code></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>filesPath = <span class="hljs-string">r&quot;./procast导出应力数据/&quot;</span><br>nodeNum = <span class="hljs-number">24154</span><br>ESTable = pd.DataFrame(columns = [<span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-string">&#x27;y&#x27;</span>, <span class="hljs-string">&#x27;z&#x27;</span>, <span class="hljs-string">&#x27;Mpa&#x27;</span>], index = <span class="hljs-built_in">range</span>(nodeNum))<br><br><span class="hljs-keyword">for</span> fname <span class="hljs-keyword">in</span> os.listdir(filesPath):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filesPath + fname) <span class="hljs-keyword">as</span> f:<br>        content = f.read()<br>        data_txt = re.findall(<span class="hljs-string">r&#x27;[-+]?\d+(?:\.\d+(?:E[-+]?\d+)?)?&#x27;</span>, content)<br>        data_list = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">float</span>, data_txt))<br>        <span class="hljs-keyword">for</span> i, d <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(data_list):<br>            <span class="hljs-keyword">if</span> i % <span class="hljs-number">5</span> == <span class="hljs-number">0</span>:<br>                <span class="hljs-keyword">if</span> d % <span class="hljs-number">1</span> != <span class="hljs-number">0</span>:<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Invalid data in Node <span class="hljs-subst">&#123;<span class="hljs-built_in">int</span>(d)&#125;</span> !&quot;</span>)<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] = data_list[i + <span class="hljs-number">1</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] = data_list[i + <span class="hljs-number">2</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">2</span>] = data_list[i + <span class="hljs-number">3</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">3</span>] = data_list[i + <span class="hljs-number">4</span>]<br>ESTable.to_csv(filesPath + <span class="hljs-string">&quot;ES_result.csv&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>文件目录结构如下：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184638793.png" srcset="/img/loading.gif" lazyload></p>
+<p>导出结果如下：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184840198.png" srcset="/img/loading.gif" lazyload>—<br>title: ProCast导出节点应力数据并格式化<br>date: 2022-10-31 19:01:37<br>tags: 学习记录</p>
+<hr>
+<h2 id="ProCast导出ci-data-csv-1"><a href="#ProCast导出ci-data-csv-1" class="headerlink" title="ProCast导出ci_data.csv"></a>ProCast导出ci_data.csv</h2><p>打开visual-viewer，加载计算结果文件。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180111886.png" srcset="/img/loading.gif" lazyload></p>
+<p>注意导出的数据是当前步数下的计算数据，可以改变步数实现不同步数下数据的导出。</p>
+<p>在工具栏右键打开Selection工具条，切换到Node模式。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180315074.png" srcset="/img/loading.gif" lazyload alt="image-20221031180315074"></p>
+<p>将导出模型的所有节点选上。节点选中无误后，在视图窗口右键选择<code>Properties</code>，<code>Ctrl+A</code>选中弹出窗口左侧的所有节点后，点击保存图标，将默认的<code>ci_data.txt</code>文件名改为<code>ci_data.csv</code>方便后续操作。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180809860.png" srcset="/img/loading.gif" lazyload></p>
+<p>用记事本打开导出的数据，如下所示，</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031181331668.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看出此时数据很冗余，并不能供我们分析，接下来需要将其format成我们需要的格式。</p>
+<blockquote>
+<p>注意，这种方法每次只能导出10000个节点数据，超过单次上限的情况需要使用<code>Filter</code>分批导出。</p>
+</blockquote>
+<h2 id="Excel格式化-1"><a href="#Excel格式化-1" class="headerlink" title="Excel格式化"></a>Excel格式化</h2><p>用Excel打开我们导出的ci_data.csv文件，参考格式化思路如下：</p>
+<ul>
+<li><p>选中第一列，数据/分列-&gt;分隔符号-&gt;空格。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182001997.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>全选后，数据/删除重复值。</p>
+</li>
+<li><p>选中如下所示行列（第1、4行、第1列），删除。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182258778.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>新建一列，命名为<code>Effective Stress</code>，当列使用公式进行快捷赋值填充。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182557960.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>将生成的列进行复制，只保留值，再删除公式生成的那一列。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182946438.png" srcset="/img/loading.gif" lazyload>选中第一列，数据/筛选，将单元内容为<code>Effective</code>的行筛选出来后，全选，右键删除行。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183411239.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>删除完成后，将其他数据显示出来，退出筛选。</p>
+</li>
+<li><p>至此，单个文件格式化完成，内容如下：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183803088.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<blockquote>
+<p>如果导出多个文件的话，在完成格式化后，还需将文件进行合并。或者先合并再格式化。</p>
+</blockquote>
+<h2 id="Python脚本格式化-1"><a href="#Python脚本格式化-1" class="headerlink" title="Python脚本格式化"></a>Python脚本格式化</h2><p>相较于使用Excel表格进行格式化操作，写脚本进行格式化更方便快捷。</p>
 <p><strong><code>procast_ES_format.py</code></strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>filesPath = <span class="hljs-string">r&quot;./procast导出应力数据/&quot;</span><br>nodeNum = <span class="hljs-number">24154</span><br>ESTable = pd.DataFrame(columns = [<span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-string">&#x27;y&#x27;</span>, <span class="hljs-string">&#x27;z&#x27;</span>, <span class="hljs-string">&#x27;Mpa&#x27;</span>], index = <span class="hljs-built_in">range</span>(nodeNum))<br><br><span class="hljs-keyword">for</span> fname <span class="hljs-keyword">in</span> os.listdir(filesPath):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filesPath + fname) <span class="hljs-keyword">as</span> f:<br>        content = f.read()<br>        data_txt = re.findall(<span class="hljs-string">r&#x27;[-+]?\d+(?:\.\d+(?:E[-+]?\d+)?)?&#x27;</span>, content)<br>        data_list = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">float</span>, data_txt))<br>        <span class="hljs-keyword">for</span> i, d <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(data_list):<br>            <span class="hljs-keyword">if</span> i % <span class="hljs-number">5</span> == <span class="hljs-number">0</span>:<br>                <span class="hljs-keyword">if</span> d % <span class="hljs-number">1</span> != <span class="hljs-number">0</span>:<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Invalid data in Node <span class="hljs-subst">&#123;<span class="hljs-built_in">int</span>(d)&#125;</span> !&quot;</span>)<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] = data_list[i + <span class="hljs-number">1</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] = data_list[i + <span class="hljs-number">2</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">2</span>] = data_list[i + <span class="hljs-number">3</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">3</span>] = data_list[i + <span class="hljs-number">4</span>]<br>ESTable.to_csv(filesPath + <span class="hljs-string">&quot;ES_result.csv&quot;</span>)<br></code></pre></td></tr></table></figure>
 

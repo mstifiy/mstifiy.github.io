@@ -32,8 +32,17 @@
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220718196.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222648008.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220923548.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222934560.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220318262.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220415216.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222525906.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220516161.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220605096.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220718196.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222648008.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220923548.png">
 <meta property="article:published_time" content="2022-11-21T15:37:08.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:31:51.043Z">
+<meta property="article:modified_time" content="2023-01-03T09:38:37.245Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -218,7 +227,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 字
+      2.1k 字
     </span>
   
 
@@ -227,7 +236,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3 分钟
+      7 分钟
     </span>
   
 
@@ -320,6 +329,74 @@
 <h3 id="代理模型预测"><a href="#代理模型预测" class="headerlink" title="代理模型预测"></a>代理模型预测</h3><p>![GIF 2022-11-21 22-49-50](D:\OneDrive\桌面\GIF 2022-11-21 22-49-50.gif)</p>
 <h3 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h3><p>![GIF 2022-11-21 22-57-37](D:\OneDrive\桌面\GIF 2022-11-21 22-57-37.gif)</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>记录第一次QT5+VTK开发工具的点滴，总共历时五天。在这期间每天都很充实，持续在：<code>产生需求--&gt;开源学习--&gt;编写程序--&gt;调试程序--&gt;产生下一个需求--&gt;……</code>的状态。并且深刻认识到了实践的重要性，通过对这个小工具的开发，我逐步上手QT5和VTK。对于VTK，上半年就有接触了，不过一直被其各种数据结构劝退，觉得numpy数组最好用（当时网格计算接触的比较多），不过到现在见识到了VTK在很多数据结构上的表现（特别是vtkUnstructuredGrid与有限元数据模型，恰到好处），加之对VTK的管线机制和各种Filter深入了解之后，现在频频“真香”。回到工具本身，其实尚存许多bug，且代码臃肿，后期还需调试和优化。</p>
+<p>同时，PinkCAx工具的开发借鉴了许多开源代码，开源万岁！</p>
+<blockquote>
+<p>有一说一，这个粉色还挺好看的。#f187b8 / 241,135,18。</p>
+</blockquote>
+<hr>
+<p>title: 【PinkCAx】可视化工具开发记录与总结<br>date: 2022-11-21 23:37:08<br>tags: 学习记录</p>
+<hr>
+<center><b><font color=#f187b8 size=6> -----------PinkCAx----------- </font></b></center>
+
+<blockquote>
+<p>仅以此篇，记录我的一次可视化软件开发尝试点滴。</p>
+</blockquote>
+<h2 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h2><p>PinkCAx是一款采用Python语言编写的，基于QT5+VTK架构的三维可视化工具。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222934560.png" srcset="/img/loading.gif" lazyload alt="image-20221121222934560"></p>
+<p>该工具目前的功能如下：</p>
+<p><b><font size=4 color=gray>基本操作</font></b></p>
+<ul>
+<li><p><input checked="" disabled="" type="checkbox">  网格文件的打开与保存（支持STL、PLY、VTK等）</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220318262.png" srcset="/img/loading.gif" lazyload alt="image-20221121220318262"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  基本视图（线框、包围盒、刻度包围盒）</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220415216.png" srcset="/img/loading.gif" lazyload alt="image-20221121220415216"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  文件分类树视图</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222525906.png" srcset="/img/loading.gif" lazyload alt="image-20221121222525906"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  一些不知道如何分类的功能</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220516161.png" srcset="/img/loading.gif" lazyload alt="image-20221121220516161"></p>
+<blockquote>
+<p>模型曲率计算包括高斯、最大、最小、平均曲率计算；加载属性作用是加载有限元模型的节点属性数据（温度、应力等）；属性比较作用是计算两个属性数据的偏差（用于可视化评估代理模型预测效果）。</p>
+</blockquote>
+</li>
+</ul>
+<p><b><font size=4 color=gray>有限元后处理</font></b></p>
+<ul>
+<li><p><input checked="" disabled="" type="checkbox">  关于有限元后处理的操作</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220605096.png" srcset="/img/loading.gif" lazyload alt="image-20221121220605096"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  关于</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220718196.png" srcset="/img/loading.gif" lazyload alt="image-20221121220718196"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  代理模型预测</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222648008.png" srcset="/img/loading.gif" lazyload alt="image-20221121222648008"></p>
+<blockquote>
+<p>构建代理模型，可视化训练结果。（开始跑题ing）</p>
+</blockquote>
+</li>
+</ul>
+<p><b><font size=4 color=gray>点云处理</font></b></p>
+<ul>
+<li><p><input checked="" disabled="" type="checkbox">  三个（两个）功能</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220923548.png" srcset="/img/loading.gif" lazyload alt="image-20221121220923548"></p>
+<blockquote>
+<p>依次是：模型转换点云、点云降采样、有限元模型外表面抽取。</p>
+</blockquote>
+</li>
+</ul>
+<p><b><font size=4 color=gray>待添加功能</font></b></p>
+<ul>
+<li><input disabled="" type="checkbox"> 有限元模型上任意点/单元的信息和属性查询</li>
+<li><input disabled="" type="checkbox"> 增材CAM相关功能</li>
+<li><input disabled="" type="checkbox"> 点云相关功能（ICP配准、点云手动对齐等）</li>
+<li><input disabled="" type="checkbox"> ……</li>
+</ul>
+<h2 id="部分功能展示-1"><a href="#部分功能展示-1" class="headerlink" title="部分功能展示"></a>部分功能展示</h2><h3 id="可视化操作-1"><a href="#可视化操作-1" class="headerlink" title="可视化操作"></a>可视化操作</h3><p>![GIF 2022-11-21 22-35-43](D:\OneDrive\桌面\GIF 2022-11-21 22-35-43.gif)</p>
+<h3 id="代理模型预测-1"><a href="#代理模型预测-1" class="headerlink" title="代理模型预测"></a>代理模型预测</h3><p>![GIF 2022-11-21 22-49-50](D:\OneDrive\桌面\GIF 2022-11-21 22-49-50.gif)</p>
+<h3 id="其他操作-1"><a href="#其他操作-1" class="headerlink" title="其他操作"></a>其他操作</h3><p>![GIF 2022-11-21 22-57-37](D:\OneDrive\桌面\GIF 2022-11-21 22-57-37.gif)</p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>记录第一次QT5+VTK开发工具的点滴，总共历时五天。在这期间每天都很充实，持续在：<code>产生需求--&gt;开源学习--&gt;编写程序--&gt;调试程序--&gt;产生下一个需求--&gt;……</code>的状态。并且深刻认识到了实践的重要性，通过对这个小工具的开发，我逐步上手QT5和VTK。对于VTK，上半年就有接触了，不过一直被其各种数据结构劝退，觉得numpy数组最好用（当时网格计算接触的比较多），不过到现在见识到了VTK在很多数据结构上的表现（特别是vtkUnstructuredGrid与有限元数据模型，恰到好处），加之对VTK的管线机制和各种Filter深入了解之后，现在频频“真香”。回到工具本身，其实尚存许多bug，且代码臃肿，后期还需调试和优化。</p>
 <p>同时，PinkCAx工具的开发借鉴了许多开源代码，开源万岁！</p>
 <blockquote>
 <p>有一说一，这个粉色还挺好看的。#f187b8 / 241,135,18。</p>
