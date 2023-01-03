@@ -1,0 +1,796 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="Visual-Mesh 显示模式    快捷键  shift+左键：取消选择 ctrl+A：选择所有 ctrl+D：放弃选择所有 选中+H：隐藏 选中+L：定位 F：显示适应全屏 ctrl+U：删除列表（回收站）   文件导出 File-&gt;Export-&gt;.sm  导出路径可以包含中文。   设置单位 Tool-&gt;Change&#x2F;Convert Length Units   检查面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ProCAST铸件定向凝固仿真流程学习总结">
+<meta property="og:url" content="http://example.com/2022/10/24/ProCAST%E9%93%B8%E4%BB%B6%E5%AE%9A%E5%90%91%E5%87%9D%E5%9B%BA%E4%BB%BF%E7%9C%9F%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="Visual-Mesh 显示模式    快捷键  shift+左键：取消选择 ctrl+A：选择所有 ctrl+D：放弃选择所有 选中+H：隐藏 选中+L：定位 F：显示适应全屏 ctrl+U：删除列表（回收站）   文件导出 File-&gt;Export-&gt;.sm  导出路径可以包含中文。   设置单位 Tool-&gt;Change&#x2F;Convert Length Units   检查面">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221021161647982.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221021172305017.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221021172605993.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221021173236712.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022150256713.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022150738662.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022151333937.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022151409741.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022155328301.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022202526318.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022204648657.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022205852855.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023101733160.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023102026880.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023103539236.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023155106859.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023163812967.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023165854561.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023170036086.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023170626611.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023172630756.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023173235604.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023173952623.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023174132309.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023174553099.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023175947409.png">
+<meta property="article:published_time" content="2022-10-24T07:34:46.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:50.764Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221021161647982.png">
+  
+  <title>ProCAST铸件定向凝固仿真流程学习总结 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ProCAST铸件定向凝固仿真流程学习总结">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-24 15:34" pubdate>
+        2022年10月24日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ProCAST铸件定向凝固仿真流程学习总结</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Visual-Mesh"><a href="#Visual-Mesh" class="headerlink" title="Visual-Mesh"></a>Visual-Mesh</h2><ul>
+<li>显示模式</li>
+</ul>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221021161647982.png" srcset="/img/loading.gif" lazyload alt="image-20221021161647982"></p>
+<ul>
+<li><p>快捷键</p>
+<ul>
+<li>shift+左键：取消选择</li>
+<li>ctrl+A：选择所有</li>
+<li>ctrl+D：放弃选择所有</li>
+<li>选中+H：隐藏</li>
+<li>选中+L：定位</li>
+<li>F：显示适应全屏</li>
+<li>ctrl+U：删除列表（回收站）</li>
+</ul>
+</li>
+<li><p>文件导出</p>
+<p>File-&gt;Export-&gt;.sm</p>
+<blockquote>
+<p>导出路径可以包含中文。</p>
+</blockquote>
+</li>
+<li><p>设置单位</p>
+<p>Tool-&gt;Change/Convert Length Units</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221021172305017.png" srcset="/img/loading.gif" lazyload alt="image-20221021172305017"></p>
+</li>
+<li><p>检查面网格</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221021172605993.png" srcset="/img/loading.gif" lazyload alt="image-20221021172605993"></p>
+</li>
+</ul>
+<p>​    <img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221021173236712.png" srcset="/img/loading.gif" lazyload alt="image-20221021173236712" style="zoom:50%;" /></p>
+<p>​    检查的参数进行调整，或者点击自动修正。直到控制台输出</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck">--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">Surface</span> <span class="hljs-comment">mesh</span> <span class="hljs-comment">is</span> <span class="hljs-comment">OK</span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其其中<code>Intersection :    No problems found</code>，无自相交的网格存在。</p>
+</blockquote>
+<ul>
+<li><p>网格模型装配</p>
+<p>File-&gt;Append</p>
+<blockquote>
+<p>注意模型的坐标系和单位必须统一才能正确装配。</p>
+</blockquote>
+<p>Cast-&gt;Detect and merge overlaps between volumes，进行装配。</p>
+<blockquote>
+<p>装配的目的在于：导入两个网格模型后，再其接触的面上会有网格重复的现象，但是实际铸造仿真过程中，其实一层网格就能将两个模型分开，故需要进行装配处理。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="MeshCAST"><a href="#MeshCAST" class="headerlink" title="MeshCAST"></a>MeshCAST</h2><ul>
+<li><p>模型装配</p>
+<p>File-&gt;Assemble</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022150256713.png" srcset="/img/loading.gif" lazyload alt="image-20221022150256713"></p>
+<p>点击<code>Show Features</code>以红色显示重叠的边界，对于简单的边界，我们直接点击<code>Continue Assembly</code>进行装配。</p>
+</li>
+<li><p>网格和交错面检查</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022150738662.png" srcset="/img/loading.gif" lazyload alt="image-20221022150738662"></p>
+<p>消息窗口打印如下内容时，表示网格合格。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">The</span> Surface mesh seems OK.<br><span class="hljs-attribute">Number</span> of edges (in the model) present in more than <span class="hljs-number">2</span> Triangles are: <span class="hljs-number">39</span><br><span class="hljs-attribute">Total</span> # of possible intersections are: <span class="hljs-number">0</span>.<br></code></pre></td></tr></table></figure></li>
+<li><p>模壳生成</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022151333937.png" srcset="/img/loading.gif" lazyload alt="image-20221022151333937"></p>
+<p>一般熔模铸造都是成组进行，故在做仿真分析的时候，我们只需对单个或一部分零件有限元仿真和分析。因此建模中我们只建一部分模型，在生成模壳时有些面是不生成的。因此在生成模壳之前需要先提取无模壳面（no shell faces）和对称面（symmetry faces）。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022151409741.png" srcset="/img/loading.gif" lazyload alt="image-20221022151409741"></p>
+<p>在这里，我们将使用上图的单元选择工具进行select，从左到右依次是：选择一个单元，选择全部单元，取消一个单元的选择，取消所有单元的选择，选择一个表面。需要注意的是，第一个图标激活状态下（被点击后），首先在要选择的单元上将光标停留，然后鼠标左键被按下的状态将光标进行拖动后才会被选中（选中后颜色变红）。同时使用第五个面选操作的前提需要使用单选操作，保证至少有一个单元被选中，然后在下面的输入窗口输入一个angle参数（0-20）后，再点击面选才会选中单元所在的surface。</p>
+<blockquote>
+<p>在输入窗口输入angle值后不能习惯性的点回车，否则软件无法读取参数。然后，当选完一个面后需要选下一个面时，我们会习惯性得使用鼠标左键拖动旋转模型窗口，这时切记要关闭单元选择图标！！！非常的银杏啊！</p>
+<p>单选时，网格数量多的话会很卡，需要等好一会儿才能选中。</p>
+</blockquote>
+<p>选完后点击Store就行。</p>
+<p>然后设置模壳厚度，点击<code>Gen. shell</code>按钮就可生成模壳。</p>
+</li>
+<li><p>体网格生成</p>
+<p>对模壳网格质量和自相交进行检查，若有问题可以点击<code>Fix Bad Triangles</code>进行修复，直到网格合格。在Tet菜单下单击Generate Tet Mesh按钮，即可生成体网格。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022155328301.png" srcset="/img/loading.gif" lazyload alt="image-20221022155328301"></p>
+</li>
+</ul>
+<blockquote>
+<p>一般体网格生成只要超过50%就意味着该网格可用。</p>
+</blockquote>
+<h2 id="PreCAST"><a href="#PreCAST" class="headerlink" title="PreCAST"></a>PreCAST</h2><ul>
+<li><p>通过File-&gt;Multiple Meshe载入铸造炉体与装配体的体网格。</p>
+<blockquote>
+<p>载入后可能只能看到.mesh格式的体网格，.sm格式的炉体网格看不见。可以通过点击如下图标进行显示。<img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022202526318.png" srcset="/img/loading.gif" lazyload alt="image-20221022202526318"></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="Geometry"><a href="#Geometry" class="headerlink" title="Geometry/"></a>Geometry/</h3><ul>
+<li><p>设置对称面</p>
+<p>Geometry/Symmetry，设置对称面。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022204648657.png" srcset="/img/loading.gif" lazyload alt="image-20221022204648657"></p>
+<p>此处为镜像对称，且为两个面，每个对称平面都应该由三个点的坐标定义（不共线）。故勾选<code>Mirror-1</code>和<code>Mirror-2</code>（如要禁用，取消勾选），注意此处应保证这两个平面正交。<code>Get Co-ord</code>按钮允许拾取网格的节点（Node），以交互定义镜像平面。要使用它，首先单击即将选择点的X坐标框（出现闪烁的编辑光标即可），然后单击<code>Get Co-ord</code>，最后单击几何体上对应的节点。相应的坐标将自动填充。</p>
+<p>最后点击<code>Apply</code>验证完成对称面定义。</p>
+<blockquote>
+<p>选择镜像面构造点时应该落在节点上，否则会报错！</p>
+</blockquote>
+</li>
+<li><p>检查网格雅克比</p>
+<p>Geometry/Check Geom/Neg-Jac，检查网格的雅可比以确定几何体上是否存在负的雅克比网格。如下结果显示为无。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221022205852855.png" srcset="/img/loading.gif" lazyload alt="image-20221022205852855"></p>
+</li>
+</ul>
+<h3 id="Materials"><a href="#Materials" class="headerlink" title="Materials/"></a>Materials/</h3><ul>
+<li><p>材料分配</p>
+<p>Materials/Assign，分配各部分的材料。</p>
+<img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023101733160.png" srcset="/img/loading.gif" lazyload alt="image-20221023101733160" style="zoom:50%;" />
+
+<p>当用到某种未在当前数据库中的材料时，需要自行配制添加。点击<code>Add</code>。</p>
+<p>上图中的<code>Type</code>也需要指定，铸件部分选择<code>CASTING</code>。</p>
+<img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023102026880.png" srcset="/img/loading.gif" lazyload alt="image-20221023102026880" style="zoom:50%;" />
+
+<p>输入组成材料的基和各元素及其百分比，点击<code>Apply</code>选择不同的应力特性计算方式后，可得到材料的相关特性曲线，满足要求后，点击<code>Store</code>进行添加，之后便能在材料列表中选择自定义的材料了。</p>
+</li>
+<li><p>力学性能设置</p>
+<p>Materials/Stress，设置各部分材料的力学性能。</p>
+<p>设置过程和材料设置类似。</p>
+</li>
+<li><p>设置界面相关参数</p>
+<p>Interface，指定界面类型和换热系数。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023103539236.png" srcset="/img/loading.gif" lazyload alt="image-20221023103539236"></p>
+<blockquote>
+<p>每当Type设置完成后，<code>Apply</code>按键会变色，需点击。</p>
+</blockquote>
+</li>
+<li><p>设置边界条件</p>
+<p>Boundary conditions/Assign Surface，设置表面边界条件。</p>
+<p>依次设置如下四种类型的参数：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>解释</th>
+<th>设置方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Heat</td>
+<td>模壳与外界的热交换</td>
+<td>Heat设定时需要选择整个模壳，选择方法可通过<img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023155106859.png" srcset="/img/loading.gif" lazyload alt="image-20221023155106859" style="zoom: 50%;" />这个菜单栏的按键隐藏其他的材料，只保留模壳，在单击选择全部。然后在参数库中选择刚刚设定的交换系数。</td>
+</tr>
+<tr>
+<td>Symmetry</td>
+<td>对称面(仿真模型不完整时设定)</td>
+<td>Symmetry设定只需要选择整个对称面保存，不用设定参数。</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>冷铜的温度(一般取20)</td>
+<td>Temperature选择整个冷铜所有面，然后设定为一常数值。</td>
+</tr>
+<tr>
+<td>Displacement</td>
+<td>各组件的相对位置约束(设置4个)</td>
+<td>Displacement设定需要设定三个定位，分别是模壳底部，铸件与冷铜接触部分，冷铜底部。在参数库中选定设置好的约束。</td>
+</tr>
+</tbody></table>
+<p>Boundary conditions/Assign Enclosure，设置炉体的辐射及温度。需要设置三部分（高温区、中温区、低温区）的辐射方向和辐射温度。</p>
+<p>依次设置如下两种类型的参数：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>设置方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>辐射的方向</td>
+<td>通过面选区域，设置所选网格法向方向向里。</td>
+</tr>
+<tr>
+<td>辐射区域的初始温度</td>
+<td>高温区辐射系数0.9，温度1550℃；中温区辐射系数0.6，温度900℃；低温区辐射系数0.5，温度20℃。</td>
+</tr>
+</tbody></table>
+<img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023163812967.png" srcset="/img/loading.gif" lazyload alt="image-20221023163812967" style="zoom:50%;" />
+
+<blockquote>
+<p>第一次设置时，如果温度和辐射系数不在数据库时，需点击<code>Add</code>进行手动添加。</p>
+<p>注意，enclosure set会根据导入的炉体网格文件个数自动生成。这里因为笔者导入的炉体网格文件只有一个（也可以将三个部分以三个网格文件的形式导入），会自动有一个Set#1在表中，且其Area为炉体所有网格，并且无法删除和更改。但是只要继续添加Set，并选择部分网格后，Set#1的Area则会变小（减去其他Set的面积），当重新划分完Set后，其Area将变为0，此时，便可以将其Del。</p>
+</blockquote>
+</li>
+<li><p>设置过程（Process）参数</p>
+<p>Process/Assign Enclosure，设置炉体移动速度。</p>
+<img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023165854561.png" srcset="/img/loading.gif" lazyload alt="image-20221023165854561" style="zoom:50%;" />
+
+<p>Process/Gravity，设置重力加速度。</p>
+<img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023170036086.png" srcset="/img/loading.gif" lazyload alt="image-20221023170036086" style="zoom:50%;" />
+
+<blockquote>
+<p>这里的炉体移动速度矢量和重力加速度方向都是Z轴方向，且二者方向相反。这里由于炉体的+Z轴方向朝下，故重力加速度为正，炉体的速度为负。</p>
+</blockquote>
+</li>
+<li><p>设置初始条件的设定（Initial conditions）</p>
+<p>Initial conditions/Constant，设定三种材料的初始温度。注意与前面设置的保持一致。</p>
+<img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023170626611.png" srcset="/img/loading.gif" lazyload alt="image-20221023170626611" style="zoom:50%;" /></li>
+<li><p>设定运行参数（Run Parametres）</p>
+<p>Run Parametres，在叶片的定向凝固仿真中，只需设定下面表格中菜单名称加粗中的参数。</p>
+<table>
+<thead>
+<tr>
+<th>菜单名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>General</strong></td>
+<td>主要用于设定运算停止的条件</td>
+</tr>
+<tr>
+<td><strong>Thermal</strong></td>
+<td>计算温度场(一般只需要将其激活)</td>
+</tr>
+<tr>
+<td>Cycles</td>
+<td>热平衡计算</td>
+</tr>
+<tr>
+<td>Radiation</td>
+<td>辐射运行参数</td>
+</tr>
+<tr>
+<td>Flow</td>
+<td>流动运行参数</td>
+</tr>
+<tr>
+<td>Turbulence</td>
+<td>紊流运行参数</td>
+</tr>
+<tr>
+<td><strong>Stress</strong></td>
+<td>应力运行参数(将其激活。0关闭，1开启)</td>
+</tr>
+<tr>
+<td>Micro</td>
+<td>微观组织模拟运行参数</td>
+</tr>
+</tbody></table>
+<p><strong>General菜单</strong></p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023172630756.png" srcset="/img/loading.gif" lazyload alt="image-20221023172630756"></p>
+<p>这里我们最大步数设置20000，最低温度设置500，结束时间设为0，其余保持默认值。</p>
+<p><strong>Thermal菜单</strong></p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023173235604.png" srcset="/img/loading.gif" lazyload alt="image-20221023173235604"></p>
+<p>这里我们将第一个参数设为1，激活传热分析，主变量为温度，其余保持默认值。</p>
+<p><strong>Radiation菜单</strong></p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023173952623.png" srcset="/img/loading.gif" lazyload alt="image-20221023173952623"></p>
+<p><strong>Flow菜单</strong></p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023174132309.png" srcset="/img/loading.gif" lazyload alt="image-20221023174132309"></p>
+<p><strong>Stress菜单</strong></p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023174553099.png" srcset="/img/loading.gif" lazyload alt="image-20221023174553099"></p>
+</li>
+</ul>
+<h2 id="ProCAST"><a href="#ProCAST" class="headerlink" title="ProCAST"></a>ProCAST</h2><p>使用PreCAST完成仿真参数设定后，保存退出，点击ProCAST，勾选<code>Execute DataCAST first</code>，点击<code>Run</code>进行仿真计算。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221023175947409.png" srcset="/img/loading.gif" lazyload alt="image-20221023175947409"></p>
+<p>使用<code>Status</code>可查看仿真进度。</p>
+<h2 id="Visual-Viewer"><a href="#Visual-Viewer" class="headerlink" title="Visual-Viewer"></a>Visual-Viewer</h2><p>仿真后处理。主要查看温度场，应力场，位移场等。用于仿真分析和总结。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在做定向凝固仿真时，一般需要先在CAD软件（UG）中建好铸件模型（IGS），然后进行网格划分（可以使用hypermesh进行划分导出.out格式，也可以直接在Visual-Mesh中进行划分），划分完成后进行模型装配，模壳生成，体网格生成。然后进行仿真参数设定，最后进行<code>Data Check</code>，无误后，进行仿真。仿真完成后，可以在Visual-Viewer中进行一系列的后处理分析。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/24/Typora+PicGo+Gitee+%E5%9D%9A%E6%9E%9C%E4%BA%91%E6%90%AD%E5%BB%BA%E4%BA%91%E7%AC%94%E8%AE%B0%E6%95%99%E7%A8%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Typora+PicGo+Gitee+坚果云搭建云笔记教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/29/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/">
+                        <span class="hidden-mobile">测试文章</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

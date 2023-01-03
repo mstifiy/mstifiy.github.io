@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="概述代理模型是工程问题中常用的一个优化方法。当实际问题（高精度模型）计算量很大、不容易求解时，可以使用计算量较小、求解迅速的简化模型来替代原模型，加速优化过程。代理模型的计算结果与原模型非常接近，但是求解计算量较小。通过在仔细选择的有限个点（输入）计算原模型的响应（输出），从而建立代理模型$^{[1]}$。建立得到的代理模型在优化设计中可近似替代比较复杂和费时的数值分析，也可称为响应面模型或者是近">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代理模型学习记录">
+<meta property="og:url" content="http://example.com/2022/11/07/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="概述代理模型是工程问题中常用的一个优化方法。当实际问题（高精度模型）计算量很大、不容易求解时，可以使用计算量较小、求解迅速的简化模型来替代原模型，加速优化过程。代理模型的计算结果与原模型非常接近，但是求解计算量较小。通过在仔细选择的有限个点（输入）计算原模型的响应（输出），从而建立代理模型$^{[1]}$。建立得到的代理模型在优化设计中可近似替代比较复杂和费时的数值分析，也可称为响应面模型或者是近">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-07T07:47:59.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:51.124Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>代理模型学习记录 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="代理模型学习记录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-07 15:47" pubdate>
+        2022年11月7日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      4 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">代理模型学习记录</h1>
+            
+            <div class="markdown-body">
+              <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><strong>代理模型</strong>是工程问题中常用的一个优化方法。当实际问题（高精度模型）计算量很大、不容易求解时，可以使用计算量较小、求解迅速的简化模型来替代原模型，加速优化过程。代理模型的计算结果与原模型非常接近，但是求解计算量较小。通过在仔细选择的有限个点（输入）计算原模型的响应（输出），从而建立代理模型$^{[1]}$。建立得到的代理模型在优化设计中可近似替代比较复杂和费时的数值分析，也可称为响应面模型或者是近似模型。对于优化过程中的一些难以用直观的函数表达式去表达目标函数，这时也可用代理模型来替代目标函数。使用代理模型可以极大的提高优化设计效率以及降低优化的难度。</p>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>从算法层面来分，代理模型通常有径向基模型，神经网络，多项式响应面模型，克里金模型，支持向量机模型等等。</p>
+<p>从解决工程问题的差异性来分，代理模型可分为两类：一种是直接基于实验设计的代理模型优化，一种是带加点准则的代理模型优化。两者区别在于，前者一次性抽取样本点，计算响应值并构建代理模型，在优化过程中代理模型保持不变。而后者是先抽取少量的样本点建立初始代理模型，再不断向总样本中添加新点，不断更新代理模型，直至优化收敛。所以从优化过程中的构造方式来看，前者又被称作”静态代理模型“，后者为”动态代理模型“。</p>
+<h2 id="构建步骤"><a href="#构建步骤" class="headerlink" title="构建步骤"></a>构建步骤</h2><pre><code class=" mermaid">graph TD
+    样本点获取 --&gt; 对样本点进行数值分析 --&gt; 组成数据集 --&gt; 构建代理模型 
+</code></pre>
+
+<ul>
+<li><p>样本点采集通常采用试验设计的方法，通常采用拉丁超立方和均匀设计；</p>
+</li>
+<li><p>样本点数值分析，通常采用线下实验或者线上计算机模拟（有限元分析等等）；</p>
+</li>
+<li><p>将样本点及其对应的数值分析结果组成数据集，用于代理模型构建；</p>
+</li>
+<li><p>建立代理模型时可先对某一模型的参数进行训练，可以极大增强代理模型的精准性，一般采用“最大似然估计”、“交叉验证”等。</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p><strong>插值、逼近和回归的区别</strong></p>
+<p>从多项式的角度，插值是用一个多项式来近似替代数据列表函数，并要求多项式通过列表函数中给定的数据点。逼近是为复杂函数寻找近似的替代多项式函数，其误差在某种度量意义下最小。</p>
+<blockquote>
+<p>插值和逼近都是通过采样点寻找目标函数的近似替代，区别在于是否经过采样点。插值中替代函数经过样本点，故样本点误差为零；逼近中样本点误差不为零，而是在某种度量意义下最小。</p>
+</blockquote>
+<p>回归反映的是两组数据的关系，假设已知所有样本点同时满足一曲线方程，回归的目的在于求出该方程的系数$^{[3]}$。</p>
+<blockquote>
+<p>对于代理模型中回归模型有多项式响应面模型，插值模型有克里金模型和径向基模型等。</p>
+</blockquote>
+</li>
+<li><p><strong>代理模型的局限性</strong></p>
+<p>随着问题维度的上升，代理模型构建所花费的样本点数和时间会大幅度地增加，而且也会在一定程度上降低代理模型的精度从而影响其提供信息的可信度，从而会导致代理模型的辅助能力下降。因此，可将目前运用较为广泛的降维技术与代理模型所使用的算法相结合进一步提高在求解高维问题时的效果$^{[4]}$。</p>
+</li>
+<li><p><strong>代理模型的发展部分趋势</strong></p>
+<p>相较于静态代理模型，动态代理模型在优化效率和结果精度方面更具有优势。详细实现参见文献<a target="_blank" rel="noopener" href="http://d.g.wanfangdata.com.cn/Periodical_jxgcxb201107024.aspx">基于动态径向基函数代理模型的优化策略，DOI:10.3901/JME.2011.07.164</a>。对于多维的样本数据，在构建代理模型前可采用数据降维方法，如POD、PCA等。详情实现参见文献<a target="_blank" rel="noopener" href="https://d.wanfangdata.com.cn/periodical/CiFQZXJpb2RpY2FsQ0hJTmV3UzIwMjIxMDI0MjAyMjEwMjQSD2pzbHh4YjIwMjIwNDAxNRoId2puaDFiaDI%3D">基于POD-RBF代理模型的迭代更新反演方法，DOI:10.7511/jslx20201201001</a>。</p>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%9E%8B">维基百科-代理模型</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/555814030">代理模型介绍大全 - 知乎 (zhihu.com)</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/bushixiaofan/article/details/47664567">回归、插值、拟合</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45928096/article/details/123479479">关于代理模型的一些理解</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/08/%E7%B2%92%E5%AD%90%E7%BE%A4%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%EF%BC%88PSO%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">粒子群优化算法（PSO）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/06/RBF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cpython%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0%EF%BC%88BP%E7%AE%97%E6%B3%95%EF%BC%89/">
+                        <span class="hidden-mobile">RBF神经网络python实践学习（BP算法）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

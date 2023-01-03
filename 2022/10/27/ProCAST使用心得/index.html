@@ -1,0 +1,594 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="HyperMesh�����������Visual-Mesh��HyperMesh����������ӷ���ʵ�á��ر��Ǹ�������ģ�ͣ�һ������HyperMesh�н�������ƺã�Ȼ����procast�С��ο������������£� 1 HyperMes�����ļ��������Ƚ���HyperMesh�л��ƺõ������񵼳�Ϊ.out�ļ���">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ProCASTʹ���ĵ�">
+<meta property="og:url" content="http://example.com/2022/10/27/ProCAST%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="HyperMesh�����������Visual-Mesh��HyperMesh����������ӷ���ʵ�á��ر��Ǹ�������ģ�ͣ�һ������HyperMesh�н�������ƺã�Ȼ����procast�С��ο������������£� 1 HyperMes�����ļ��������Ƚ���HyperMesh�л��ƺõ������񵼳�Ϊ.out�ļ���">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027122931308.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027124239549.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027231605383.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027231854182.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027232136203.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027122931308.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027124239549.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027231605383.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027231854182.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027232136203.png">
+<meta property="article:published_time" content="2022-10-27T15:28:41.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:50.763Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="ѧϰ��¼">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027122931308.png">
+  
+  <title>ProCASTʹ���ĵ� - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ProCASTʹ���ĵ�">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-27 23:28" pubdate>
+        2022年10月27日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ProCASTʹ���ĵ�</h1>
+            
+            <div class="markdown-body">
+              <h2 id="HyperMesh������"><a href="#HyperMesh������" class="headerlink" title="HyperMesh������"></a>HyperMesh������</h2><p>�����Visual-Mesh��HyperMesh����������ӷ���ʵ�á��ر��Ǹ�������ģ�ͣ�һ������HyperMesh�н�������ƺã�Ȼ����procast�С��ο������������£�</p>
+<h3 id="1-HyperMes�����l�����"><a href="#1-HyperMes�����l�����" class="headerlink" title="1 HyperMes�����ļ�����"></a>1 HyperMes�����ļ�����</h3><p>���Ƚ���HyperMesh�л��ƺõ������񵼳�Ϊ<code>.out</code>�ļ���</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027122931308.png" srcset="/img/loading.gif" lazyload alt="image-20221027122931308"></p>
+<ul>
+<li>File typeѡ��<code>Custom</code>��</li>
+<li>Templateѡ��<code>..\feoutput\patran\general</code>��</li>
+<li>File�ļ�����׺Ϊ<code>.out</code>��</li>
+</ul>
+<h3 id="2-out-gt-sm"><a href="#2-out-gt-sm" class="headerlink" title="2 .out-&gt;.sm"></a>2 .out-&gt;.sm</h3><p>������.out�ļ����޷�ֱ�ӵ���Visual-Mesh�ģ���Ҫ��ʹ��Visual-Cast��Ȼ�󱣴�Ϊ.sm��ʽ���С�</p>
+<h3 id="3-��������װ��"><a href="#3-��������װ��" class="headerlink" title="3 ��������װ��"></a>3 ��������װ��</h3><p>һ�����ǳ����������񣬻�����������������ģ�͵���������.sm�����ļ���ֻһ��������һ������Visual-Mesh�д���������Ȼ��ͨ��Flie/Append�ķ�ʽ������.sm�ļ��ӽ���������������������ǻᷢ��������֮�������ص������������ʵ�ʷ�������ʵһ������͹��ˡ���ʱ������Ҫͨ������װ��ȥ���ص�������</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027124239549.png" srcset="/img/loading.gif" lazyload alt="image-20221027124239549"></p>
+<p>���<code>Check</code>���Ὣ�ص���������ʾ������û������󣬵��<code>Assemble</code>���װ�䡣</p>
+<h3 id="4-������"><a href="#4-������" class="headerlink" title="4 ������"></a>4 ������</h3><p>��װ����ɺ󣬿��ܻ����һЩ���ϸ��������ʱ������Ҫ���������顣���<code>Check Surface Mesh</code>��ɼ����Զ��޸���ֱ������̨��ӡ————–Surface mesh is OK————-��OK�ˡ�</p>
+<h2 id="һЩ����"><a href="#һЩ����" class="headerlink" title="һЩ����"></a>һЩ����</h2><ul>
+<li><p><code>Data Check</code>�������£�</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027231605383.png" srcset="/img/loading.gif" lazyload alt="image-20221027231605383"></p>
+<p>�ô���Ӱ�������㣬ֱ�ӽ��з��漴�ɡ�</p>
+</li>
+<li><p>�������е�һ�����������̨���ڱ�����������Ϣ���£�</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027231854182.png" srcset="/img/loading.gif" lazyload alt="image-20221027231854182"></p>
+<p>���ֱ��������кܶ࣬һ���ǲ������ò��������µġ�</p>
+<p>������ͼ����������viewer�ҵ����һ����ͼ������:</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027232136203.png" srcset="/img/loading.gif" lazyload alt="image-20221027232136203"></p>
+<p>������ҶƬ����ģ���춨�����̷��棬������¯�������̹�������һ�����λ�ơ���ͼ��ʾ���ھ��뱨�������һ���У������Ѿ�λ�Ƶ�¯�����������Ե���������¶Ȼ�δ�½���Ԥ���¶ȣ�����δֹͣ������˻�����Ҳ���face�������</p>
+<p><strong>�������</strong>��</p>
+<ul>
+<li>�ӳ�¯����������ȣ�</li>
+<li>�����������ϲ�����</li>
+<li>��߼����ֹ�¶�;</li>
+<li>����λ���ٶȡ�</li>
+</ul>
+<hr>
+<p>title: ProCAST使用心得<br>date: 2022-10-27 23:28:41<br>tags: 学习记录</p>
+</li>
+</ul>
+<hr>
+<h2 id="HyperMesh网格导入"><a href="#HyperMesh网格导入" class="headerlink" title="HyperMesh网格导入"></a>HyperMesh网格导入</h2><p>相较于Visual-Mesh，HyperMesh绘制网格更加方便实用。特别是复杂铸件模型，一般先在HyperMesh中将网格绘制好，然后导入procast中。参考操作步骤如下：</p>
+<h3 id="1-HyperMes网格文件导出"><a href="#1-HyperMes网格文件导出" class="headerlink" title="1 HyperMes网格文件导出"></a>1 HyperMes网格文件导出</h3><p>首先将在HyperMesh中绘制好的面网格导出为<code>.out</code>文件。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027122931308.png" srcset="/img/loading.gif" lazyload alt="image-20221027122931308"></p>
+<ul>
+<li>File type选择<code>Custom</code>。</li>
+<li>Template选择<code>..\feoutput\patran\general</code>。</li>
+<li>File文件名后缀为<code>.out</code>。</li>
+</ul>
+<h3 id="2-out-gt-sm-1"><a href="#2-out-gt-sm-1" class="headerlink" title="2 .out-&gt;.sm"></a>2 .out-&gt;.sm</h3><p>导出的.out文件是无法直接导入Visual-Mesh的，需要先使用Visual-Cast打开然后保存为.sm格式才行。</p>
+<h3 id="3-导入网格并装配"><a href="#3-导入网格并装配" class="headerlink" title="3 导入网格并装配"></a>3 导入网格并装配</h3><p>一般我们除了铸件网格，还会有冷铁、浇道等模型的网格，所以.sm网格文件不只一个。我们一般先在Visual-Mesh中打开铸件网格，然后通过Flie/Append的方式将其他.sm文件加进来。完成上述操作后，我们会发现在网格之间会出现重叠的情况，但是实际仿真中其实一层网格就够了。这时我们需要通过网格装配去除重叠的网格。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027124239549.png" srcset="/img/loading.gif" lazyload alt="image-20221027124239549"></p>
+<p>点击<code>Check</code>，会将重叠的网格显示出来。没有问题后，点击<code>Assemble</code>完成装配。</p>
+<h3 id="4-网格检查"><a href="#4-网格检查" class="headerlink" title="4 网格检查"></a>4 网格检查</h3><p>在装配完成后，可能会产生一些不合格的网格。这时我们需要进行网格检查。点击<code>Check Surface Mesh</code>完成检查和自动修复。直到控制台打印————–Surface mesh is OK————-就OK了。</p>
+<h2 id="一些报错"><a href="#一些报错" class="headerlink" title="一些报错"></a>一些报错</h2><ul>
+<li><p><code>Data Check</code>报错如下：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027231605383.png" srcset="/img/loading.gif" lazyload alt="image-20221027231605383"></p>
+<p>该错误不影响仿真计算，直接进行仿真即可。</p>
+</li>
+<li><p>正常运行到一定步数后控制台窗口报错，错误信息如下：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027231854182.png" srcset="/img/loading.gif" lazyload alt="image-20221027231854182"></p>
+<p>这种报错因素有很多，一般是参数设置不合理导致的。</p>
+<p>对于上图报错，进入viewer找到最后一步的图像如下:</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221027232136203.png" srcset="/img/loading.gif" lazyload alt="image-20221027232136203"></p>
+<p>本例是叶片的熔模铸造定向凝固仿真，铸件和炉体在凝固过程中有一个相对位移。如图所示，在距离报错最近的一步中，铸件已经位移到炉体低温区最下缘，但铸件温度还未下降到预定温度（计算未停止），因此会出现找不到face的情况。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>延长炉体低温区长度；</li>
+<li>更改铸件材料参数；</li>
+<li>提高计算截止温度;</li>
+<li>降低位移速度。</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%D1%A7%CF%B0%EF%BF%BD%EF%BF%BD%C2%BC/">ѧϰ��¼</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/31/ProCast%E5%AF%BC%E5%87%BA%E8%8A%82%E7%82%B9%E5%BA%94%E5%8A%9B%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%A0%BC%E5%BC%8F%E5%8C%96/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ProCast�����ڵ�Ӧ�����ݲ���ʽ��</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/26/procast2021%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="hidden-mobile">procast2021ѧϰ�ʼ�</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

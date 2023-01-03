@@ -1,0 +1,683 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="[TOC] 1 CMakeLists.txt����ģ��1.1 ��С��ĿCMakeLists.txt 123456# ָ��ʹ�� CMake ����Ͱ汾��cmake_minimum_required (VERSION 2.6)# ָ����Ŀ����project (Tutorial)# ���ӿ�ִ���ļ�add_executable(Tutorial tutorial.cxx)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMAKEѧϰ�ʼ�">
+<meta property="og:url" content="http://example.com/2022/12/27/CMAKE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="[TOC] 1 CMakeLists.txt����ģ��1.1 ��С��ĿCMakeLists.txt 123456# ָ��ʹ�� CMake ����Ͱ汾��cmake_minimum_required (VERSION 2.6)# ָ����Ŀ����project (Tutorial)# ���ӿ�ִ���ļ�add_executable(Tutorial tutorial.cxx)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-27T06:09:12.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:50.759Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="ѧϰ��¼">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>CMAKEѧϰ�ʼ� - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="CMAKEѧϰ�ʼ�">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-12-27 14:09" pubdate>
+        2022年12月27日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      14k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      43 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CMAKEѧϰ�ʼ�</h1>
+            
+            <div class="markdown-body">
+              <p>[TOC]</p>
+<h2 id="1-CMakeLists-txt����g��"><a href="#1-CMakeLists-txt����g��" class="headerlink" title="1 CMakeLists.txt����ģ��"></a>1 CMakeLists.txt����ģ��</h2><h3 id="1-1-��С��L"><a href="#1-1-��С��L" class="headerlink" title="1.1 ��С��Ŀ"></a>1.1 ��С��Ŀ</h3><p><code>CMakeLists.txt</code></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment"># ָ��ʹ�� CMake ����Ͱ汾��</span><br><span class="hljs-keyword">cmake_minimum_required</span> (VERSION <span class="hljs-number">2.6</span>)<br><span class="hljs-comment"># ָ����Ŀ����</span><br><span class="hljs-keyword">project</span> (Tutorial)<br><span class="hljs-comment"># ���ӿ�ִ���ļ�</span><br><span class="hljs-keyword">add_executable</span>(Tutorial tutorial.cxx)<br></code></pre></td></tr></table></figure>
+
+<p><code>tutorial.cxx</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cmath&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstdlib&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (argc &lt; <span class="hljs-number">2</span>) &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;Usage: &quot;</span> &lt;&lt; argv[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot; number&quot;</span> &lt;&lt; std::endl;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// convert input to double</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> inputValue = <span class="hljs-built_in">atof</span>(argv[<span class="hljs-number">1</span>]);<br><br>    <span class="hljs-comment">// calculate square root</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> outputValue = <span class="hljs-built_in">sqrt</span>(inputValue);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;The square root of &quot;</span> &lt;&lt; inputValue<br>              &lt;&lt; <span class="hljs-string">&quot; is &quot;</span> &lt;&lt; outputValue<br>              &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-2-���������������"><a href="#1-2-���������������" class="headerlink" title="1.2 ���������������"></a>1.2 ���������������</h3><p>��װCMake��MinGW64�����û����������ն˽��뵽<code>CMakeLists.txt</code>Ŀ¼�����룺</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cmd"><span class="hljs-built_in">mkdir</span> build<br><span class="hljs-built_in">cd</span> build<br># ����<br>cmake -G&quot;MinGW Makefiles&quot; ..<br># ��������<br>cmake --build .<br># ����<br>.\Tutorial.exe <span class="hljs-number">25</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>cmake -G&lt;����������&gt; &lt;CMakeLists.txt·��&gt;</li>
+<li>cmake –build &lt;���������ļ����·��&gt;</li>
+</ul>
+</blockquote>
+<h2 id="2-CMakeLists-txt�Z�"><a href="#2-CMakeLists-txt�Z�" class="headerlink" title="2 CMakeLists.txt�Ż�"></a>2 CMakeLists.txt�Ż�</h2><h3 id="2-1-set-��-PROJECT-NAME"><a href="#2-1-set-��-PROJECT-NAME" class="headerlink" title="2.1 set �� PROJECT_NAME"></a>2.1 set �� PROJECT_NAME</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">2.6</span>)<br><span class="hljs-keyword">project</span>(Tutorial)<br><br><span class="hljs-comment">## SET(&lt;������&gt; &lt;����ֵ&gt;)</span><br><span class="hljs-keyword">SET</span>(SRC_LIST tutorial.cxx)<br><br><span class="hljs-comment"># $&#123;������&#125;: ��ȡ������ֵ</span><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> <span class="hljs-variable">$&#123;SRC_LIST&#125;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-���Ӱ汾�z�����ͷ�l�"><a href="#2-2-���Ӱ汾�z�����ͷ�l�" class="headerlink" title="2.2 ���Ӱ汾�ź�����ͷ�ļ�"></a>2.2 ���Ӱ汾�ź�����ͷ�ļ�</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span> (VERSION <span class="hljs-number">2.6</span>)<br><span class="hljs-comment"># ָ����Ŀ������汾��</span><br><span class="hljs-keyword">project</span>(Tutorial VERSION <span class="hljs-number">1.0</span>)<br><span class="hljs-comment"># �汾��Ҳ����ͨ�����淽ʽָ��</span><br><span class="hljs-comment">## project(Tutorial)</span><br><span class="hljs-comment">## set (Tutorial_VERSION_MAJOR 1)</span><br><span class="hljs-comment">## set (Tutorial_VERSION_MINOR 0)</span><br><span class="hljs-keyword">SET</span>(SRC_LIST tutorial.cxx)<br><br><span class="hljs-comment"># ����һ��ͷ�ļ���ͨ������Դ�����д���һЩCMake���á�TutorialConfig.h.in��Ҫ���Ǳ�д��TutorialConfig.h�Զ�����</span><br><span class="hljs-keyword">configure_file</span> (<br>  <span class="hljs-string">&quot;$&#123;PROJECT_SOURCE_DIR&#125;/TutorialConfig.h.in&quot;</span>	<span class="hljs-comment"># TutorialConfig.h.in��Դ�ļ�Ŀ¼��</span><br>  <span class="hljs-string">&quot;$&#123;PROJECT_BINARY_DIR&#125;/TutorialConfig.h&quot;</span>		<span class="hljs-comment"># TutorialConfig.h�����ɵĶ������ļ���Ŀ¼��</span><br>  )<br><span class="hljs-comment"># ���������ļ������ӵ������ļ�������·���У��������ǿ����ҵ�TutorialConfig.h</span><br><span class="hljs-keyword">include_directories</span>(<span class="hljs-string">&quot;$&#123;PROJECT_BINARY_DIR&#125;&quot;</span>)<br><span class="hljs-comment"># ���ӿ�ִ���ļ�</span><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> <span class="hljs-variable">$&#123;SRC_LIST&#125;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><code>TutorialConfig.h.in</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// the configured options and settings for Tutorial</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@</span><br></code></pre></td></tr></table></figure>
+
+<p>�Զ����ɵ�<code>TutorialConfig.h</code>��</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// the configured options and settings for Tutorial</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Tutorial_VERSION_MAJOR 1</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Tutorial_VERSION_MINOR 0</span><br></code></pre></td></tr></table></figure>
+
+<p>�޸�<code>tutorial.cxx</code>��</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;TutorialConfig.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>      <span class="hljs-keyword">if</span> (argc &lt; <span class="hljs-number">2</span>) &#123;<br>      <span class="hljs-comment">// report version</span><br>      std::cout &lt;&lt; argv[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot; Version &quot;</span> &lt;&lt; Tutorial_VERSION_MAJOR &lt;&lt; <span class="hljs-string">&quot;.&quot;</span> &lt;&lt; Tutorial_VERSION_MINOR &lt;&lt; std::endl;<br>      std::cout &lt;&lt; <span class="hljs-string">&quot;Usage: &quot;</span> &lt;&lt; argv[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot; number&quot;</span> &lt;&lt; std::endl;<br>      <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>  <span class="hljs-keyword">double</span> inputValue = <span class="hljs-built_in">atof</span>(argv[<span class="hljs-number">1</span>]);<br>  <span class="hljs-keyword">double</span> outputValue = <span class="hljs-built_in">sqrt</span>(inputValue);<br>  <span class="hljs-built_in">fprintf</span>(stdout,<span class="hljs-string">&quot;The square root of %g is %g\n&quot;</span>, inputValue, outputValue);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>���н�����£�</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cmd">PS D:\CMAKE_Learn\build&gt; .\Tutorial.exe<br><span class="hljs-function">D:\<span class="hljs-title">CMAKE_Learn</span>\<span class="hljs-title">build</span>\<span class="hljs-title">Tutorial.exe</span> <span class="hljs-title">Version</span> 1.0</span><br><span class="hljs-function"><span class="hljs-title">Usage</span>: <span class="hljs-title">D</span>:\<span class="hljs-title">CMAKE_Learn</span>\<span class="hljs-title">build</span>\<span class="hljs-title">Tutorial.exe</span> <span class="hljs-title">number</span></span><br><span class="hljs-function"><span class="hljs-title">PS</span> <span class="hljs-title">D</span>:\<span class="hljs-title">CMAKE_Learn</span>\<span class="hljs-title">build</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-3-ָ��-C-��׼"><a href="#2-3-ָ��-C-��׼" class="headerlink" title="2.3 ָ�� C++ ��׼"></a>2.3 ָ�� C++ ��׼</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment"># ָ��C++��׼</span><br><span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD <span class="hljs-number">11</span>)<br><span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="hljs-keyword">True</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-���ӿ�"><a href="#3-���ӿ�" class="headerlink" title="3 ���ӿ�"></a>3 ���ӿ�</h2><p>һ�����ǽ����Դ�������ĿԴ�ļ�Ŀ¼�µ�MathFunctions��Ŀ¼�У����ڸ�<strong>��Ŀ¼</strong>����Ŀ¼�°���ͷ�ļ�<code>MathFunctions.h</code>�����Դ�ļ�<code>mysqrt.cxx</code>�����½�һ��<code>CMakeLists.txt</code>�������������ݣ�</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment"># ����һ���� MathFunctions �Ŀ��ļ�</span><br><span class="hljs-keyword">add_library</span>(MathFunctions mysqrt.cxx)<br></code></pre></td></tr></table></figure>
+
+<p>��ʱ��Ŀ�ļ��ṹ���£�</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">CMAKE_Learn/<br>    build/<br>    MathFunctions/<br>        CMakeLists.txt<br>        MathFunctions.h<br>        mysqrt.cxx<br>    CMakeLists.txt<br>    tutorial.cxx<br>    TutorialConfig.h.in<br></code></pre></td></tr></table></figure>
+
+<p>���ڶ���Ŀ¼�µ�CMakeLists.txt�ļ��������������ݣ�</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment"># ��ǰ�������Ӵ��Դ�ļ�����Ŀ¼��ָ�������ڵ���Ŀ¼</span><br><span class="hljs-keyword">add_subdirectory</span>(MathFunctions)<br><span class="hljs-comment">#���ɿ�ִ���ļ�</span><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> tutorial.cpp)<br><span class="hljs-comment"># ָ����MathFunctions�����ӵ���ĿTutorial�Ŀ�ִ���ļ�</span><br><span class="hljs-keyword">target_link_libraries</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PUBLIC MathFunctions)<br><span class="hljs-comment"># add the binary tree to the search path for include files</span><br><span class="hljs-comment"># so that we will find TutorialConfig.h</span><br><span class="hljs-keyword">target_include_directories</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PUBLIC<br>                           <span class="hljs-variable">$&#123;PROJECT_BINARY_DIR&#125;</span>	<span class="hljs-comment"># CMake���ɵ�TutorialConfig.h���Ŀ¼</span><br>                           <span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/MathFunctions	<span class="hljs-comment"># ���ͷ�ļ����Ŀ¼</span><br>                           )<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>CMake��<code>target_xxx</code>�ؼ���<strong>ָ���������Ŀ��ʱ�������</strong>�������������м�ָ��Tutorial�����Ŀ��������а�����ͷ�ļ�Ŀ¼�Ϳ��ļ�Ŀ¼��</p>
+</blockquote>
+<h2 id="4-��������Ϊ��ѡ��"><a href="#4-��������Ϊ��ѡ��" class="headerlink" title="4 ��������Ϊ��ѡ��"></a>4 ��������Ϊ��ѡ��</h2><p>��һ�����򶥼� CMakeLists.txt �ļ�����һ��ѡ�</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">option</span>(USE_MYMATH <span class="hljs-string">&quot;Use tutorial provided math implementation&quot;</span> <span class="hljs-keyword">ON</span>)<br></code></pre></td></tr></table></figure>
+
+<p><code>option</code> ��ʾ�ṩ�û�����ѡ���ѡ������ʽΪ��<code>option(&lt;variable&gt; &quot;description [initial value])</code>��<code>USE_MYMATH</code> ѡ���ȱʡֵΪ <code>ON</code>��</p>
+<p>��һ������if��䣬</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">if</span>(USE_MYMATH)<br>  <span class="hljs-keyword">add_subdirectory</span>(MathFunctions)<br>  <span class="hljs-keyword">list</span>(APPEND EXTRA_LIBS MathFunctions)<br>  <span class="hljs-keyword">list</span>(APPEND EXTRA_INCLUDES <span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/MathFunctions)<br><span class="hljs-keyword">endif</span>()<br><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> tutorial.cpp)<br><span class="hljs-keyword">target_link_libraries</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PUBLIC <span class="hljs-variable">$&#123;EXTRA_LIBS&#125;</span>)<br><span class="hljs-keyword">target_include_directories</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PUBLIC<br>                           <span class="hljs-variable">$&#123;PROJECT_BINARY_DIR&#125;</span><br>                           <span class="hljs-variable">$&#123;EXTRA_INCLUDES&#125;</span><br>                           )<br></code></pre></td></tr></table></figure>
+
+<p><code>APPEND</code>��ʾ��Ԫ��<code>MathFunctions</code>׷�ӵ��б�<code>EXTRA_LIBS</code>�У���Ԫ�� <code>$&#123;PROJECT_SOURCE_DIR&#125;/MathFunctions</code> ׷�ӵ��б�<code>EXTRA_INCLUDES</code>�С�<code>EXTRA_LIBS</code> �洢 MathFunctions �⣬<code>EXTRA_INCLUDES</code> �洢 MathFunctions ͷ�ļ��������<code>target_link_libraries</code>��<code>target_include_directories</code>����<code>$&#123;EXTRA_LIBS&#125;</code>��<code>$&#123;EXTRA_INCLUDES&#125;</code>�ֱ��ȡ���ļ���ͷ�ļ�Ŀ¼��</p>
+<p>��ȻҲ����ͨ��TutorialConfig.h.in�����ļ�ʵ������Ч�����޸�<code>tutorial.cxx</code>���£�</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;TutorialConfig.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> USE_MYMATH</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MathFunctions.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (argc &lt; <span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-built_in">fprintf</span>(stdout,<span class="hljs-string">&quot;%s Version %d.%d\n&quot;</span>, argv[<span class="hljs-number">0</span>],<br>            Tutorial_VERSION_MAJOR,<br>            Tutorial_VERSION_MINOR);<br>        <span class="hljs-built_in">fprintf</span>(stdout,<span class="hljs-string">&quot;Usage: %s number\n&quot;</span>,argv[<span class="hljs-number">0</span>]);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">double</span> inputValue = <span class="hljs-built_in">atof</span>(argv[<span class="hljs-number">1</span>]);<br>    <br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> USE_MYMATH</span><br>    <span class="hljs-keyword">double</span> outputValue = <span class="hljs-built_in">mysqrt</span>(inputValue);<br><span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span><br>    <span class="hljs-keyword">double</span> outputValue = <span class="hljs-built_in">sqrt</span>(inputValue);<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br>    <span class="hljs-built_in">fprintf</span>(stdout,<span class="hljs-string">&quot;The square root of %g is %g\n&quot;</span>, inputValue, outputValue);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>��<code>TutorialConfig.h.in</code>������һ�У����Ӻ�<code>USE_MYMATH</code>��</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#cmakedefine USE_MYMATH</span><br></code></pre></td></tr></table></figure>
+
+<p>�ڹ�����Ŀʱ����ѡ���Ե�ʹ�ÿ⣺</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmd"># �ڹ�����Ŀʱ��ʹ�ÿ�<br>cmake -DUSE_MYMATH=OFF ..<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-���ӿ��ʹ��Ҫ��"><a href="#5-���ӿ��ʹ��Ҫ��" class="headerlink" title="5 ���ӿ��ʹ��Ҫ��"></a>5 ���ӿ��ʹ��Ҫ��</h2><p>���ʹ��Ҫ����������</p>
+<ul>
+<li><strong>INTERFACE</strong>����ʾ�û���Ҫ�������߲���Ҫ��</li>
+<li><strong>PRIVATE</strong>����ʾ�û�����Ҫ����������Ҫ��</li>
+<li><strong>PUBLIC</strong>����ʾ�û��Ϳ����߶���Ҫ��</li>
+</ul>
+<h2 id="6-��̬��;�̬�⹹��"><a href="#6-��̬��;�̬�⹹��" class="headerlink" title="6 ��̬��;�̬�⹹��"></a>6 ��̬��;�̬�⹹��</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">add_library</span>(&lt;name&gt; [STATIC | SHARED | MODULE]<br>              [EXCLUDE_FROM_ALL]<br>              source1 source2 ... sourceN)<br></code></pre></td></tr></table></figure>
+
+<p>����һ����Ϊ<code>&lt;name&gt;</code>�Ŀ��ļ����ÿ��ļ�������ݵ��õ��������г���Դ�ļ���������<code>STATIC</code>Ϊ��̬�⣬<code>SHARED</code>Ϊ��̬�⡣</p>
+<p><strong>��̬��Ͷ�̬�������</strong></p>
+<ul>
+<li>��̬�����չ��һ��Ϊ��.a����.lib������̬�����չ��һ��Ϊ��.so����.dll����</li>
+<li>��̬���ڱ���<strong>���ӽ׶�</strong>��ֱ�����ϵ�Ŀ������У��������ӳɹ��Ŀ�ִ���ļ��ɶ������У�</li>
+<li>��̬���ڱ���ʱ����ŵ����ӵ�Ŀ������У�������<strong>���н׶�</strong>���أ�����ִ���ļ��޷��������С�</li>
+</ul>
+<h2 id="7-������������"><a href="#7-������������" class="headerlink" title="7 ������������"></a>7 ������������</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">find_package</span>(&lt;package&gt; [version] [EXACT] [QUIET]<br>              [[REQUIRED|COMPONENTS] [components...]]<br>              [NO_POLICY_SCOPE])<br></code></pre></td></tr></table></figure>
+
+<p>���Ҳ����ص������⡣�����������<code>&lt;package&gt;_FOUND</code>����������ָʾҪ�ҵİ��Ƿ��ҵ��ˡ�<code>REQUIRED</code>ѡ���ʾ�����û���ҵ��Ļ���cmake�Ĺ��̻���ֹ�������������Ϣ��<code>[version]</code>����Ϊ�����������Ͱ汾��<code>COMPONENTS</code>ѡ���������г�Ҫ���ҵĿ��б�(components list)��</p>
+<h2 id="�ο�"><a href="#�ο�" class="headerlink" title="�ο�"></a>�ο�</h2><p>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/500002865">https://zhuanlan.zhihu.com/p/500002865</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://cmake.org/cmake/help/latest/guide/tutorial/index.html">CMake Tutorial �� CMake 3.25.1 Documentation</a></p>
+<h2 id="3-https-blog-csdn-net-qq-44074143-article-details-123244847"><a href="#3-https-blog-csdn-net-qq-44074143-article-details-123244847" class="headerlink" title="[3] https://blog.csdn.net/qq_44074143/article/details/123244847"></a>[3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44074143/article/details/123244847">https://blog.csdn.net/qq_44074143/article/details/123244847</a></h2><p>title: CMAKE学习笔记<br>date: 2022-12-27 14:09:12<br>tags: 学习记录</p>
+<hr>
+<p>[TOC]</p>
+<h2 id="1-CMakeLists-txt基础模板"><a href="#1-CMakeLists-txt基础模板" class="headerlink" title="1 CMakeLists.txt基础模板"></a>1 CMakeLists.txt基础模板</h2><h3 id="1-1-最小项目"><a href="#1-1-最小项目" class="headerlink" title="1.1 最小项目"></a>1.1 最小项目</h3><p><code>CMakeLists.txt</code></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment"># 指定使用 CMake 的最低版本号</span><br><span class="hljs-keyword">cmake_minimum_required</span> (VERSION <span class="hljs-number">2.6</span>)<br><span class="hljs-comment"># 指定项目名称</span><br><span class="hljs-keyword">project</span> (Tutorial)<br><span class="hljs-comment"># 添加可执行文件</span><br><span class="hljs-keyword">add_executable</span>(Tutorial tutorial.cxx)<br></code></pre></td></tr></table></figure>
+
+<p><code>tutorial.cxx</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cmath&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstdlib&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (argc &lt; <span class="hljs-number">2</span>) &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;Usage: &quot;</span> &lt;&lt; argv[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot; number&quot;</span> &lt;&lt; std::endl;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// convert input to double</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> inputValue = <span class="hljs-built_in">atof</span>(argv[<span class="hljs-number">1</span>]);<br><br>    <span class="hljs-comment">// calculate square root</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> outputValue = <span class="hljs-built_in">sqrt</span>(inputValue);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;The square root of &quot;</span> &lt;&lt; inputValue<br>              &lt;&lt; <span class="hljs-string">&quot; is &quot;</span> &lt;&lt; outputValue<br>              &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-2-构建、编译和运行"><a href="#1-2-构建、编译和运行" class="headerlink" title="1.2 构建、编译和运行"></a>1.2 构建、编译和运行</h3><p>安装CMake、MinGW64并配置环境变量。终端进入到<code>CMakeLists.txt</code>目录，输入：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cmd"><span class="hljs-built_in">mkdir</span> build<br><span class="hljs-built_in">cd</span> build<br># 构建<br>cmake -G&quot;MinGW Makefiles&quot; ..<br># 编译链接<br>cmake --build .<br># 运行<br>.\Tutorial.exe <span class="hljs-number">25</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>cmake -G&lt;编译器名称&gt; &lt;CMakeLists.txt路径&gt;</li>
+<li>cmake –build &lt;编译生成文件存放路径&gt;</li>
+</ul>
+</blockquote>
+<h2 id="2-CMakeLists-txt优化"><a href="#2-CMakeLists-txt优化" class="headerlink" title="2 CMakeLists.txt优化"></a>2 CMakeLists.txt优化</h2><h3 id="2-1-set-与-PROJECT-NAME"><a href="#2-1-set-与-PROJECT-NAME" class="headerlink" title="2.1 set 与 PROJECT_NAME"></a>2.1 set 与 PROJECT_NAME</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">2.6</span>)<br><span class="hljs-keyword">project</span>(Tutorial)<br><br><span class="hljs-comment">## SET(&lt;变量名&gt; &lt;变量值&gt;)</span><br><span class="hljs-keyword">SET</span>(SRC_LIST tutorial.cxx)<br><br><span class="hljs-comment"># $&#123;变量名&#125;: 获取变量的值</span><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> <span class="hljs-variable">$&#123;SRC_LIST&#125;</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-添加版本号和配置头文件"><a href="#2-2-添加版本号和配置头文件" class="headerlink" title="2.2 添加版本号和配置头文件"></a>2.2 添加版本号和配置头文件</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span> (VERSION <span class="hljs-number">2.6</span>)<br><span class="hljs-comment"># 指定项目名及其版本号</span><br><span class="hljs-keyword">project</span>(Tutorial VERSION <span class="hljs-number">1.0</span>)<br><span class="hljs-comment"># 版本号也可以通过下面方式指定</span><br><span class="hljs-comment">## project(Tutorial)</span><br><span class="hljs-comment">## set (Tutorial_VERSION_MAJOR 1)</span><br><span class="hljs-comment">## set (Tutorial_VERSION_MINOR 0)</span><br><span class="hljs-keyword">SET</span>(SRC_LIST tutorial.cxx)<br><br><span class="hljs-comment"># 配置一个头文件，通过它向源代码中传递一些CMake设置。TutorialConfig.h.in需要我们编写，TutorialConfig.h自动生成</span><br><span class="hljs-keyword">configure_file</span> (<br>  <span class="hljs-string">&quot;$&#123;PROJECT_SOURCE_DIR&#125;/TutorialConfig.h.in&quot;</span>	<span class="hljs-comment"># TutorialConfig.h.in在源文件目录下</span><br>  <span class="hljs-string">&quot;$&#123;PROJECT_BINARY_DIR&#125;/TutorialConfig.h&quot;</span>		<span class="hljs-comment"># TutorialConfig.h在生成的二进制文件树目录下</span><br>  )<br><span class="hljs-comment"># 将二进制文件树添加到包含文件的搜索路径中，这样我们可以找到TutorialConfig.h</span><br><span class="hljs-keyword">include_directories</span>(<span class="hljs-string">&quot;$&#123;PROJECT_BINARY_DIR&#125;&quot;</span>)<br><span class="hljs-comment"># 添加可执行文件</span><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> <span class="hljs-variable">$&#123;SRC_LIST&#125;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><code>TutorialConfig.h.in</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// the configured options and settings for Tutorial</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@</span><br></code></pre></td></tr></table></figure>
+
+<p>自动生成的<code>TutorialConfig.h</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// the configured options and settings for Tutorial</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Tutorial_VERSION_MAJOR 1</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> Tutorial_VERSION_MINOR 0</span><br></code></pre></td></tr></table></figure>
+
+<p>修改<code>tutorial.cxx</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;TutorialConfig.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>      <span class="hljs-keyword">if</span> (argc &lt; <span class="hljs-number">2</span>) &#123;<br>      <span class="hljs-comment">// report version</span><br>      std::cout &lt;&lt; argv[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot; Version &quot;</span> &lt;&lt; Tutorial_VERSION_MAJOR &lt;&lt; <span class="hljs-string">&quot;.&quot;</span> &lt;&lt; Tutorial_VERSION_MINOR &lt;&lt; std::endl;<br>      std::cout &lt;&lt; <span class="hljs-string">&quot;Usage: &quot;</span> &lt;&lt; argv[<span class="hljs-number">0</span>] &lt;&lt; <span class="hljs-string">&quot; number&quot;</span> &lt;&lt; std::endl;<br>      <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>  <span class="hljs-keyword">double</span> inputValue = <span class="hljs-built_in">atof</span>(argv[<span class="hljs-number">1</span>]);<br>  <span class="hljs-keyword">double</span> outputValue = <span class="hljs-built_in">sqrt</span>(inputValue);<br>  <span class="hljs-built_in">fprintf</span>(stdout,<span class="hljs-string">&quot;The square root of %g is %g\n&quot;</span>, inputValue, outputValue);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cmd">PS D:\CMAKE_Learn\build&gt; .\Tutorial.exe<br><span class="hljs-function">D:\<span class="hljs-title">CMAKE_Learn</span>\<span class="hljs-title">build</span>\<span class="hljs-title">Tutorial.exe</span> <span class="hljs-title">Version</span> 1.0</span><br><span class="hljs-function"><span class="hljs-title">Usage</span>: <span class="hljs-title">D</span>:\<span class="hljs-title">CMAKE_Learn</span>\<span class="hljs-title">build</span>\<span class="hljs-title">Tutorial.exe</span> <span class="hljs-title">number</span></span><br><span class="hljs-function"><span class="hljs-title">PS</span> <span class="hljs-title">D</span>:\<span class="hljs-title">CMAKE_Learn</span>\<span class="hljs-title">build</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-3-指定-C-标准"><a href="#2-3-指定-C-标准" class="headerlink" title="2.3 指定 C++ 标准"></a>2.3 指定 C++ 标准</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment"># 指定C++标准</span><br><span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD <span class="hljs-number">11</span>)<br><span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="hljs-keyword">True</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-添加库"><a href="#3-添加库" class="headerlink" title="3 添加库"></a>3 添加库</h2><p>一般我们将库的源码放在项目源文件目录下的MathFunctions子目录中，并在该<strong>子目录</strong>（该目录下包含头文件<code>MathFunctions.h</code>和相关源文件<code>mysqrt.cxx</code>）下新建一个<code>CMakeLists.txt</code>，添加如下内容：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment"># 添加一个叫 MathFunctions 的库文件</span><br><span class="hljs-keyword">add_library</span>(MathFunctions mysqrt.cxx)<br></code></pre></td></tr></table></figure>
+
+<p>此时项目文件结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">CMAKE_Learn/<br>    build/<br>    MathFunctions/<br>        CMakeLists.txt<br>        MathFunctions.h<br>        mysqrt.cxx<br>    CMakeLists.txt<br>    tutorial.cxx<br>    TutorialConfig.h.in<br></code></pre></td></tr></table></figure>
+
+<p>再在顶层目录下的CMakeLists.txt文件中添加如下内容：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment"># 向当前工程添加存放源文件的子目录，指定库所在的子目录</span><br><span class="hljs-keyword">add_subdirectory</span>(MathFunctions)<br><span class="hljs-comment">#生成可执行文件</span><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> tutorial.cpp)<br><span class="hljs-comment"># 指定将MathFunctions库链接到项目Tutorial的可执行文件</span><br><span class="hljs-keyword">target_link_libraries</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PUBLIC MathFunctions)<br><span class="hljs-comment"># add the binary tree to the search path for include files</span><br><span class="hljs-comment"># so that we will find TutorialConfig.h</span><br><span class="hljs-keyword">target_include_directories</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PUBLIC<br>                           <span class="hljs-variable">$&#123;PROJECT_BINARY_DIR&#125;</span>	<span class="hljs-comment"># CMake生成的TutorialConfig.h存放目录</span><br>                           <span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/MathFunctions	<span class="hljs-comment"># 库的头文件存放目录</span><br>                           )<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>CMake中<code>target_xxx</code>关键字<strong>指定编译给定目标时相关内容</strong>，在上面命令中即指定Tutorial这个项目编译过程中包含的头文件目录和库文件目录。</p>
+</blockquote>
+<h2 id="4-将库设置为可选项"><a href="#4-将库设置为可选项" class="headerlink" title="4 将库设置为可选项"></a>4 将库设置为可选项</h2><p>第一步是向顶级 CMakeLists.txt 文件添加一个选项。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">option</span>(USE_MYMATH <span class="hljs-string">&quot;Use tutorial provided math implementation&quot;</span> <span class="hljs-keyword">ON</span>)<br></code></pre></td></tr></table></figure>
+
+<p><code>option</code> 表示提供用户可以选择的选项。命令格式为：<code>option(&lt;variable&gt; &quot;description [initial value])</code>。<code>USE_MYMATH</code> 选项的缺省值为 <code>ON</code>。</p>
+<p>下一步创建if语句，</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">if</span>(USE_MYMATH)<br>  <span class="hljs-keyword">add_subdirectory</span>(MathFunctions)<br>  <span class="hljs-keyword">list</span>(APPEND EXTRA_LIBS MathFunctions)<br>  <span class="hljs-keyword">list</span>(APPEND EXTRA_INCLUDES <span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/MathFunctions)<br><span class="hljs-keyword">endif</span>()<br><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> tutorial.cpp)<br><span class="hljs-keyword">target_link_libraries</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PUBLIC <span class="hljs-variable">$&#123;EXTRA_LIBS&#125;</span>)<br><span class="hljs-keyword">target_include_directories</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PUBLIC<br>                           <span class="hljs-variable">$&#123;PROJECT_BINARY_DIR&#125;</span><br>                           <span class="hljs-variable">$&#123;EXTRA_INCLUDES&#125;</span><br>                           )<br></code></pre></td></tr></table></figure>
+
+<p><code>APPEND</code>表示将元素<code>MathFunctions</code>追加到列表<code>EXTRA_LIBS</code>中，将元素 <code>$&#123;PROJECT_SOURCE_DIR&#125;/MathFunctions</code> 追加到列表<code>EXTRA_INCLUDES</code>中。<code>EXTRA_LIBS</code> 存储 MathFunctions 库，<code>EXTRA_INCLUDES</code> 存储 MathFunctions 头文件。因此在<code>target_link_libraries</code>和<code>target_include_directories</code>中用<code>$&#123;EXTRA_LIBS&#125;</code>和<code>$&#123;EXTRA_INCLUDES&#125;</code>分别获取库文件和头文件目录。</p>
+<p>当然也可以通过TutorialConfig.h.in配置文件实现上述效果，修改<code>tutorial.cxx</code>如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;math.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;TutorialConfig.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> USE_MYMATH</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MathFunctions.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (argc &lt; <span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-built_in">fprintf</span>(stdout,<span class="hljs-string">&quot;%s Version %d.%d\n&quot;</span>, argv[<span class="hljs-number">0</span>],<br>            Tutorial_VERSION_MAJOR,<br>            Tutorial_VERSION_MINOR);<br>        <span class="hljs-built_in">fprintf</span>(stdout,<span class="hljs-string">&quot;Usage: %s number\n&quot;</span>,argv[<span class="hljs-number">0</span>]);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">double</span> inputValue = <span class="hljs-built_in">atof</span>(argv[<span class="hljs-number">1</span>]);<br>    <br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> USE_MYMATH</span><br>    <span class="hljs-keyword">double</span> outputValue = <span class="hljs-built_in">mysqrt</span>(inputValue);<br><span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span><br>    <span class="hljs-keyword">double</span> outputValue = <span class="hljs-built_in">sqrt</span>(inputValue);<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br>    <span class="hljs-built_in">fprintf</span>(stdout,<span class="hljs-string">&quot;The square root of %g is %g\n&quot;</span>, inputValue, outputValue);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在<code>TutorialConfig.h.in</code>中添加一行，添加宏<code>USE_MYMATH</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#cmakedefine USE_MYMATH</span><br></code></pre></td></tr></table></figure>
+
+<p>在构建项目时可以选择性地使用库：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmd"># 在构建项目时不使用库<br>cmake -DUSE_MYMATH=OFF ..<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-添加库的使用要求"><a href="#5-添加库的使用要求" class="headerlink" title="5 添加库的使用要求"></a>5 添加库的使用要求</h2><p>库的使用要求有三个：</p>
+<ul>
+<li><strong>INTERFACE</strong>：表示用户需要，开发者不需要；</li>
+<li><strong>PRIVATE</strong>：表示用户不需要，开发者需要；</li>
+<li><strong>PUBLIC</strong>：表示用户和开发者都需要。</li>
+</ul>
+<h2 id="6-动态库和静态库构建"><a href="#6-动态库和静态库构建" class="headerlink" title="6 动态库和静态库构建"></a>6 动态库和静态库构建</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">add_library</span>(&lt;name&gt; [STATIC | SHARED | MODULE]<br>              [EXCLUDE_FROM_ALL]<br>              source1 source2 ... sourceN)<br></code></pre></td></tr></table></figure>
+
+<p>添加一个名为<code>&lt;name&gt;</code>的库文件，该库文件将会根据调用的命令里列出的源文件来创建。<code>STATIC</code>为静态库，<code>SHARED</code>为动态库。</p>
+<p><strong>静态库和动态库的区别</strong></p>
+<ul>
+<li>静态库的扩展名一般为“.a”或“.lib”；动态库的扩展名一般为“.so”或“.dll”；</li>
+<li>静态库在编译<strong>链接阶段</strong>会直接整合到目标程序中，编译链接成功的可执行文件可独立运行；</li>
+<li>动态库在编译时不会放到链接的目标程序中，而是在<strong>运行阶段</strong>加载，即可执行文件无法单独运行。</li>
+</ul>
+<h2 id="7-包含第三方库"><a href="#7-包含第三方库" class="headerlink" title="7 包含第三方库"></a>7 包含第三方库</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">find_package</span>(&lt;package&gt; [version] [EXACT] [QUIET]<br>              [[REQUIRED|COMPONENTS] [components...]]<br>              [NO_POLICY_SCOPE])<br></code></pre></td></tr></table></figure>
+
+<p>查找并加载第三方库。该命令会设置<code>&lt;package&gt;_FOUND</code>变量，用来指示要找的包是否被找到了。<code>REQUIRED</code>选项表示如果报没有找到的话，cmake的过程会终止，并输出警告信息。<code>[version]</code>参数为第三方库的最低版本。<code>COMPONENTS</code>选项后面可以列出要查找的库列表(components list)。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/500002865">https://zhuanlan.zhihu.com/p/500002865</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://cmake.org/cmake/help/latest/guide/tutorial/index.html">CMake Tutorial — CMake 3.25.1 Documentation</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44074143/article/details/123244847">https://blog.csdn.net/qq_44074143/article/details/123244847</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%D1%A7%CF%B0%EF%BF%BD%EF%BF%BD%C2%BC/">ѧϰ��¼</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/28/pybind11%E5%AD%A6%E4%B9%A0%20%E4%BD%BF%E7%94%A8CMake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F%E5%B9%B6%E7%94%9F%E6%88%90pyd%E6%96%87%E4%BB%B6/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">pybind11学习 使用CMake构建系统并生成pyd文件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/25/pybind11%E5%AD%A6%E4%B9%A0%20%E5%BC%82%E5%B8%B8%E8%BD%AC%E6%8D%A2%E5%92%8C%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/">
+                        <span class="hidden-mobile">pybind11学习 异常转换和类型转换</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

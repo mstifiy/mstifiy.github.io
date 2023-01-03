@@ -1,0 +1,589 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="-----------PinkCAx-----------    仅以此篇，记录我的一次可视化软件开发尝试点滴。  简介PinkCAx是一款采用Python语言编写的，基于QT5+VTK架构的三维可视化工具。  该工具目前的功能如下： 基本操作    网格文件的打开与保存（支持STL、PLY、VTK等）     基本视图（线框、包围盒、刻度包围盒）     文件分类树视图     一些不知道如何">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【PinkCAx】可视化工具开发记录与总结">
+<meta property="og:url" content="http://example.com/2022/11/21/%E3%80%90PinkCAx%E3%80%91%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95%E4%B8%8E%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="-----------PinkCAx-----------    仅以此篇，记录我的一次可视化软件开发尝试点滴。  简介PinkCAx是一款采用Python语言编写的，基于QT5+VTK架构的三维可视化工具。  该工具目前的功能如下： 基本操作    网格文件的打开与保存（支持STL、PLY、VTK等）     基本视图（线框、包围盒、刻度包围盒）     文件分类树视图     一些不知道如何">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222934560.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220318262.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220415216.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222525906.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220516161.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220605096.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220718196.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222648008.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220923548.png">
+<meta property="article:published_time" content="2022-11-21T15:37:08.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:51.043Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222934560.png">
+  
+  <title>【PinkCAx】可视化工具开发记录与总结 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="【PinkCAx】可视化工具开发记录与总结">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-21 23:37" pubdate>
+        2022年11月21日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      3 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【PinkCAx】可视化工具开发记录与总结</h1>
+            
+            <div class="markdown-body">
+              <center><b><font color=#f187b8 size=6> -----------PinkCAx----------- </font></b></center>
+
+<blockquote>
+<p>仅以此篇，记录我的一次可视化软件开发尝试点滴。</p>
+</blockquote>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>PinkCAx是一款采用Python语言编写的，基于QT5+VTK架构的三维可视化工具。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222934560.png" srcset="/img/loading.gif" lazyload alt="image-20221121222934560"></p>
+<p>该工具目前的功能如下：</p>
+<p><b><font size=4 color=gray>基本操作</font></b></p>
+<ul>
+<li><p><input checked="" disabled="" type="checkbox">  网格文件的打开与保存（支持STL、PLY、VTK等）</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220318262.png" srcset="/img/loading.gif" lazyload alt="image-20221121220318262"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  基本视图（线框、包围盒、刻度包围盒）</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220415216.png" srcset="/img/loading.gif" lazyload alt="image-20221121220415216"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  文件分类树视图</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222525906.png" srcset="/img/loading.gif" lazyload alt="image-20221121222525906"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  一些不知道如何分类的功能</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220516161.png" srcset="/img/loading.gif" lazyload alt="image-20221121220516161"></p>
+<blockquote>
+<p>模型曲率计算包括高斯、最大、最小、平均曲率计算；加载属性作用是加载有限元模型的节点属性数据（温度、应力等）；属性比较作用是计算两个属性数据的偏差（用于可视化评估代理模型预测效果）。</p>
+</blockquote>
+</li>
+</ul>
+<p><b><font size=4 color=gray>有限元后处理</font></b></p>
+<ul>
+<li><p><input checked="" disabled="" type="checkbox">  关于有限元后处理的操作</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220605096.png" srcset="/img/loading.gif" lazyload alt="image-20221121220605096"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  关于</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220718196.png" srcset="/img/loading.gif" lazyload alt="image-20221121220718196"></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox">  代理模型预测</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121222648008.png" srcset="/img/loading.gif" lazyload alt="image-20221121222648008"></p>
+<blockquote>
+<p>构建代理模型，可视化训练结果。（开始跑题ing）</p>
+</blockquote>
+</li>
+</ul>
+<p><b><font size=4 color=gray>点云处理</font></b></p>
+<ul>
+<li><p><input checked="" disabled="" type="checkbox">  三个（两个）功能</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221121220923548.png" srcset="/img/loading.gif" lazyload alt="image-20221121220923548"></p>
+<blockquote>
+<p>依次是：模型转换点云、点云降采样、有限元模型外表面抽取。</p>
+</blockquote>
+</li>
+</ul>
+<p><b><font size=4 color=gray>待添加功能</font></b></p>
+<ul>
+<li><input disabled="" type="checkbox"> 有限元模型上任意点/单元的信息和属性查询</li>
+<li><input disabled="" type="checkbox"> 增材CAM相关功能</li>
+<li><input disabled="" type="checkbox"> 点云相关功能（ICP配准、点云手动对齐等）</li>
+<li><input disabled="" type="checkbox"> ……</li>
+</ul>
+<h2 id="部分功能展示"><a href="#部分功能展示" class="headerlink" title="部分功能展示"></a>部分功能展示</h2><h3 id="可视化操作"><a href="#可视化操作" class="headerlink" title="可视化操作"></a>可视化操作</h3><p>![GIF 2022-11-21 22-35-43](D:\OneDrive\桌面\GIF 2022-11-21 22-35-43.gif)</p>
+<h3 id="代理模型预测"><a href="#代理模型预测" class="headerlink" title="代理模型预测"></a>代理模型预测</h3><p>![GIF 2022-11-21 22-49-50](D:\OneDrive\桌面\GIF 2022-11-21 22-49-50.gif)</p>
+<h3 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h3><p>![GIF 2022-11-21 22-57-37](D:\OneDrive\桌面\GIF 2022-11-21 22-57-37.gif)</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>记录第一次QT5+VTK开发工具的点滴，总共历时五天。在这期间每天都很充实，持续在：<code>产生需求--&gt;开源学习--&gt;编写程序--&gt;调试程序--&gt;产生下一个需求--&gt;……</code>的状态。并且深刻认识到了实践的重要性，通过对这个小工具的开发，我逐步上手QT5和VTK。对于VTK，上半年就有接触了，不过一直被其各种数据结构劝退，觉得numpy数组最好用（当时网格计算接触的比较多），不过到现在见识到了VTK在很多数据结构上的表现（特别是vtkUnstructuredGrid与有限元数据模型，恰到好处），加之对VTK的管线机制和各种Filter深入了解之后，现在频频“真香”。回到工具本身，其实尚存许多bug，且代码臃肿，后期还需调试和优化。</p>
+<p>同时，PinkCAx工具的开发借鉴了许多开源代码，开源万岁！</p>
+<blockquote>
+<p>有一说一，这个粉色还挺好看的。#f187b8 / 241,135,18。</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/22/%E3%80%90VTK+%E6%9C%89%E9%99%90%E5%85%83%E5%90%8E%E5%A4%84%E7%90%86%E3%80%91%E8%8A%82%E7%82%B9%E5%B1%9E%E6%80%A7%E5%80%BC%E6%9F%A5%E8%AF%A2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【VTK+有限元后处理】节点属性值查询</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/20/%E3%80%90VTK+%E6%9C%89%E9%99%90%E5%85%83%E5%90%8E%E5%A4%84%E7%90%86%E3%80%91%E7%AC%A6%E5%8F%B7%E5%8C%96%E7%9F%A2%E9%87%8F%E5%9C%BA%E7%BB%98%E5%88%B6/">
+                        <span class="hidden-mobile">【VTK+有限元后处理】符号化矢量场绘制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

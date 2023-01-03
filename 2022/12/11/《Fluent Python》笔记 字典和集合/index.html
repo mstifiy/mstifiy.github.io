@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="用setdefault处理找不到的键对于如下两段代码，所实现的功能都是一样的。 123if key not in my_dict:	my_dict[key] &#x3D; []my_dict[key].append(new_value)  1my_dict.setdefault(key, []).append(new_value)  相较而言，使用setdefault来处理字典中不存在的键时，更加优雅。 用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Fluent Python》笔记 字典和集合">
+<meta property="og:url" content="http://example.com/2022/12/11/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="用setdefault处理找不到的键对于如下两段代码，所实现的功能都是一样的。 123if key not in my_dict:	my_dict[key] &#x3D; []my_dict[key].append(new_value)  1my_dict.setdefault(key, []).append(new_value)  相较而言，使用setdefault来处理字典中不存在的键时，更加优雅。 用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-11T07:02:19.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:50.975Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>《Fluent Python》笔记 字典和集合 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="《Fluent Python》笔记 字典和集合">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-12-11 15:02" pubdate>
+        2022年12月11日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《Fluent Python》笔记 字典和集合</h1>
+            
+            <div class="markdown-body">
+              <h2 id="用setdefault处理找不到的键"><a href="#用setdefault处理找不到的键" class="headerlink" title="用setdefault处理找不到的键"></a>用setdefault处理找不到的键</h2><p>对于如下两段代码，所实现的功能都是一样的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> key <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> my_dict:<br>	my_dict[key] = []<br>my_dict[key].append(new_value)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">my_dict.setdefault(key, []).append(new_value)<br></code></pre></td></tr></table></figure>
+
+<p>相较而言，使用<code>setdefault</code>来处理字典中不存在的键时，更加优雅。</p>
+<h2 id="用defaultdict处理找不到的键"><a href="#用defaultdict处理找不到的键" class="headerlink" title="用defaultdict处理找不到的键"></a>用defaultdict处理找不到的键</h2><p><code>defaultdict</code>是一个字典类型。对于上面代码中解决的键不存在问题，我们可以用<code>defaultdict</code>类型解决。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">my_dd = collections.defaultdict(<span class="hljs-built_in">list</span>)<br>my_dd[key].append(new_value)<br></code></pre></td></tr></table></figure>
+
+<p>当表达式<code>my_dd[key]</code>中键<code>key</code>不存在时，会进行如下步骤：</p>
+<p>(1) 调用<code>list()</code>来建立一个新列表。<br>(2) 把这个新列表作为值， <code>key</code>作为它的键， 放到<code>my_dd</code>中。<br>(3) 返回这个列表的引用。  </p>
+<h2 id="特殊方法-missing"><a href="#特殊方法-missing" class="headerlink" title="特殊方法_missing_"></a>特殊方法_<em>missing</em>_</h2><p>所有的映射类型（如<code>dict</code>）在处理不存在的键时，都会调用到<code>__missing__</code>方法。</p>
+<p>下面这个示例是定义了一个<code>StrKeyDict0</code>类，在查询过程中会将非字符串的键转换成字符串。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># BEGIN STRKEYDICT0</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrKeyDict0</span>(<span class="hljs-params"><span class="hljs-built_in">dict</span></span>):</span>  <span class="hljs-comment"># 继承了dict</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__missing__</span>(<span class="hljs-params">self, key</span>):</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(key, <span class="hljs-built_in">str</span>):  <span class="hljs-comment"># 如果不存在的键是字符串，抛出异常</span><br>            <span class="hljs-keyword">raise</span> KeyError(key)<br>        <span class="hljs-keyword">return</span> self[<span class="hljs-built_in">str</span>(key)]  <span class="hljs-comment"># 如果不存在的键不是字符串，将其转换成字符串后再进行查询</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get</span>(<span class="hljs-params">self, key, default=<span class="hljs-literal">None</span></span>):</span><br>        <span class="hljs-keyword">try</span>:<br>            <span class="hljs-keyword">return</span> self[key]<br>        <span class="hljs-keyword">except</span> KeyError:<br>            <span class="hljs-keyword">return</span> default<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__contains__</span>(<span class="hljs-params">self, key</span>):</span><br>        <span class="hljs-keyword">return</span> key <span class="hljs-keyword">in</span> self.keys() <span class="hljs-keyword">or</span> <span class="hljs-built_in">str</span>(key) <span class="hljs-keyword">in</span> self.keys() <br><br><span class="hljs-comment"># END STRKEYDICT0</span><br></code></pre></td></tr></table></figure>
+
+<p>代码中<code>__missing__</code>方法只会被<code>__getitem__</code>方法调用，即当<code>d[k]</code>中<code>k</code>键不存在时会被调用。而<code>get</code> 或者<code>__contains__</code>（in 运算符会用调用这个方法） 这些方法遇到不在存在键时则不会被调用。  所以为了能满足程序需求，上述代码中重写了<code>get</code>和<code>__contains__</code>方法，使其能够应对键为非字符串的情况。</p>
+<h2 id="字典的变种"><a href="#字典的变种" class="headerlink" title="字典的变种"></a>字典的变种</h2><ul>
+<li><p><code>collections.defaultdict</code></p>
+<p>在构造时可以提供一个可调用对象（如上述代码中的<code>list</code>），当<code>d[k]</code>中<code>k</code>不存在时会被调用并返回某种默认值（如 <code>k:[]</code>）。</p>
+</li>
+<li><p><code>collections.OrderedDict</code> </p>
+<p>这个类型在添加键的时候会保持顺序， 因此键的迭代次序总是一致的。 <code>OrderedDict</code> 的 <code>popitem</code> 方法默认删除并返回的是字典里的最后一个元素， 但是如果像 <code>my_odict.popitem(last=False)</code> 这样调用它， 那么它删除并返回第一个被添加进去的元素。</p>
+</li>
+<li><p><code>collections.ChainMap</code></p>
+<p>这个类型可以容纳数个不同的映射对象， 然后在进行键查找操作的时候，这些对象会被当作一个整体被逐个查找，直到键被找到为止。</p>
+</li>
+<li><p><code>collections.Counter</code>  </p>
+<p>这个类型会给键准备一个整数计数器。 每次更新一个键的时候都会增加这个计数器。<code>most_common([n])</code> 会按照次序返回映射里最常见的 <code>n</code> 个键和它们的计数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>ct = collections.Counter(<span class="hljs-string">&#x27;abracadabra&#x27;</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>ct<br>Counter(&#123;<span class="hljs-string">&#x27;a&#x27;</span>: <span class="hljs-number">5</span>, <span class="hljs-string">&#x27;b&#x27;</span>: <span class="hljs-number">2</span>, <span class="hljs-string">&#x27;r&#x27;</span>: <span class="hljs-number">2</span>, <span class="hljs-string">&#x27;c&#x27;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;d&#x27;</span>: <span class="hljs-number">1</span>&#125;)<br><span class="hljs-meta">&gt;&gt;&gt; </span>ct.update(<span class="hljs-string">&#x27;aaaaazzz&#x27;</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>ct<br>Counter(&#123;<span class="hljs-string">&#x27;a&#x27;</span>: <span class="hljs-number">10</span>, <span class="hljs-string">&#x27;z&#x27;</span>: <span class="hljs-number">3</span>, <span class="hljs-string">&#x27;b&#x27;</span>: <span class="hljs-number">2</span>, <span class="hljs-string">&#x27;r&#x27;</span>: <span class="hljs-number">2</span>, <span class="hljs-string">&#x27;c&#x27;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;d&#x27;</span>: <span class="hljs-number">1</span>&#125;)<br><span class="hljs-meta">&gt;&gt;&gt; </span>ct.most_common(<span class="hljs-number">2</span>)<br>[(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">10</span>), (<span class="hljs-string">&#x27;z&#x27;</span>, <span class="hljs-number">3</span>)]<br></code></pre></td></tr></table></figure></li>
+<li><p><code>colllections.UserDict</code>  </p>
+<p>跟 <code>OrderedDict、 ChainMap 和 Counter</code> 这些开箱即用的类型不同， <code>UserDict</code> 是让用户继承写子类的。当我们需要创建自定义映射类型时，通过继承UserDict类比继承dict更方便。</p>
+</li>
+</ul>
+<h2 id="不可变映射类型"><a href="#不可变映射类型" class="headerlink" title="不可变映射类型"></a>不可变映射类型</h2><p>标准库中的所有映射类型都是可变的，即可以修改某个映射。在<code>types</code>模块中引入了一个封装类名叫<code>MappingProxyType</code>，一个映射对象通过这个类后，会得到一个只读的映射视图（无法通过映射视图修改原映射，除非直接对原映射进行修改）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> types <span class="hljs-keyword">import</span> MappingProxyType<br><span class="hljs-meta">&gt;&gt;&gt; </span>d = &#123;<span class="hljs-number">1</span>:<span class="hljs-string">&#x27;A&#x27;</span>&#125;<br><span class="hljs-meta">&gt;&gt;&gt; </span>d_proxy = MappingProxyType(d)<br><span class="hljs-meta">&gt;&gt;&gt; </span>d_proxy<br>mappingproxy(&#123;<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;A&#x27;</span>&#125;)<br><span class="hljs-meta">&gt;&gt;&gt; </span>d_proxy[<span class="hljs-number">1</span>] <br><span class="hljs-string">&#x27;A&#x27;</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>d_proxy[<span class="hljs-number">2</span>] = <span class="hljs-string">&#x27;x&#x27;</span> <br>Traceback (most recent call last):<br>File <span class="hljs-string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="hljs-number">1</span>, <span class="hljs-keyword">in</span> &lt;module&gt;<br>TypeError: <span class="hljs-string">&#x27;mappingproxy&#x27;</span> <span class="hljs-built_in">object</span> does <span class="hljs-keyword">not</span> support item assignment<br><span class="hljs-meta">&gt;&gt;&gt; </span>d[<span class="hljs-number">2</span>] = <span class="hljs-string">&#x27;B&#x27;</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>d_proxy <br>mappingproxy(&#123;<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&#x27;B&#x27;</span>&#125;)<br><span class="hljs-meta">&gt;&gt;&gt; </span>d_proxy[<span class="hljs-number">2</span>]<br><span class="hljs-string">&#x27;B&#x27;</span><br>&gt;&gt;&gt;<br></code></pre></td></tr></table></figure>
+
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>集合本质是许多唯一对象的聚集。因此集合可用于序列对象的去重。</p>
+<p>集合中元素必须是可散列的。<code>set</code>类型本身是不可散列的，<code>frozenset</code>类型本身是可散列的。</p>
+<p>给定两个集合<code>a</code> 和 <code>b</code>， <code>返回的是它们的合集，</code> 得到的是交集， 而 <code>a - b</code>得到的是差集。  </p>
+<p>由于散列表的引入，集合的查找功能非常快。</p>
+<p>集合的字面量形如<code>&#123;1,2,3&#125;</code>，空集必须写成<code>set()</code>而非<code>&#123;&#125;</code>（Python会认为<code>&#123;&#125;</code>是空字典）。</p>
+<h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><table>
+<thead>
+<tr>
+<th>语法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a &amp; b</td>
+<td>返回集合a和集合b的交集</td>
+</tr>
+<tr>
+<td>a | b</td>
+<td>返回集合a和集合b的并集</td>
+</tr>
+<tr>
+<td>a - b</td>
+<td>返回集合a和集合b的差集</td>
+</tr>
+<tr>
+<td>a ^ b</td>
+<td>返回集合a和集合b的对称差集</td>
+</tr>
+<tr>
+<td>a.isdisjoint(b)</td>
+<td>查看集合a和集合b是否不相交（没有共同元素）</td>
+</tr>
+<tr>
+<td>c in a</td>
+<td>元素c是否属于集合a</td>
+</tr>
+<tr>
+<td>a &lt;= b / a &gt;= b</td>
+<td>集合a是否为集合b的子集/父集</td>
+</tr>
+<tr>
+<td>a &lt; b / a &gt; b</td>
+<td>集合a是否为集合b的真子集/真父集</td>
+</tr>
+</tbody></table>
+<p>其他方法：a.add(c)、a.clear()、a.copy()、a.discard(c)（如果 a 里有 c 这个元素的话， 把它移除）、a.pop()、a.remove(c)等</p>
+<blockquote>
+<p>a、b为集合，c为元素。</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/12/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%AD%97%E7%AC%A6%E5%92%8C%E5%AD%97%E8%8A%82/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">《Fluent Python》笔记 字符和字节</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/10/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/">
+                        <span class="hidden-mobile">《Fluent Python》笔记 序列类型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

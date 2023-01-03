@@ -1,0 +1,562 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="生成器作为协程协程是指一个过程， 这个过程与调用方协作， 产出由调用方提供的值。 协程使用的简单演示（用作协程的生成器）： 123456789101112131415&gt;&gt;&gt; def simple_coroutine(): # 生成器函数... print(&amp;#x27;-&gt; coroutine started&amp;#x27;)... x &#x3D; yield # yield表达式右边为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Fluent Python》笔记 协程">
+<meta property="og:url" content="http://example.com/2022/12/14/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%8D%8F%E7%A8%8B/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="生成器作为协程协程是指一个过程， 这个过程与调用方协作， 产出由调用方提供的值。 协程使用的简单演示（用作协程的生成器）： 123456789101112131415&gt;&gt;&gt; def simple_coroutine(): # 生成器函数... print(&amp;#x27;-&gt; coroutine started&amp;#x27;)... x &#x3D; yield # yield表达式右边为">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221214165543797.png">
+<meta property="article:published_time" content="2022-12-14T09:22:26.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:50.968Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221214165543797.png">
+  
+  <title>《Fluent Python》笔记 协程 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="《Fluent Python》笔记 协程">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-12-14 17:22" pubdate>
+        2022年12月14日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《Fluent Python》笔记 协程</h1>
+            
+            <div class="markdown-body">
+              <h2 id="生成器作为协程"><a href="#生成器作为协程" class="headerlink" title="生成器作为协程"></a>生成器作为协程</h2><p>协程是指一个过程， 这个过程与调用方协作， 产出由调用方提供的值。</p>
+<p>协程使用的简单演示（用作协程的生成器）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">simple_coroutine</span>():</span> <span class="hljs-comment"># 生成器函数</span><br><span class="hljs-meta">... </span><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;-&gt; coroutine started&#x27;</span>)<br><span class="hljs-meta">... </span>x = <span class="hljs-keyword">yield</span> <span class="hljs-comment"># yield表达式右边为协程产出的值，没有默认为None</span><br><span class="hljs-meta">... </span><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;-&gt; coroutine received:&#x27;</span>, x)<br>...<br><span class="hljs-meta">&gt;&gt;&gt; </span>my_coro = simple_coroutine() <span class="hljs-comment"># 得到生成器对象</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>my_coro <br>&lt;generator <span class="hljs-built_in">object</span> simple_coroutine at <span class="hljs-number">0x100c2be10</span>&gt;<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">next</span>(my_coro) <span class="hljs-comment"># 启动生成器，到第一个yield处暂停</span><br>-&gt; coroutine started<br><span class="hljs-meta">&gt;&gt;&gt; </span>my_coro.send(<span class="hljs-number">42</span>) <span class="hljs-comment"># 向协程中发送数据，协程定义体中yield表达式会计算出42</span><br>-&gt; coroutine received: <span class="hljs-number">42</span><br>Traceback (most recent call last): <span class="hljs-comment"># </span><br>...<br>StopIteration<br></code></pre></td></tr></table></figure>
+
+<p>协程有四个状态，协程当前的状态可以使用<code>inspect.getgeneratorstate()</code> 函数确定， 该函数会返回下述字符串中的一个。<br>**’GEN_CREATED’**：等待开始执行。<br>**’GEN_RUNNING’**：解释器正在执行。<br>**’GEN_SUSPENDED’**：在 <code>yield</code> 表达式处暂停。<br>**’GEN_CLOSED’**：执行结束。  </p>
+<p>因为 <code>send</code> 方法的参数会成为暂停的 <code>yield</code> 表达式的值， 所以， 仅当协程处于暂停状态（’GEN_SUSPENDED’）时才能调用 <code>send</code> 方法，否则会报错。</p>
+<p>生成器实例化后得到的协程<code>my_coro</code>处于’GEN_CREATED’状态，通过<code>next(my_coro)</code> （也可以调用<code>my_coro.send(None)</code>，效果相同）激活协程变为’GEN_RUNNING’状态（第一次次激活叫做<strong>预激</strong>）。运行到<code>yield</code>表达式变为’GEN_SUSPENDED’状态，协程定义体执行结束变为’GEN_CLOSED’状态。</p>
+<h2 id="通过装饰器预激协程"><a href="#通过装饰器预激协程" class="headerlink" title="通过装饰器预激协程"></a>通过装饰器预激协程</h2><p>因为<strong>预激</strong>是使用协程的关键步骤，为了简化协程的用法，有时会使用一个预激装饰器，这样可以避免忘记预激操作。预激装饰器示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> wraps<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">coroutine</span>(<span class="hljs-params">func</span>):</span><br><span class="hljs-string">&quot;&quot;&quot;装饰器：向前执行到第一个`yield`表达式， 预激`func`&quot;&quot;&quot;</span><br><span class="hljs-meta">	@wraps(<span class="hljs-params">func</span>)</span><br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">primer</span>(<span class="hljs-params">*args,**kwargs</span>):</span>	<span class="hljs-comment"># 将被装饰的生成器函数替换成函数primer，返回预激后的生成器</span><br>        gen = func(*args,**kwargs)	<span class="hljs-comment"># 获取生成器对象</span><br>        <span class="hljs-built_in">next</span>(gen)		<span class="hljs-comment"># 预激</span><br>        <span class="hljs-keyword">return</span> gen		<span class="hljs-comment"># 返回预激后的生成器</span><br>    <span class="hljs-keyword">return</span> primer<br></code></pre></td></tr></table></figure>
+
+<h2 id="终止协程和异常处理"><a href="#终止协程和异常处理" class="headerlink" title="终止协程和异常处理"></a>终止协程和异常处理</h2><p>未处理的异常会导致协程终止。</p>
+<p>示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoException</span>(<span class="hljs-params">Exception</span>):</span><br><span class="hljs-string">&quot;&quot;&quot;为这次演示定义的异常类型。 &quot;&quot;&quot;</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">demo_exc_handling</span>():</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;-&gt; coroutine started&#x27;</span>)<br>    <span class="hljs-keyword">try</span>:<br>    	<span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            <span class="hljs-keyword">try</span>:<br>                x = <span class="hljs-keyword">yield</span><br>            <span class="hljs-keyword">except</span> DemoException:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;*** DemoException handled. Continuing...&#x27;</span>)<br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;-&gt; coroutine received: &#123;!r&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(x))<br>    <span class="hljs-keyword">finally</span>:<br>		<span class="hljs-keyword">pass</span> <span class="hljs-comment"># 在协程终止时执行的操作</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>exc_coro = demo_exc_handling() <span class="hljs-comment"># 获取作为协程的生成器对象</span><br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">next</span>(exc_coro)		<span class="hljs-comment"># 预激协程</span><br>-&gt; coroutine started<br><span class="hljs-meta">&gt;&gt;&gt; </span>exc_coro.send(<span class="hljs-number">11</span>)	<span class="hljs-comment"># 发送数据给协程，通过send函数发送给协程的值会被yield表达式接收</span><br>-&gt; coroutine received: <span class="hljs-number">11</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>exc_coro.send(<span class="hljs-number">22</span>)<br>-&gt; coroutine received: <span class="hljs-number">22</span><br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> inspect <span class="hljs-keyword">import</span> getgeneratorstate<br><span class="hljs-meta">&gt;&gt;&gt; </span>exc_coro.throw(DemoException)<br>*** DemoException handled. Continuing...<br><span class="hljs-meta">&gt;&gt;&gt; </span>getgeneratorstate(exc_coro)<br><span class="hljs-string">&#x27;GEN_SUSPENDED&#x27;</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>exc_coro.close()<br><span class="hljs-meta">&gt;&gt;&gt; </span>getgeneratorstate(exc_coro)<br><span class="hljs-string">&#x27;GEN_CLOSED</span><br></code></pre></td></tr></table></figure>
+
+<p><font color=gray><b>重要方法：</b></font></p>
+<ul>
+<li><p><code>generator.send(...)</code>  </p>
+<p>如果发送给协程的值（通常可以使用内置的 <code>None</code> 和 <code>Ellipsis</code>）在协程定义体中参与运算抛出异常，且这个抛出的异常未处理，那么就会导致协程终止。</p>
+</li>
+<li><p><code>generator.throw(exc_type[, exc_value[, traceback]])</code> </p>
+<p>使协程在暂停的 <code>yield</code> 表达式处抛出指定的异常（<code>exc_type</code>）。 如果协程处理了抛出的异常， 代码会向前执行到下一个 <code>yield</code> 表达式， 而产出的值会成为调用 <code>generator.throw</code>方法得到的返回值。 如果协程没有处理抛出的异常， 异常会向上冒泡， 传到调用方的上下文中。并且协程也会终止。</p>
+</li>
+<li><p><code>generator.close()</code>  </p>
+<p>致使协程在暂停的 <code>yield</code> 表达式处抛出 <code>GeneratorExit</code> 异常。如果协程没有处理这个异常， 或者抛出了 <code>StopIteration</code> 异常（通常是指运行到结尾），调用方不会报错（此时协程终止退出）。 如果收到 <code>GeneratorExit</code> 异常， 协程一定不能产出值， 否则解释器会抛出 <code>RuntimeError</code> 异常。协程抛出的其他异常会向上冒泡， 传给调用方。并且协程也会终止。  </p>
+</li>
+</ul>
+<blockquote>
+<p><strong>虽然上面所说的协程其实本质上是生成器对象，此时生成器对象的行为体现了协程。</strong></p>
+</blockquote>
+<h2 id="yield-from在协程中的运用"><a href="#yield-from在协程中的运用" class="headerlink" title="yield from在协程中的运用"></a>yield from在协程中的运用</h2><p><code>yield from</code>的主要功能是打开双向通道， 把最外层的调用方与最内层的子生成器连接起来， 这样<strong>二者可以直接发送和产出值， 还可以直接传入异常，而不用在位于中间的协程中添加大量处理异常的样板代码</strong>。 有了这个结构， 协程可以通过以前不可能的方式委托职责。  </p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221214165543797.png" srcset="/img/loading.gif" lazyload alt="image-20221214165543797"></p>
+<ul>
+<li><p><strong>委派生成器</strong><br>包含 <code>yield from &lt;iterable&gt;</code> 表达式的生成器函数。  </p>
+</li>
+<li><p>子生成器<br>从 <code>yield from</code> 表达式中 <code>&lt;iterable&gt;</code> 部分获取的生成器。</p>
+</li>
+</ul>
+<p>该结构运行流程如下：</p>
+<p>委派生成器在 <code>yield from</code> 表达式处暂停时， 调用方可以直接把数据发给子生成器， 子生成器再把产出的值发给调用方。 子生成器返回之后， 解释器会抛出 <code>StopIteration</code> 异常， 并把返回值附加到异常对象上， 此时委派生成器会恢复。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> namedtuple<br><br>Result = namedtuple(<span class="hljs-string">&#x27;Result&#x27;</span>, <span class="hljs-string">&#x27;count average&#x27;</span>)<br><br><span class="hljs-comment"># 子生成器</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">averager</span>():</span><br>    total = <span class="hljs-number">0.0</span><br>    count = <span class="hljs-number">0</span><br>    average = <span class="hljs-literal">None</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        term = <span class="hljs-keyword">yield</span><br>        <span class="hljs-keyword">if</span> term <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        	<span class="hljs-keyword">break</span><br>        total += term<br>        count += <span class="hljs-number">1</span><br>        average = total/count<br>        <span class="hljs-keyword">return</span> Result(count, average)	<span class="hljs-comment"># 生成器的返回值</span><br><br><span class="hljs-comment"># 委派生成器</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">grouper</span>(<span class="hljs-params">results, key</span>):</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    	results[key] = <span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> averager()<br>    <br><span class="hljs-comment"># 客户端代码，即调用方</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(<span class="hljs-params">data</span>):</span><br>    results = &#123;&#125;<br>    <span class="hljs-keyword">for</span> key, values <span class="hljs-keyword">in</span> data.items():<br>    	group = grouper(results, key)<br>    	<span class="hljs-built_in">next</span>(group)				<span class="hljs-comment"># 预激协程</span><br>    	<span class="hljs-keyword">for</span> value <span class="hljs-keyword">in</span> values:<br>    		group.send(value) <br>    	group.send(<span class="hljs-literal">None</span>) <span class="hljs-comment"># 终止协程</span><br>    report(results)<br>    <br><span class="hljs-comment"># 输出报告</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">report</span>(<span class="hljs-params">results</span>):</span><br>    <span class="hljs-keyword">for</span> key, result <span class="hljs-keyword">in</span> <span class="hljs-built_in">sorted</span>(results.items()):<br>    	group, unit = key.split(<span class="hljs-string">&#x27;;&#x27;</span>)<br>    	<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&#123;:2&#125; &#123;:5&#125; averaging &#123;:.2f&#125;&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(result.count, group, result.average, unit))<br><br>data = &#123;<br>	<span class="hljs-string">&#x27;girls;kg&#x27;</span>:<br>		[<span class="hljs-number">40.9</span>, <span class="hljs-number">38.5</span>, <span class="hljs-number">44.3</span>, <span class="hljs-number">42.2</span>, <span class="hljs-number">45.2</span>, <span class="hljs-number">41.7</span>, <span class="hljs-number">44.5</span>, <span class="hljs-number">38.0</span>, <span class="hljs-number">40.6</span>, <span class="hljs-number">44.5</span>],<br>	<span class="hljs-string">&#x27;girls;m&#x27;</span>:<br>        [<span class="hljs-number">1.6</span>, <span class="hljs-number">1.51</span>, <span class="hljs-number">1.4</span>, <span class="hljs-number">1.3</span>, <span class="hljs-number">1.41</span>, <span class="hljs-number">1.39</span>, <span class="hljs-number">1.33</span>, <span class="hljs-number">1.46</span>, <span class="hljs-number">1.45</span>, <span class="hljs-number">1.43</span>],<br>    <span class="hljs-string">&#x27;boys;kg&#x27;</span>:<br>        [<span class="hljs-number">39.0</span>, <span class="hljs-number">40.8</span>, <span class="hljs-number">43.2</span>, <span class="hljs-number">40.8</span>, <span class="hljs-number">43.1</span>, <span class="hljs-number">38.6</span>, <span class="hljs-number">41.4</span>, <span class="hljs-number">40.6</span>, <span class="hljs-number">36.3</span>],<br>    <span class="hljs-string">&#x27;boys;m&#x27;</span>:<br>        [<span class="hljs-number">1.38</span>, <span class="hljs-number">1.5</span>, <span class="hljs-number">1.32</span>, <span class="hljs-number">1.25</span>, <span class="hljs-number">1.37</span>, <span class="hljs-number">1.48</span>, <span class="hljs-number">1.25</span>, <span class="hljs-number">1.49</span>, <span class="hljs-number">1.46</span>],<br>&#125; <br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>	main(data)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">9</span> boys averaging <span class="hljs-number">40.42</span>kg<br><span class="hljs-number">9</span> boys averaging <span class="hljs-number">1.39</span>m<br><span class="hljs-number">10</span> girls averaging <span class="hljs-number">42.04</span>kg<br><span class="hljs-number">10</span> girls averaging <span class="hljs-number">1.43</span>m<br></code></pre></td></tr></table></figure>
+
+<p><code>grouper</code> 发送的每个值都会经由 <code>yield from</code> 处理， 通过管道传给<code>averager</code> 实例。 <code>grouper</code> 会在 <code>yield from</code> 表达式处暂停， 等待<code>averager</code> 实例处理客户端发来的值。 <code>averager</code> 实例运行完毕后， 返回的值绑定到 <code>results[key]</code> 上。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/17/Clipper%E5%BA%93%20%20%E5%9D%90%E6%A0%87%E5%9C%86%E6%95%B4%E5%92%8C%E7%B2%BE%E5%BA%A6%E6%8E%A7%E5%88%B6/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Clipper��  ����Բ���;��ȿ���</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/14/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20else%E5%AD%90%E5%8F%A5%E5%92%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8/">
+                        <span class="hidden-mobile">《Fluent Python》笔记 else子句和上下文管理器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

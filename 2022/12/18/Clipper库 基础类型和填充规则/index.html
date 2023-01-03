@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="�ü�����(ClipType)1234CT_INTERSECTION &#x3D; 0CT_UNION &#x3D; 1CT_DIFFERENCE &#x3D; 2CT_XOR &#x3D; 3   ������AND (intersection) ������Ͳü�������ཻ������   ������OR (union) - ����Ͳü���������ߺϲ�������    ��&#x2F;�NOT (difference)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Clipper�� �������ͺ�������">
+<meta property="og:url" content="http://example.com/2022/12/18/Clipper%E5%BA%93%20%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%A1%AB%E5%85%85%E8%A7%84%E5%88%99/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="�ü�����(ClipType)1234CT_INTERSECTION &#x3D; 0CT_UNION &#x3D; 1CT_DIFFERENCE &#x3D; 2CT_XOR &#x3D; 3   ������AND (intersection) ������Ͳü�������ཻ������   ������OR (union) - ����Ͳü���������ߺϲ�������    ��&#x2F;�NOT (difference)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218092444226.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218093353310.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218094605442.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218095018604.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218095529324.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218100844645.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218103400376.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218092444226.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218093353310.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218094605442.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218095018604.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218095529324.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218100844645.png">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218103400376.png">
+<meta property="article:published_time" content="2022-12-18T03:05:10.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:50.758Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="ѧϰ��¼">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221218092444226.png">
+  
+  <title>Clipper�� �������ͺ������� - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Clipper�� �������ͺ�������">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-12-18 11:05" pubdate>
+        2022年12月18日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Clipper�� �������ͺ�������</h1>
+            
+            <div class="markdown-body">
+              <h2 id="�u�����-ClipType"><a href="#�u�����-ClipType" class="headerlink" title="�ü�����(ClipType)"></a>�ü�����(ClipType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">CT_INTERSECTION = <span class="hljs-number">0</span><br>CT_UNION = <span class="hljs-number">1</span><br>CT_DIFFERENCE = <span class="hljs-number">2</span><br>CT_XOR = <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>������AND (intersection) ������Ͳü�������ཻ������  </li>
+<li>������OR (union) - ����Ͳü���������ߺϲ�������   </li>
+<li>��/�NOT (difference) - �ü�������������������</li>
+<li>���XOR (exclusive or) - ����Ͳü�����������ཻ���������</li>
+</ul>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218092444226.png" srcset="/img/loading.gif" lazyload alt="image-20221218092444226"></p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218093353310.png" srcset="/img/loading.gif" lazyload alt="image-20221218093353310"></p>
+<p><b><code>ClipType</code> ���÷���</b></p>
+<p>��ʹ�� <code>Clipper</code> ����Զ���ν��вü�ʱ������ͨ����ִ�з��� <code>Execute</code> �д��� <code>ClipType</code> ����ָ���ü����������㣩���͡�</p>
+<p><code>Clipper.Execute </code> �����������£�</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Execute</span>(<span class="hljs-params">self, *args, **kwargs</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Performs the clipping operation and returns a list of paths.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Keyword arguments:</span><br><span class="hljs-string">        clip_type      -- type of the clipping operation</span><br><span class="hljs-string">        subj_fill_type -- fill rule of subject paths</span><br><span class="hljs-string">        clip_fill_type -- fill rule of clip paths</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Returns:</span><br><span class="hljs-string">        list of resulting paths</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Raises:</span><br><span class="hljs-string">        ClipperException -- operation did not succeed</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="�պ�����-EndType"><a href="#�պ�����-EndType" class="headerlink" title="�պ�����(EndType)"></a>�պ�����(EndType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">ET_CLOSEDPOLYGON = <span class="hljs-number">0</span><br>ET_CLOSEDLINE = <span class="hljs-number">1</span><br>ET_OPENBUTT = <span class="hljs-number">2</span><br>ET_OPENSQUARE = <span class="hljs-number">3</span><br>ET_OPENROUND = <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>etClosedPolygon:</strong>  ĩ�˸���<code>JoinType</code>��ֵ���ӣ����·��ʹ�ö���Ρ�  </li>
+<li><strong>etClosedLine:</strong>  ĩ�˸���<code>JoinType</code>��ֵ���ӣ����·��ʹ�ö��߶Ρ�</li>
+<li><strong>etOpenButt:</strong> ĩ��Ϊֱ�ǣ���û�����졣 </li>
+<li><strong>etOpenSquare:</strong> ĩ��Ϊֱ�ǣ�������·��������һ���֡�</li>
+<li><strong>etOpenRound:</strong> ĩ��ΪԲ�ǣ�������·��������һ���֡�</li>
+<li><del><strong>etOpenSingle:</strong>  ��һ��������ƫ��һ������·�����ƻ���δ�����¡�������Python���õ�6.2.1�汾��û�С���</del></li>
+</ul>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218094605442.png" srcset="/img/loading.gif" lazyload alt="image-20221218094605442"></p>
+<blockquote>
+<p><code>EndType</code> ����ֻ�� <code>ClipperOffset.AddPath</code> �� <code>ClipperOffset.AddPaths</code> ���õ������ڹ涨ƫ�������ıպϷ�ʽ��</p>
+</blockquote>
+<h2 id="��������-JoinType"><a href="#��������-JoinType" class="headerlink" title="��������(JoinType)"></a>��������(JoinType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">JT_MITER = <span class="hljs-number">2</span><br>JT_ROUND = <span class="hljs-number">1</span><br>JT_SQUARE = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218095018604.png" srcset="/img/loading.gif" lazyload alt="image-20221218095018604"></p>
+<ul>
+<li><p><strong>jtMiter</strong>��б���νӡ���һЩխ�Ƕȣ�����ƫ�ÿ��ܻ�����ǳ����ġ���塱��</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218095529324.png" srcset="/img/loading.gif" lazyload alt="image-20221218095529324"></p>
+<p>���������Ҫ���� <code> ClippOffset.MiterLimit</code> ��������ָ��ԭʼ���㽫��ƫ�Ƶ�������(�� <code>delta</code> �ı���)�����ھ���ԭʼ���� <code>delta</code> �����ľ����ϣ���б�߽ضϳɵ����ǣ������ͱ�ɺ� <strong>jtSquare</strong> һ��������Ч���ˣ���</p>
+</li>
+<li><p><strong>jtRound</strong>: Բ���νӡ�������б�߽ǽ��е�Բ�Ǵ���������֪��Բ����ʵ���ɵ��ǽ����γɵģ�����Clipper������<code>ClipperOffset.ArcTolerance</code> ���ԣ�Բ�����ȣ�ָ���˽��ƴ�������ʱ�ɽ��ܵ���󲻾�ȷ��(�����)��</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218100844645.png" srcset="/img/loading.gif" lazyload alt="image-20221218100844645"></p>
+<p><code>ArcTolerance</code> Ĭ��ֵΪ0.25��˵��qd������ƫ����ʵԲ���������룩������0.25�����ǿ��Է��֣�qdԽС����������Բ��Խ�⻬�����۾���������Ҫ�������Ķ��㡣</p>
+</li>
+<li><p><strong>jtSquare</strong>: �����νӡ�������б�߽ǽ��е��� <code>C1��delta</code> �� </p>
+</li>
+</ul>
+<blockquote>
+<p>�о������ؼ����е���ƫ��·�����Ӳ�ࡣ</p>
+</blockquote>
+<p>�����ᵽ�� <code>delta</code> ���� <code>ClipperOffset.Execute</code> �����д���Ĳ�����</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Execute</span>(<span class="hljs-params">self, *args, **kwargs</span>):</span> <span class="hljs-comment"># real signature unknown</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Performs the offset operation and returns a list of offset paths.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        	Keyword arguments:</span><br><span class="hljs-string">            delta -- amount to which the supplied paths will be offset - negative delta shrinks polygons,</span><br><span class="hljs-string">            	positive delta expands them.</span><br><span class="hljs-string"></span><br><span class="hljs-string">            Returns:</span><br><span class="hljs-string">            list of offset paths</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="�u��������-PolyFillType-������"><a href="#�u��������-PolyFillType-������" class="headerlink" title="�ü��������(PolyFillType) - ������"></a>�ü��������(PolyFillType) - ������</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">PFT_EVENODD = <span class="hljs-number">0</span><br>PFT_NEGATIVE = <span class="hljs-number">3</span><br>PFT_NONZERO = <span class="hljs-number">1</span><br>PFT_POSITIVE = <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>������fill rule��</strong>�����ж��ڷ��ͼ���У���Щ�������ڲ�����Щ�������ⲿ���硯�ס�����Clipper��֧��4��������</p>
+<ul>
+<li>Even-Odd(��ż)</li>
+<li>Non-Zero(����)</li>
+<li>Positive(��)</li>
+<li>Negative(��)</li>
+</ul>
+<p>����Ϊ��������ͼ�ȹٷ����������������⡣���Ǹ���ÿ�������������һ��<strong>����</strong>�����ݶ���εķ����һ���ⲿ���ڲ������������������������</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218103400376.png" srcset="/img/loading.gif" lazyload alt="image-20221218103400376"></p>
+<blockquote>
+<p>ͼԴ�ԣ����������������ʵ������Pythonʵ����ά��ӡ·���滮��P163��</p>
+</blockquote>
+<p>�������������£�</p>
+<ul>
+<li><p>��ż��� : ������������䣬ż����������䡣</p>
+<blockquote>
+<p>��ż�����򵥣�����Ҫ������������ż���涨���������ཻ�ĵ������������ڲ�������������򣬵�ż���������ڲ������Ƿ�������������ڶ���α����Ͷ����֮�䲻�������ཻ�������</p>
+</blockquote>
+</li>
+<li><p>������䣺����<code>��������</code>��������䡣</p>
+</li>
+<li><p>����䣺����<code>���� &gt;0</code>��������䡣</p>
+</li>
+<li><p>����䣺����<code>���� &lt; 0</code>��������䡣</p>
+</li>
+</ul>
+<blockquote>
+<p>Ŀǰʹ����㷺������������ż�ͷ�����䡣</p>
+</blockquote>
+<p><b><code>PolyFillType</code> ���÷���</b></p>
+<p>��ʹ�� <code>Clipper</code> ����Զ���ν��вü�ʱ������ͨ����ִ�з��� <code>Execute</code> �д��� <code>PolyFillType</code> ָ�� <code>subj_fill_type</code> ���������ε������򣩺� <code>clip_fill_type</code> ���ü�����ε������򣩲�����</p>
+<h2 id="�u�����-PolyType"><a href="#�u�����-PolyType" class="headerlink" title="�ü�����(PolyType)"></a>�ü�����(PolyType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">PT_CLIP = <span class="hljs-number">1</span><br>PT_SUBJECT = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p>�ü�������2����</p>
+<ul>
+<li>��������(<strong>ptSubject</strong> )�����ü�����Σ�Ҳ�����������Ρ�  </li>
+<li>�ü������(<strong>ptClip</strong> )���ü�����Σ�ʹ�ô˶���βü��������Ρ�</li>
+</ul>
+<p><b><code>PolyType</code> ���÷���</b></p>
+<p>��ʹ�� <code>Clipper</code> ����Զ���ν��вü�ʱ������ͨ����ִ�з��� <code>AddPaths</code> �д��� <code>PolyType</code> ָ������Ķ���Σ�<code>paths</code>���Ĳü����� <code>poly_type</code>�����ǲü������Ǳ��ü����󣩡�</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">AddPaths</span>(<span class="hljs-params">self, *args, **kwargs</span>):</span> <span class="hljs-comment"># real signature unknown</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Add a list of paths.</span><br><span class="hljs-string">    </span><br><span class="hljs-string">            Keyword arguments:</span><br><span class="hljs-string">            paths     -- paths to be added</span><br><span class="hljs-string">            poly_type -- type of added paths - subject or clip</span><br><span class="hljs-string">            closed    -- True if added paths are closed, False if open</span><br><span class="hljs-string">    </span><br><span class="hljs-string">            Returns:</span><br><span class="hljs-string">            True -- all or some paths are valid for clipping and were added</span><br><span class="hljs-string">    </span><br><span class="hljs-string">            Raises:</span><br><span class="hljs-string">            ClipperException -- all paths are invalid for clipping</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">pass</span><br>```---<br>title: Clipper库 基础类型和填充规则<br>date: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">18</span> <span class="hljs-number">11</span>:05:<span class="hljs-number">10</span><br>tags: 学习记录<br>---<br><span class="hljs-comment">## 裁剪类型(ClipType)</span><br><br>```python<br>CT_INTERSECTION = <span class="hljs-number">0</span><br>CT_UNION = <span class="hljs-number">1</span><br>CT_DIFFERENCE = <span class="hljs-number">2</span><br>CT_XOR = <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>交集，AND (intersection) ：主体和裁剪多边形相交的区域。  </li>
+<li>并集，OR (union) - 主体和裁剪多边形两者合并的区域。   </li>
+<li>非/差，NOT (difference) - 裁剪多边形以外主体的区域。</li>
+<li>异或，XOR (exclusive or) - 主体和裁剪多边形两者相交以外的区域。</li>
+</ul>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218092444226.png" srcset="/img/loading.gif" lazyload alt="image-20221218092444226"></p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218093353310.png" srcset="/img/loading.gif" lazyload alt="image-20221218093353310"></p>
+<p><b><code>ClipType</code> 的用法：</b></p>
+<p>在使用 <code>Clipper</code> 对象对多边形进行裁剪时，可以通过在执行方法 <code>Execute</code> 中传入 <code>ClipType</code> 参数指定裁剪（布尔运算）类型。</p>
+<p><code>Clipper.Execute </code> 方法描述如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Execute</span>(<span class="hljs-params">self, *args, **kwargs</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Performs the clipping operation and returns a list of paths.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Keyword arguments:</span><br><span class="hljs-string">        clip_type      -- type of the clipping operation</span><br><span class="hljs-string">        subj_fill_type -- fill rule of subject paths</span><br><span class="hljs-string">        clip_fill_type -- fill rule of clip paths</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Returns:</span><br><span class="hljs-string">        list of resulting paths</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Raises:</span><br><span class="hljs-string">        ClipperException -- operation did not succeed</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="闭合类型-EndType"><a href="#闭合类型-EndType" class="headerlink" title="闭合类型(EndType)"></a>闭合类型(EndType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">ET_CLOSEDPOLYGON = <span class="hljs-number">0</span><br>ET_CLOSEDLINE = <span class="hljs-number">1</span><br>ET_OPENBUTT = <span class="hljs-number">2</span><br>ET_OPENSQUARE = <span class="hljs-number">3</span><br>ET_OPENROUND = <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>etClosedPolygon:</strong>  末端根据<code>JoinType</code>的值连接，填充路径使用多边形。  </li>
+<li><strong>etClosedLine:</strong>  末端根据<code>JoinType</code>的值连接，填充路径使用多线段。</li>
+<li><strong>etOpenButt:</strong> 末端为直角，且没有延伸。 </li>
+<li><strong>etOpenSquare:</strong> 末端为直角，并且向路径外延伸一部分。</li>
+<li><strong>etOpenRound:</strong> 末端为圆角，并且向路径外延伸一部分。</li>
+<li><del><strong>etOpenSingle:</strong>  在一个方向上偏移一个开放路径，计划在未来更新。（我在Python下用的6.2.1版本还没有。）</del></li>
+</ul>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218094605442.png" srcset="/img/loading.gif" lazyload alt="image-20221218094605442"></p>
+<blockquote>
+<p><code>EndType</code> 参数只在 <code>ClipperOffset.AddPath</code> 和 <code>ClipperOffset.AddPaths</code> 中用到，用于规定偏置轮廓的闭合方式。</p>
+</blockquote>
+<h2 id="连接类型-JoinType"><a href="#连接类型-JoinType" class="headerlink" title="连接类型(JoinType)"></a>连接类型(JoinType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">JT_MITER = <span class="hljs-number">2</span><br>JT_ROUND = <span class="hljs-number">1</span><br>JT_SQUARE = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218095018604.png" srcset="/img/loading.gif" lazyload alt="image-20221218095018604"></p>
+<ul>
+<li><p><strong>jtMiter</strong>：斜角衔接。对一些窄角度，向外偏置可能会产生非常长的“尖峰”。</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218095529324.png" srcset="/img/loading.gif" lazyload alt="image-20221218095529324"></p>
+<p>因此我们需要设置 <code> ClippOffset.MiterLimit</code> 属性用来指定原始顶点将被偏移的最大距离(以 <code>delta</code> 的倍数)，即在距离原始顶点 <code>delta</code> 倍数的距离上，将斜边截断成倒方角（这样就变成和 <strong>jtSquare</strong> 一样的连接效果了）。</p>
+</li>
+<li><p><strong>jtRound</strong>: 圆弧衔接。将所有斜边角进行到圆角处理。我们知道圆角其实是由倒角近似形成的，所以Clipper库引入<code>ClipperOffset.ArcTolerance</code> 属性（圆弧精度）指定了近似处理弧线时可接受的最大不精确性(“公差”)。</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218100844645.png" srcset="/img/loading.gif" lazyload alt="image-20221218100844645"></p>
+<p><code>ArcTolerance</code> 默认值为0.25，说明qd（倒角偏离真实圆弧的最大距离）不超过0.25。我们可以发现，qd越小，整个近似圆弧越光滑，代价就是我们需要插入更多的顶点。</p>
+</li>
+<li><p><strong>jtSquare</strong>: 矩形衔接。将所有斜边角进行倒角 <code>C1×delta</code> 。 </p>
+</li>
+</ul>
+<blockquote>
+<p>感觉和数控技术中刀具偏置路径连接差不多。</p>
+</blockquote>
+<p>其中提到的 <code>delta</code> 是在 <code>ClipperOffset.Execute</code> 方法中传入的参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Execute</span>(<span class="hljs-params">self, *args, **kwargs</span>):</span> <span class="hljs-comment"># real signature unknown</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Performs the offset operation and returns a list of offset paths.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        	Keyword arguments:</span><br><span class="hljs-string">            delta -- amount to which the supplied paths will be offset - negative delta shrinks polygons,</span><br><span class="hljs-string">            	positive delta expands them.</span><br><span class="hljs-string"></span><br><span class="hljs-string">            Returns:</span><br><span class="hljs-string">            list of offset paths</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="裁剪填充类型-PolyFillType-填充规则"><a href="#裁剪填充类型-PolyFillType-填充规则" class="headerlink" title="裁剪填充类型(PolyFillType) - 填充规则"></a>裁剪填充类型(PolyFillType) - 填充规则</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">PFT_EVENODD = <span class="hljs-number">0</span><br>PFT_NEGATIVE = <span class="hljs-number">3</span><br>PFT_NONZERO = <span class="hljs-number">1</span><br>PFT_POSITIVE = <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>填充规则（fill rule）</strong>用于判断在封闭图形中，哪些区域是内部，哪些区域是外部（如’孔‘）。Clipper库支持4个填充规则：</p>
+<ul>
+<li>Even-Odd(奇偶)</li>
+<li>Non-Zero(非零)</li>
+<li>Positive(正)</li>
+<li>Negative(负)</li>
+</ul>
+<p>我认为下面这张图比官方描述更加易于理解。我们赋予每个多边形子区域一个<strong>绕数</strong>。根据多边形的方向和一条外部到内部的射线来计算区域的绕数。</p>
+<p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221218103400376.png" srcset="/img/loading.gif" lazyload alt="image-20221218103400376"></p>
+<blockquote>
+<p>图源自：《计算机辅助制造实践——Python实现三维打印路径规划》P163。</p>
+</blockquote>
+<p>填充规则描述如下：</p>
+<ul>
+<li><p>奇偶填充 : 奇数子区域填充，偶数子区域不填充。</p>
+<blockquote>
+<p>奇偶填充最简单，不需要借助绕数。奇偶填充规定：和射线相交的第奇数个轮廓内部区域是填充区域，第偶数个轮廓内部区域是非填充区域。适用于多边形本身和多边形之间不存在自相交的情况。</p>
+</blockquote>
+</li>
+<li><p>非零填充：所有<code>绕数非零</code>的区域都填充。</p>
+</li>
+<li><p>正填充：所有<code>绕数 &gt;0</code>的区域都填充。</p>
+</li>
+<li><p>负填充：所有<code>绕数 &lt; 0</code>的区域都填充。</p>
+</li>
+</ul>
+<blockquote>
+<p>目前使用最广泛的填充规则是奇偶和非零填充。</p>
+</blockquote>
+<p><b><code>PolyFillType</code> 的用法：</b></p>
+<p>在使用 <code>Clipper</code> 对象对多边形进行裁剪时，可以通过在执行方法 <code>Execute</code> 中传入 <code>PolyFillType</code> 指定 <code>subj_fill_type</code> （主体多边形的填充规则）和 <code>clip_fill_type</code> （裁剪多边形的填充规则）参数。</p>
+<h2 id="裁剪属性-PolyType"><a href="#裁剪属性-PolyType" class="headerlink" title="裁剪属性(PolyType)"></a>裁剪属性(PolyType)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">PT_CLIP = <span class="hljs-number">1</span><br>PT_SUBJECT = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p>裁剪属性有2个：</p>
+<ul>
+<li>主体多边形(<strong>ptSubject</strong> )：被裁剪多边形，也就是主体多边形。  </li>
+<li>裁剪多边形(<strong>ptClip</strong> )：裁剪多边形，使用此多边形裁剪主体多边形。</li>
+</ul>
+<p><b><code>PolyType</code> 的用法：</b></p>
+<p>在使用 <code>Clipper</code> 对象对多边形进行裁剪时，可以通过在执行方法 <code>AddPaths</code> 中传入 <code>PolyType</code> 指定传入的多边形（<code>paths</code>）的裁剪属性 <code>poly_type</code>（即是裁剪对象还是被裁剪对象）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">AddPaths</span>(<span class="hljs-params">self, *args, **kwargs</span>):</span> <span class="hljs-comment"># real signature unknown</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Add a list of paths.</span><br><span class="hljs-string">    </span><br><span class="hljs-string">            Keyword arguments:</span><br><span class="hljs-string">            paths     -- paths to be added</span><br><span class="hljs-string">            poly_type -- type of added paths - subject or clip</span><br><span class="hljs-string">            closed    -- True if added paths are closed, False if open</span><br><span class="hljs-string">    </span><br><span class="hljs-string">            Returns:</span><br><span class="hljs-string">            True -- all or some paths are valid for clipping and were added</span><br><span class="hljs-string">    </span><br><span class="hljs-string">            Raises:</span><br><span class="hljs-string">            ClipperException -- all paths are invalid for clipping</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%D1%A7%CF%B0%EF%BF%BD%EF%BF%BD%C2%BC/">ѧϰ��¼</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/19/%E3%80%90pyclipper+%E5%A2%9E%E6%9D%90CAM%E3%80%91%E8%BD%AE%E5%BB%93%E5%81%8F%E7%BD%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【pyclipper+增材CAM】轮廓偏置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/17/Clipper%E5%BA%93%20%20%E5%9D%90%E6%A0%87%E5%9C%86%E6%95%B4%E5%92%8C%E7%B2%BE%E5%BA%A6%E6%8E%A7%E5%88%B6/">
+                        <span class="hidden-mobile">Clipper��  ����Բ���;��ȿ���</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

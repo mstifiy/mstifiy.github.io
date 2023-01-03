@@ -1,0 +1,847 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="MSTIFIY&#39;S BLOG">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="MSTIFIY">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/bg_2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="LOVE THE WORLD FOREVER">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/12/10/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/" target="_self">
+          《Fluent Python》笔记 序列类型
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/10/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/" target="_self">
+          
+          
+            
+          
+          内置序列类型按照序列存放元素方式的不同，可以分为：
+
+容器序列：list、 tuple 和 collections.deque。
+
+扁平序列：str、 bytes、 bytearray、 memoryview 和 array.array。
+
+容器序列中存放的是元素对象的引用，扁平序列存放的是值。所以前者能够存放不同类型的数据，而后者只能存放单一类型数据。
+
+
+
+按照序列类型能否被修改，可以分为：
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-10 16:17" pubdate>
+              2022-12-10
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/12/09/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" target="_self">
+          《Fluent Python》笔记 数据模型
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/09/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" target="_self">
+          
+          
+            
+          
+          本章主要围绕Python的特殊方法进行介绍，通过实现特殊方法利用Python数据模型。
+首先看两个例子：
+
+一个表示一副扑克牌的类。
+
+123456789101112131415161718import collectionsCard = collections.namedtuple(&#x27;Card&#x27;, [&#x27;rank&#x27;, &#x27;suit&#x27;])cl
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-09 17:14" pubdate>
+              2022-12-09
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/12/08/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%87%E8%83%BD%E5%BC%95%E7%94%A8%E3%80%81%E5%AE%8C%E7%BE%8E%E8%BD%AC%E5%8F%91%E5%92%8C%E5%B8%B8%E7%94%A8%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E6%9D%BF/" target="_self">
+          【C++泛型学习笔记】万能引用、完美转发和常用标准库模板
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/08/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%87%E8%83%BD%E5%BC%95%E7%94%A8%E3%80%81%E5%AE%8C%E7%BE%8E%E8%BD%AC%E5%8F%91%E5%92%8C%E5%B8%B8%E7%94%A8%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E6%9D%BF/" target="_self">
+          
+          
+            
+          
+          
+学习参考书籍：王健伟《C++新经典：模板与泛型编程》
+
+万能引用万能引用是一种类型，同int一样。万能引用既可以接受左值，又可以接受右值。
+
+右值引用：    
+12int a = 3;int &amp;b = a;  // 左值引用类型变量b
+
+左值引用：
+1int &amp;&amp;b = 3;  // 右值引用类型变量b
+
+左值和右值的区分：
+
+可以取地址的（如存在内存中），有名字的（有
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-08 12:51" pubdate>
+              2022-12-08
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/12/07/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E6%A8%A1%E6%9D%BF%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/" target="_self">
+          【C++泛型学习笔记】模板基础知识补充
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/07/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E6%A8%A1%E6%9D%BF%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/" target="_self">
+          
+          
+            
+          
+          
+学习参考书籍：王健伟《C++新经典：模板与泛型编程》
+
+奇异的递归模板模式派生类作为基类的模板参数。
+12345678910111213141516template&lt;typename T&gt;class A	// 基类模板&#123;    &#125;;class B : public A&lt;B&gt;	// 派生普通类&#123;    &#125;;template&lt;ty
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-07 12:15" pubdate>
+              2022-12-07
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/12/06/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8F%8B%E5%85%83%E3%80%81%E5%8F%AF%E5%8F%98%E5%8F%82%E6%A8%A1%E6%9D%BF/" target="_self">
+          【C++泛型学习笔记】友元、可变参模板
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/06/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8F%8B%E5%85%83%E3%80%81%E5%8F%AF%E5%8F%98%E5%8F%82%E6%A8%A1%E6%9D%BF/" target="_self">
+          
+          
+            
+          
+          
+学习参考书籍：王健伟《C++新经典：模板与泛型编程》
+
+类模板中的友元友元，即若A为B的友元，那么A可以访问B中的所有成员（任何修饰符修饰）。
+友元类1.类模板的实例成为友元类
+1234567891011121314151617181920212223242526272829#include &lt;iostream&gt;using namespace std;template&lt;type
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-06 19:24" pubdate>
+              2022-12-06
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/12/05/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%B1%BB%E6%A8%A1%E6%9D%BF%E3%80%81%E5%8F%98%E9%87%8F%E6%A8%A1%E6%9D%BF%E5%92%8C%E5%88%AB%E5%90%8D%E6%A8%A1%E6%9D%BF/" target="_self">
+          【C++泛型学习笔记】类模板、变量模板和别名模板
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/05/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%B1%BB%E6%A8%A1%E6%9D%BF%E3%80%81%E5%8F%98%E9%87%8F%E6%A8%A1%E6%9D%BF%E5%92%8C%E5%88%AB%E5%90%8D%E6%A8%A1%E6%9D%BF/" target="_self">
+          
+          
+            
+          
+          
+学习参考书籍：王健伟《C++新经典：模板与泛型编程》
+
+类模板和函数模板一样，类模板可以理解为产生类的模具，通过给定的模板参数生成具体的类。vector容器就是一个类模板应用的例子，vector可以存放不同类型的数据类型元素，其就是通过引入类模板来减少不同类型元素存储时重复的代码，代码更加精简和通用。示例如下：
+123456789101112131415161718192021222324252
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-05 21:08" pubdate>
+              2022-12-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/12/04/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF/" target="_self">
+          【C++泛型学习笔记】函数模板
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/04/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF/" target="_self">
+          
+          
+            
+          
+          提到C++的程序设计方法，最先想到的便是两种：面向过程和面向对象编程。但是当我们去阅读一些优秀的C++库源码时（比如CGAL），就会直接被其的泛型编程劝退。泛型编程也是C++程序设计方法中的一种，不同于上述两种设计方法，其最突出的特点是提高代码复用性和减少代码冗余，这也是大型开源项目使用泛型的原因之一。而我学习泛型编程的目的在于，能够看懂CGAL等库的源码和具备高复用性代码编写能力，并且为学习ST
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-04 12:04" pubdate>
+              2022-12-04
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/12/01/%E3%80%90VTK+%E5%A2%9E%E6%9D%90CAM%E3%80%91%E6%A8%A1%E5%9E%8B%E5%88%87%E7%89%87/" target="_self">
+          【VTK+增材CAM】模型切片
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/01/%E3%80%90VTK+%E5%A2%9E%E6%9D%90CAM%E3%80%91%E6%A8%A1%E5%9E%8B%E5%88%87%E7%89%87/" target="_self">
+          
+          
+            
+          
+          目的模型切片在3D打印喷头路径规划中是非常重要的一环。实现切片的算法有很多，主流的思想是平面与模型三角面片求交得到相交的线段，再将这些线段组织连接成折线轮廓，以便接下来进行切片层内的路径规划。下文将使用VTK简单实现模型Z轴方向的平面切片。
+关键函数vtkCutte是一个用于剪切数据的过滤器。在代码中用于得到平面和模型面片求交得到的线段。
+12345cutter = vtk.vtkCutter()
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-01 13:23" pubdate>
+              2022-12-01
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/11/28/%E4%B8%80%E7%BB%B4%E7%A6%BB%E6%95%A3%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E5%8C%BA%E5%9D%87%E5%8C%80%E9%87%87%E6%A0%B7/" target="_self">
+          一维离散数据的分区均匀采样
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/11/28/%E4%B8%80%E7%BB%B4%E7%A6%BB%E6%95%A3%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E5%8C%BA%E5%9D%87%E5%8C%80%E9%87%87%E6%A0%B7/" target="_self">
+          
+          
+            
+          
+          原理原理类似文章点云梯度下采样中提到的梯度下采样。
+大致采样思路如下：
+Step1：计算出每个待采样点 $p_i$ 的梯度 $G_i$，并计算节点点云整体的平均梯度作为梯度阈值 $G_t$。
+Step2：比较 $G_i$ 与梯度阈值 $G_t$ 大小，如果小于梯度阈值 $G_t$，则把采样点 $p_i$ 划分到节点属性变化剧烈区间，反之划分到节点属性变化缓慢区间。
+Step3：采用均匀网格法对两个
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-11-28 09:20" pubdate>
+              2022-11-28
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/11/27/%E7%82%B9%E4%BA%91%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%87%87%E6%A0%B7/" target="_self">
+          点云梯度下采样
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/11/27/%E7%82%B9%E4%BA%91%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%87%87%E6%A0%B7/" target="_self">
+          
+          
+            
+          
+          点云下采样又称点云精简。
+均匀网格下采样均匀网格下采样法是建立在空间包围盒精简算法之上对散乱点云快速简化的一种算法，其基本思想为：根据点云数据的密度确定最小三维网格（体素）的边长为$abc$，计算最小三维网格的重心，通过邻域搜索保留离重心点最近的点并删除其余的点。每个三维网格重心依据式下式进行计算。$$X=\frac{\sum_{i=1}^n x_i}{n}, \quad Y=\frac{\sum
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-11-27 12:08" pubdate>
+              2022-11-27
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/4/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,584 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="RBF神经网络在学习RBF神经网络之前，最好先了解径向基函数的相关知识，参见径向基函数（RBF）插值。 RBF神经网络模型是1988年由Moody和Darken提出的一种神经网络结构，属于前向神经网络类型，能够以任意精度逼近任意连续函数，特别适合于解决分类问题。RBF网络是一种三层前向网络，第一层为由信号源节点组成的输入层，第二层为隐层，隐单元数视问题需要而定，隐单元的变换函数为非负非线性的函数R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RBF神经网络">
+<meta property="og:url" content="http://example.com/2022/11/06/RBF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="RBF神经网络在学习RBF神经网络之前，最好先了解径向基函数的相关知识，参见径向基函数（RBF）插值。 RBF神经网络模型是1988年由Moody和Darken提出的一种神经网络结构，属于前向神经网络类型，能够以任意精度逼近任意连续函数，特别适合于解决分类问题。RBF网络是一种三层前向网络，第一层为由信号源节点组成的输入层，第二层为隐层，隐单元数视问题需要而定，隐单元的变换函数为非负非线性的函数R">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722122344255-429345489.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722115608332-1409419168.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722120427494-1614136621.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/OIP-C.GLdM4EpbPJngYMAZ_LAiGgHaFe">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722132644008-293319563.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722165318904-829097154.png">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-2c2b60a77f39b0b607039b5fcc090e2a_1440w.webp?source=1940ef5c">
+<meta property="og:image" content="d:/mstifiynotes/TestRBFN.gif">
+<meta property="article:published_time" content="2022-11-06T02:07:55.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:50.891Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722122344255-429345489.png">
+  
+  <title>RBF神经网络 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="RBF神经网络">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-06 10:07" pubdate>
+        2022年11月6日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">RBF神经网络</h1>
+            
+            <div class="markdown-body">
+              <h2 id="RBF神经网络"><a href="#RBF神经网络" class="headerlink" title="RBF神经网络"></a>RBF神经网络</h2><p>在学习RBF神经网络之前，最好先了解径向基函数的相关知识，参见<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/127656592">径向基函数（RBF）插值</a>。</p>
+<p>RBF神经网络模型是1988年由Moody和Darken提出的一种神经网络结构，属于前向神经网络类型，能够以任意精度逼近任意连续函数，特别适合于解决分类问题。RBF网络是一种三层前向网络，第一层为由信号源节点组成的<strong>输入层</strong>，第二层为<strong>隐层</strong>，隐单元数视问题需要而定，隐单元的变换函数为非负<strong>非线性</strong>的函数RBF（径向基函数），第三层为<strong>输出层</strong>，输出层是对隐层神经元输出的<strong>线性</strong>组合$^{[1]}$。网络结构大致如下图所示。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722122344255-429345489.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>其中，输入向量 $x$ 的维度为 $p$ , 隐层大小为 $h$（神经元/中心点数量），$p&lt;h$ 。<strong>隐含层的作用是把向量从低维度p映射到高维度h，这样低维度线性不可分的情况到高维度就变得线性可分了，实际上是核函数的思想</strong>。这样，网络由输入到输出的映射是非线性的，而网络输出对可调参数而言却又是线性的。网络的权就可由线性方程组直接解出，从而大大加快学习速度并避免局部极小问题。</p>
+<p>径向基神经网络的激活函数可表示为:<br>$$<br>R\left(x_p-c_i\right)=\exp \left(-\frac{1}{2 \sigma^2}\left|x_p-c_i\right|^2\right)<br>$$<br>根据径向基神经网络的结构，可得到网络的输出为:<br>$$<br>y_j=\sum_{i=1}^h w_{i j} \exp \left(-\frac{1}{2 \sigma^2}\left|x_p-c_i\right|^2\right) j=1,2, \cdots, n<br>$$<br>采用最小二乘的损失函数表示$^{[2]}$ :<br>$$<br>\sigma=\frac{1}{P} \sum_j^m\left|d_j-y_j c_i\right|^2<br>$$</p>
+<h2 id="网络学习方法"><a href="#网络学习方法" class="headerlink" title="网络学习方法"></a>网络学习方法</h2><p>RBF神经网络求解的参数有3个：</p>
+<ol>
+<li>基函数的中心；</li>
+<li>方差；</li>
+<li>隐含层到输出层的权值。</li>
+</ol>
+<p>求解上述参数，目前有如下三种学习方法：</p>
+<ol>
+<li><p><strong>自组织选取中心学习法</strong></p>
+<p>第一步：无监督学习过程，求解隐含层基函数的中心与方差</p>
+<p>第二步：有监督学习过程，求解隐含层到输出层之间的权值</p>
+<p>首先，选取h个中心做k-means聚类，对于高斯核函数的径向基，方差由公式求解：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722115608332-1409419168.png" srcset="/img/loading.gif" lazyload></p>
+<p>其中 $cmax$ 为所选取中心点之间的最大距离。</p>
+<p>　　隐含层至输出层之间的神经元的连接权值可以用最小二乘法直接计算得到，即对损失函数求解关于 $w$ 的偏导数，使其等于0，可以化简得到计算公式为：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722120427494-1614136621.png" srcset="/img/loading.gif" lazyload alt="729758-20180722120427494-1614136621"></p>
+</li>
+<li><p><strong>直接计算法</strong></p>
+</li>
+</ol>
+<p>　　隐含层神经元的中心是随机地在输入样本中选取，且中心固定。一旦中心固定下来，隐含层神经元的输出便是已知的，这样的神经网络的连接权就可以通过求解线性方程组来确定。适用于样本数据的分布具有明显代表性。</p>
+<ol start="3">
+<li><strong>有监督学习算法</strong></li>
+</ol>
+<p>　　通过训练样本集来获得满足监督要求的网络中心和其他权重参数，经历一个误差修正学习的过程，与BP网络的学习原理一样，同样采用梯度下降法。因此RBF同样可以被当作BP神经网络的一种$^{[2]}$。</p>
+<h2 id="RBF神经网络特点"><a href="#RBF神经网络特点" class="headerlink" title="RBF神经网络特点"></a>RBF神经网络特点</h2><ul>
+<li><p><strong>局部逼近</strong></p>
+<p>RBF神经网络的隐神经元采用输入向量与中心向量的距离（如欧式距离）作为函数的自变量，并使用径向基函数（如Gaussian函数）作为激活函数。神经元的输入离径向基函数中心越远，神经元的激活程度就越低（高斯函数）。RBF网络的输出与部分调参数有关，譬如，一个$w_{ij}$值只影响一个$y_i$的输出，RBF神经网络因此具有<strong>“局部逼近”</strong>特性。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/OIP-C.GLdM4EpbPJngYMAZ_LAiGgHaFe" srcset="/img/loading.gif" lazyload alt="查看源图像"></p>
+<p>所谓局部逼近是指目标函数的逼近仅仅根据查询点附近的数据。而事实上，对于径向基网络，通常使用的是高斯径向基函数，函数图像是两边衰减且径向对称的，当选取的中心与查询点（即输入数据）很接近的时候才对输入有真正的映射作用，若中心与查询点很远的时候，欧式距离太大的情况下，输出的结果趋于0，所以真正起作用的点还是与查询点很近的点，所以是局部逼近。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722132644008-293319563.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p><strong>训练速度快</strong></p>
+<p>使用RBF的训练速度快，一方面是因为隐含层较少，另一方面，局部逼近可以简化计算量。对于一个输入x，只有部分神经元会有响应，其他的都近似为0，对应的w就不用调参了。</p>
+</li>
+</ul>
+<h2 id="完全内插法及其不足"><a href="#完全内插法及其不足" class="headerlink" title="完全内插法及其不足"></a>完全内插法及其不足</h2><p>之所以RBF能够拟合任意函数，可以从内插法的角度去理解。要拟合一个曲线，我们可以通过内插法获得这个曲线的表达函数，譬如：多项式插值、拉格朗日插值等。RBF 插值是一系列精确插值方法的组合；即表面必须通过每一个测得的采样值。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/729758-20180722165318904-829097154.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>　　对于RBF插值，其特点即为，在输入数据集中，与中心点距离近的点对映射函数的贡献最大。　　</p>
+<p>　　完全内插法即要求所有插值点都经过曲面，由于RBF内插对于每个x都有用到，所以是一种完全内插的形式，存在的问题就是当样本中包含噪声时，神经网络将拟合出一个错误的曲面，从而使泛化能力下降。另外，若样本x的数据远大于非线性函数φ，该求解变得不稳定，即为解超定方程。因此需要引入正则化方法，正则化的方法即通常加上正则化项。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-2c2b60a77f39b0b607039b5fcc090e2a_1440w.webp?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="两类径向基神经网络-4"><a href="#两类径向基神经网络-4" class="headerlink" title="两类径向基神经网络$^{[4]}$"></a>两类径向基神经网络$^{[4]}$</h2><h3 id="正则化网络"><a href="#正则化网络" class="headerlink" title="正则化网络"></a>正则化网络</h3><p>性质：<br>• 正则化网络是一个通用逼近器，意味着，只要有足够多的隐含节点，它就可以以任意精度逼近任意多远连续函数。<br>• 给定一个未知的非线性函数f,总可以选择一组系数，使得网络对f 的逼近是最优的。<br>特点：　<br>• 隐含节点的个数等于输入训练样本的个数，因此如果训练样本的个数Ｎ过大，网络的计算量将是惊人的，从而导致过低的效率甚至根本不可能实现。计算权值wij时，需要计算Ｎ×Ｎ矩阵的逆，其复杂度大约是O(N3)，随着Ｎ的增长，计算的复杂度迅速增大。<br>• 矩阵过大，病态矩阵的可能性越高。矩阵Ａ的病态是指，求解线性方程组Ａｘ = b时，Ａ中数据的微小扰动会对结果产生很大影响。病态成都往往用矩阵条件数来衡量，条件数等于矩阵最大特征值与最小特征值的比值。</p>
+<h3 id="广义网络"><a href="#广义网络" class="headerlink" title="广义网络"></a>广义网络</h3><p>区别于正则化网络：正则化网络隐含节点数I等于输入训练样本的个数M，即是I=M。但广义网络隐含层I个节点个数小于M个输入节点，I&lt;M。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>下文代码中RBF神经网络采用<strong>直接计算法</strong>进行学习。代码框架参考文章$^{[3]}$。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">from</span> scipy.linalg <span class="hljs-keyword">import</span> norm, pinv<br><span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RBFN</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, indim, numCenters, outdim</span>):</span><br>        self.indim = indim  <span class="hljs-comment"># 输入层维度</span><br>        self.outdim = outdim  <span class="hljs-comment"># 输出层维度</span><br>        self.numCenters = numCenters  <span class="hljs-comment"># 中心（隐层神经元）数量</span><br>        self.centers = [np.random.uniform(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, indim) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(numCenters)]  <span class="hljs-comment"># 初始化中心</span><br>        self.beta = <span class="hljs-number">8</span>  <span class="hljs-comment"># 方差初始化</span><br>        self.W = np.random.random((self.numCenters, self.outdim))  <span class="hljs-comment"># 初始化权值</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_basisfunc</span>(<span class="hljs-params">self, c, d</span>):</span>  <span class="hljs-comment"># 激活函数定义</span><br>        <span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(d) == self.indim<br>        <span class="hljs-keyword">return</span> np.exp(-(norm(c - d) ** <span class="hljs-number">2</span>) / (<span class="hljs-number">2</span> * self.beta ** <span class="hljs-number">2</span>))<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_calcAct</span>(<span class="hljs-params">self, X</span>):</span>  <span class="hljs-comment"># 计算激活函数</span><br>        <span class="hljs-comment"># calculate activations of RBFs</span><br>        G = np.zeros((X.shape[<span class="hljs-number">0</span>], self.numCenters), <span class="hljs-built_in">float</span>)<br>        <span class="hljs-keyword">for</span> ci, c <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(self.centers):<br>            <span class="hljs-keyword">for</span> xi, x <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(X):<br>                G[xi, ci] = self._basisfunc(c, x)<br>        <span class="hljs-keyword">return</span> G<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_calcbeta</span>(<span class="hljs-params">self</span>):</span>  <span class="hljs-comment"># 找到选取中心点最大值——及求解σ的值</span><br>        bate_temp = np.zeros((self.numCenters, self.numCenters))  <span class="hljs-comment"># 定义一个矩阵 隐藏层中心值确定的</span><br>        <span class="hljs-keyword">for</span> iindex, ivalue <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(self.centers):<br>            <span class="hljs-keyword">for</span> jindex, jvalue <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(self.centers):<br>                bate_temp[iindex, jindex] = norm(ivalue - jvalue)  <span class="hljs-comment"># 依次求解各中心层的值</span><br>        <span class="hljs-keyword">return</span> np.<span class="hljs-built_in">max</span>(bate_temp) / np.sqrt(<span class="hljs-number">2</span> * self.numCenters)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">train</span>(<span class="hljs-params">self, X, Y</span>):</span><br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        :param X: 样本数*输入变量数</span><br><span class="hljs-string">        :param Y:样本数*输出变量数</span><br><span class="hljs-string">        :return:无</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># choose random center vectors from training set</span><br>        rnd_idx = np.random.permutation(X.shape[<span class="hljs-number">0</span>])[:self.numCenters]<br>        self.centers = [X[i, :] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> rnd_idx]<br>        <span class="hljs-comment"># print(&quot;center&quot;, self.centers)</span><br>        self.beta = self._calcbeta()  <span class="hljs-comment"># 根据样本中心计算σ值</span><br>        <span class="hljs-comment"># print(self.beta)</span><br>        <span class="hljs-comment"># calculate activations of RBFs</span><br>        G = self._calcAct(X)<br>        <span class="hljs-comment"># print(G)</span><br>        <span class="hljs-comment"># calculate output weights (pseudoinverse)</span><br>        self.W = np.dot(pinv(G), Y)  <span class="hljs-comment"># 伪逆法直接计算得到权值</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test</span>(<span class="hljs-params">self, X</span>):</span><br>        <span class="hljs-string">&quot;&quot;&quot; X: matrix of dimensions n x indim &quot;&quot;&quot;</span><br>        G = self._calcAct(X)<br>        Y = np.dot(G, self.W)<br>        <span class="hljs-keyword">return</span> Y<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">gen_data</span>(<span class="hljs-params">x1, x2</span>):</span><br>    y_all = np.sin(np.pi * x2 / <span class="hljs-number">2</span>) + np.cos(np.pi * x2 / <span class="hljs-number">3</span>)<br>    y_sample = np.sin(np.pi * x1 / <span class="hljs-number">2</span>) + np.cos(np.pi * x1 / <span class="hljs-number">3</span>)<br>    <span class="hljs-comment"># set y and add random noise</span><br>    <span class="hljs-comment"># y_sample += np.random.normal(0, 0.1, y_sample.shape)</span><br>    <span class="hljs-keyword">return</span> y_sample, y_all<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    num_sample = <span class="hljs-number">30</span><br>    <span class="hljs-comment"># 数据生成</span><br>    x1 = np.linspace(-<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, num_sample).reshape(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    x2 = np.linspace(-<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, (num_sample - <span class="hljs-number">1</span>) * <span class="hljs-number">20</span> + <span class="hljs-number">1</span>).reshape(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    y_sample, y_all = gen_data(x1, x2)<br><br>    <span class="hljs-comment"># Enable interactive mode.</span><br>    plt.ion()<br>    <span class="hljs-comment"># Create a figure and a set of subplots.</span><br>    figure, ax = plt.subplots()<br>    <span class="hljs-comment"># plot original data</span><br>    plt.plot(x2, y_all, <span class="hljs-string">&#x27;r:&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;y&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;x&#x27;</span>)<br>    <span class="hljs-comment"># plot input samples</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(x1)):<br>        plt.plot(x1[i], y_sample[i], <span class="hljs-string">&#x27;go&#x27;</span>, markerfacecolor = <span class="hljs-string">&#x27;none&#x27;</span>)<br>    <span class="hljs-comment"># return AxesImage object for using.</span><br>    pre_lines, = ax.plot([], [])<br>    pre_lines.set_color(<span class="hljs-string">&#x27;k&#x27;</span>)<br>    center_points, = ax.plot([], [])<br>    center_points.set_color(<span class="hljs-string">&#x27;gray&#x27;</span>)<br>    center_points.set_marker(<span class="hljs-string">&#x27;s&#x27;</span>)<br>    ax.set_autoscaley_on(<span class="hljs-literal">True</span>)<br>    <span class="hljs-comment"># ax.set_xlim(min_x, max_x)</span><br>    ax.grid()<br>    <span class="hljs-comment"># plot learned model dynamically</span><br>    <span class="hljs-keyword">for</span> n_center <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>, num_sample):<br>        <span class="hljs-comment"># RBF神经网络训练预测</span><br>        rbf = RBFN(<span class="hljs-number">1</span>, n_center, <span class="hljs-number">1</span>)<br>        rbf.train(x1, y_sample)<br>        y_rec = rbf.test(x2)<br>        <span class="hljs-comment"># update x, y data</span><br>        pre_lines.set_xdata(x2)<br>        pre_lines.set_ydata(y_rec)<br>        plt.title(<span class="hljs-string">&#x27;RBFN interpolation:$y=sin(\pi x/2)+cos(\pi x/3)$ with &#x27;</span> + <span class="hljs-built_in">str</span>(n_center) + <span class="hljs-string">&#x27; centers&#x27;</span>)<br>        <span class="hljs-comment"># update centers</span><br>        center_points.set_xdata(rbf.centers)<br>        center_points.set_ydata(np.zeros(rbf.numCenters))<br>        <span class="hljs-comment"># Need both of these in order to rescale</span><br>        ax.relim()<br>        ax.autoscale_view()<br>        <span class="hljs-comment"># draw and flush the figure .</span><br>        figure.canvas.draw()<br>        figure.canvas.flush_events()<br>        time.sleep(<span class="hljs-number">1</span>)<br>    plt.figure(<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+
+<p>代码中，方差 $\sigma$ 计算公式如下：<br>$$<br>\sigma=\frac{d_{\max }}{\sqrt{2 n}}<br>$$<br>这里 $\mathrm{d}_{\max }$ 是选取中心的之间的最大距离。 $\mathrm{n}$ 为隐函数节点的个数。防止径向基函数出现过尖或过平的情况。</p>
+<p>对于隐层神经元的选取，代码中通过迭代寻找最优隐函数节点个数。</p>
+<p><img src="D:\mstifiynotes\TestRBFN.gif" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>上图中，绿色空心圆点为输入的训练样本，红色虚线为实际值，黑色曲线为RBF神经网络预测结果，其中x轴上的灰色方点为中心点。</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/539947241">一文带你了解RBF神经网络</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://www.cnblogs.com/pinking/p/9349695.html">RBF（径向基）神经网络</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36305492/article/details/111402927">python编写自己的RBF径向基神经网络</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43935696/article/details/109474495">所有神经网络的特点及优缺点分析总结</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/06/RBF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cpython%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0%EF%BC%88BP%E7%AE%97%E6%B3%95%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">RBF神经网络python实践学习（BP算法）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/03/RBF%E4%B8%89%E7%BB%B4%E5%BA%94%E5%8A%9B%E6%8F%92%E5%80%BC/">
+                        <span class="hidden-mobile">RBF三维应力插值</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

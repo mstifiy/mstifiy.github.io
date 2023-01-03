@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="算法概述减法聚类算法（Subtractive Clustering Method)是一种不需要提前规定聚类数、只需根据样本数据即可快速决定聚类中心的一种密度聚类算法。该算法把所有样本数据点作为聚类中心的候选点，利用密度函数计算每个候选点的密度指标，选取其中密度指标最大的点作为聚类中心，再去掉已知选择的聚类中心，计算剩余点的密度指标，选取其中密度指标最大的点作为下一个聚类中心。不断重复上述过程，直到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="减法聚类">
+<meta property="og:url" content="http://example.com/2022/11/10/%E5%87%8F%E6%B3%95%E8%81%9A%E7%B1%BB/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="算法概述减法聚类算法（Subtractive Clustering Method)是一种不需要提前规定聚类数、只需根据样本数据即可快速决定聚类中心的一种密度聚类算法。该算法把所有样本数据点作为聚类中心的候选点，利用密度函数计算每个候选点的密度指标，选取其中密度指标最大的点作为聚类中心，再去掉已知选择的聚类中心，计算剩余点的密度指标，选取其中密度指标最大的点作为下一个聚类中心。不断重复上述过程，直到">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/csm_0.5.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/csm_0.4.png">
+<meta property="article:published_time" content="2022-11-10T10:13:13.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:51.138Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/csm_0.5.png">
+  
+  <title>减法聚类 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="减法聚类">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-10 18:13" pubdate>
+        2022年11月10日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">减法聚类</h1>
+            
+            <div class="markdown-body">
+              <h2 id="算法概述"><a href="#算法概述" class="headerlink" title="算法概述"></a>算法概述</h2><p>减法聚类算法（Subtractive Clustering Method)是一种不需要提前规定聚类数、只需根据样本数据即可快速决定聚类中心的一种密度聚类算法。该算法把所有样本数据点作为聚类中心的候选点，利用密度函数计算每个候选点的密度指标，选取其中密度指标最大的点作为聚类中心，再去掉已知选择的聚类中心，计算剩余点的密度指标，选取其中密度指标最大的点作为下一个聚类中心。不断重复上述过程，直到满足收敛条件$^{[1]}$。最终即可得到的已知数目的聚类中心。</p>
+<h3 id="具体实现流程"><a href="#具体实现流程" class="headerlink" title="具体实现流程"></a>具体实现流程</h3><ul>
+<li><p>Step1：已知n个处于m维空间的数据样本点 $(x_1,x_2,…,x_n)$，每个数据点都是候选聚类中心，定义数据点 $x_i$ 处的密度指标为：<br>$$<br>D_i=\sum_{j=1}^n\exp(-\frac{|x_i-x_j|^2}{(r_a/2)^2})<br>$$<br>其中 $r_a$ 是一个常数，一个数据点的邻近数据点越多，该数据点的密度指标越大。$r_a$ 也可以理解为以 $x_i$ 数据点为中心，以 $r_a$ 为半径的圆形区域，区域以外的数据点对该点的密度指标影响较小。</p>
+</li>
+<li><p>Step2：按照上式计算得到各个样本点的密度指标，密度指标最大的点定义为聚类中心 $c_k$ ，其密度指标为 $D_{c_k}$ 。此时 $k=1$ ，那么每一个数据点 $x_i$ 的密度指标可用以下公式进行更新：<br>$$<br>D_i = D_i - D_{c_k}\exp{(-\frac{|x_i-x_{c_k}|^2}{(r_b/2)^2})}<br>$$<br>其中 $r_b$ 是一个常数。可以看出，经过更新公式重新计算密度指标后，靠近聚类中心 $c_k$ 的数据点密度指标明显减小了，这样做的好处是可以避免其成为下一个聚类中心。$r_b$ 定义了一个密度指标显著减小的影响范围$^{[2]}$。</p>
+</li>
+<li><p>Step3：根据更新修正后的样本数据点密度指标，找出最大值$D_{max}=\max(D_i)$，选出下一个聚类中心$c_{k+1}$，重复Step2进行更新修正。</p>
+</li>
+<li><p>Step4：不断迭代计算修正后的密度指标最大值 $D_{max}$ ，直到满足下式：<br>$$<br>\frac{D_{max}}{D_{c_1}}&lt;\delta<br>$$<br>则迭代结束，最终聚类个数为 $K=k$ 。一般取$\delta\ge0.5$ 效果较好。  </p>
+</li>
+</ul>
+<p>关于Step1和Step2中的$r_a, r_b$ 可通过如下方法进行确定：<br>$$<br>r_a=r_b=\frac{1}{2}\min_j{\max_i(|x_i-x_j|)}<br>$$<br>其中 $r_a、r_b$ 取样本集合最中间的样本到距离它最远的样本之间距离的一半$^{[3]}$。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>为了避免太多循环操作，代码中尽量使用矩阵计算。</p>
+<p>首先，创建CSM减法聚类方法类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> pairwise_distances_argmin<br><span class="hljs-keyword">from</span> sklearn.datasets._samples_generator <span class="hljs-keyword">import</span> make_blobs<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SCM</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, r_a = <span class="hljs-literal">None</span>, r_b = <span class="hljs-literal">None</span>, delta = <span class="hljs-number">0.5</span></span>):</span><br>        <span class="hljs-string">&quot;&quot;&quot;Subtractive Clustering Method</span><br><span class="hljs-string"></span><br><span class="hljs-string">        :param r_a: float,初始化密度指标邻域大小</span><br><span class="hljs-string">        :param r_b: float,迭代修正密度指标邻域大小</span><br><span class="hljs-string">        :param delta: float,迭代停止阈值</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        self.r_a = r_a<br>        self.r_b = r_b<br>        self.delta = delta<br>        self.cluster_centers = np.array([])<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fit</span>(<span class="hljs-params">self, X</span>):</span><br>        <span class="hljs-string">&quot;&quot;&quot;聚类主函数</span><br><span class="hljs-string"></span><br><span class="hljs-string">        :param X: NxM array,输入样本数据点,N为样本点数量,M为样本数据维数</span><br><span class="hljs-string">        :return: KxM array,聚类中心点集合,K为中心点数量,M为中心点维数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 计算欧式距离矩阵EDM（NxN）</span><br>        EDM = self.compute_squared_EDM(X)<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> self.r_a <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> self.r_b:<br>            <span class="hljs-comment"># 计算r_a和r_b</span><br>            self.r_a = self.r_b = <span class="hljs-number">0.5</span> * np.<span class="hljs-built_in">min</span>(np.<span class="hljs-built_in">max</span>(EDM, axis = <span class="hljs-number">1</span>))<br>        <span class="hljs-comment"># 计算每个样本点的密度指标</span><br>        D = np.<span class="hljs-built_in">sum</span>(np.exp(-<span class="hljs-number">1</span> * EDM / (<span class="hljs-number">0.25</span> * self.r_a ** <span class="hljs-number">2</span>)), axis = <span class="hljs-number">1</span>)<br>        <span class="hljs-comment"># 选取最大密度指标点作为聚类中心</span><br>        self.cluster_centers = np.append(self.cluster_centers, X[np.argmax(D)]).reshape(-<span class="hljs-number">1</span>, X.shape[<span class="hljs-number">1</span>])<br>        Dc1, Dmax = np.<span class="hljs-built_in">max</span>(D), np.<span class="hljs-built_in">max</span>(D)<br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            <span class="hljs-comment"># 更新修正各点密度指标</span><br>            D -= Dmax * np.exp(-<span class="hljs-number">1</span> * EDM[:, np.argmax(D)] / (<span class="hljs-number">0.25</span> * self.r_b ** <span class="hljs-number">2</span>))<br>            Dmax = np.<span class="hljs-built_in">max</span>(D)<br>            <span class="hljs-comment"># 判断是否满足迭代结束条件</span><br>            <span class="hljs-keyword">if</span> Dmax / Dc1 &lt; self.delta:<br>                <span class="hljs-keyword">break</span><br>            <span class="hljs-comment"># 选取最大密度指标点作为下一个聚类中心</span><br>            self.cluster_centers = np.vstack((self.cluster_centers, X[np.argmax(D)]))<br><br><span class="hljs-meta">    @staticmethod</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">compute_squared_EDM</span>(<span class="hljs-params">X</span>):</span><br>        <span class="hljs-comment"># 获得矩阵都行和列，因为是行向量，因此一共有n个向量</span><br>        n, m = X.shape<br>        <span class="hljs-comment"># 计算Gram 矩阵</span><br>        G = np.dot(X, X.T)<br>        <span class="hljs-comment"># 因为是行向量，n是向量个数，沿y轴复制n倍，x轴复制一倍</span><br>        H = np.tile(np.diag(G), (n, <span class="hljs-number">1</span>))<br>        <span class="hljs-keyword">return</span> np.sqrt(H + H.T - <span class="hljs-number">2</span> * G)<br></code></pre></td></tr></table></figure>
+
+<p>ok，直接开始测试。测试部分代码参考了这篇文章$^{[5]}$。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Generate sample data</span><br>np.random.seed(<span class="hljs-number">0</span>)<br>centers = [[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>], [-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>]]<br>X, labels_true = make_blobs(n_samples = <span class="hljs-number">3000</span>, n_features = <span class="hljs-number">2</span>, centers = centers, cluster_std = <span class="hljs-number">0.5</span>)<br><span class="hljs-comment"># plot result</span><br>fig = plt.figure(figsize = (<span class="hljs-number">8</span>, <span class="hljs-number">3</span>))<br>fig.subplots_adjust(left = <span class="hljs-number">0.02</span>, right = <span class="hljs-number">0.98</span>, bottom = <span class="hljs-number">0.05</span>, top = <span class="hljs-number">0.9</span>)<br><span class="hljs-comment"># original data</span><br>ax = fig.add_subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br>row, _ = np.shape(X)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(row):<br>    ax.plot(X[i, <span class="hljs-number">0</span>], X[i, <span class="hljs-number">1</span>], <span class="hljs-string">&#x27;#4EACC5&#x27;</span>, marker = <span class="hljs-string">&#x27;.&#x27;</span>)<br>ax.set_title(<span class="hljs-string">&#x27;Original Data&#x27;</span>)<br>ax.set_xticks(())<br>ax.set_yticks(())<br><span class="hljs-comment"># compute clustering with SCM</span><br>scm = SCM()<br>t0 = time.time()<br>scm.fit(X)<br>t = time.time() - t0<br>csm_cluster_centers = np.sort(scm.cluster_centers, axis = <span class="hljs-number">0</span>)<br>csm_labels = pairwise_distances_argmin(X, csm_cluster_centers)<br><span class="hljs-comment"># SCM</span><br>ax = fig.add_subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br><span class="hljs-keyword">import</span> matplotlib.colors <span class="hljs-keyword">as</span> mcolors<br><br>colors = <span class="hljs-built_in">list</span>(mcolors.TABLEAU_COLORS.keys())  <span class="hljs-comment"># 颜色变化</span><br><span class="hljs-keyword">for</span> k, col <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(csm_cluster_centers)), colors):<br>    my_members = csm_labels == k  <span class="hljs-comment"># my_members是布尔型的数组（用于筛选同类的点，用不同颜色表示）</span><br>    cluster_center = csm_cluster_centers[k]<br>    ax.plot(X[my_members, <span class="hljs-number">0</span>], X[my_members, <span class="hljs-number">1</span>], <span class="hljs-string">&#x27;w&#x27;</span>,<br>            markerfacecolor = col, marker = <span class="hljs-string">&#x27;.&#x27;</span>)  <span class="hljs-comment"># 将同一类的点表示出来</span><br>    ax.plot(cluster_center[<span class="hljs-number">0</span>], cluster_center[<span class="hljs-number">1</span>], <span class="hljs-string">&#x27;o&#x27;</span>, markerfacecolor = col,<br>            markeredgecolor = <span class="hljs-string">&#x27;k&#x27;</span>, marker = <span class="hljs-string">&#x27;o&#x27;</span>)  <span class="hljs-comment"># 将聚类中心单独表示出来</span><br>ax.set_title(<span class="hljs-string">&#x27;Subtractive Clustering&#x27;</span>)<br>ax.set_xticks(())<br>ax.set_yticks(())<br>plt.text(-<span class="hljs-number">3.5</span>, <span class="hljs-number">1.8</span>,<br>             <span class="hljs-string">&#x27;train time: %.2fs\ndelta: %.2f\nnumber of centers: %d&#x27;</span> % (t, scm.delta, <span class="hljs-built_in">len</span>(scm.cluster_centers)))<br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<p>测试结果如下图所示。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/csm_0.5.png" srcset="/img/loading.gif" lazyload alt="csm_0.5"></p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/csm_0.4.png" srcset="/img/loading.gif" lazyload alt="csm_0.4"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p><strong>欧式距离矩阵求解</strong></p>
+<p>矩阵运算很好用，能避免for循环，提升运算效率。本代码中距离矩阵构建方法参见文章$^{[4]}$。</p>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] 马慧,赵捧未,王婷婷. 语义减法聚类研究[J]. 计算机工程与科学,2016,38(9):1924-1929. DOI:10.3969/j.issn.1007-130X.2016.09.027.</p>
+<p>[2] 袁银莉. 改进的模糊聚类算法[J]. 绍兴文理学院学报,2009,29(10):46-49. DOI:10.3969/j.issn.1008-293X.2009.10.012. </p>
+<p>[3] 邵堃侠,郭卫民,杨宁,等. 基于K-means算法的RBF神经网络预测光伏电站短期出力[J]. 上海电机学院学报,2017,20(1):27-33. DOI:10.3969/j.issn.2095-0020.2017.01.006.</p>
+<p>[4] <a target="_blank" rel="noopener" href="https://blog.csdn.net/LoveCarpenter/article/details/85048291">https://blog.csdn.net/LoveCarpenter/article/details/85048291</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41938858/article/details/87738035">https://blog.csdn.net/qq_41938858/article/details/87738035</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/13/Unity%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Unity安装笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/09/PSO-RBFN/">
+                        <span class="hidden-mobile">PSO-RBFN</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

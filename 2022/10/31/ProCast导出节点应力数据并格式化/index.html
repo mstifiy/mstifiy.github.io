@@ -1,0 +1,634 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="ProCast����ci_data.csv��visual-viewer�����ؼ������ļ���  ע�⵼���������ǵ�ǰ�����µļ������ݣ����Ըı䲽��ʵ�ֲ�ͬ���������ݵĵ����� �ڹ������Ҽ���Selection���������л���Nodeģʽ��  ������ģ�͵����нڵ�ѡ�ϡ��ڵ�ѡ�����������ͼ�����">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ProCast�����ڵ�Ӧ�����ݲ���ʽ��">
+<meta property="og:url" content="http://example.com/2022/10/31/ProCast%E5%AF%BC%E5%87%BA%E8%8A%82%E7%82%B9%E5%BA%94%E5%8A%9B%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%A0%BC%E5%BC%8F%E5%8C%96/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="ProCast����ci_data.csv��visual-viewer�����ؼ������ļ���  ע�⵼���������ǵ�ǰ�����µļ������ݣ����Ըı䲽��ʵ�ֲ�ͬ���������ݵĵ����� �ڹ������Ҽ���Selection���������л���Nodeģʽ��  ������ģ�͵����нڵ�ѡ�ϡ��ڵ�ѡ�����������ͼ�����">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180111886.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180315074.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180809860.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031181331668.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182001997.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182258778.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182557960.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182946438.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183411239.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183803088.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184638793.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184840198.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180111886.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180315074.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180809860.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031181331668.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182001997.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182258778.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182557960.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182946438.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183411239.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183803088.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184638793.png">
+<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184840198.png">
+<meta property="article:published_time" content="2022-10-31T11:01:37.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:50.763Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="ѧϰ��¼">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180111886.png">
+  
+  <title>ProCast�����ڵ�Ӧ�����ݲ���ʽ�� - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ProCast�����ڵ�Ӧ�����ݲ���ʽ��">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-31 19:01" pubdate>
+        2022年10月31日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ProCast�����ڵ�Ӧ�����ݲ���ʽ��</h1>
+            
+            <div class="markdown-body">
+              <h2 id="ProCast����ci-data-csv"><a href="#ProCast����ci-data-csv" class="headerlink" title="ProCast����ci_data.csv"></a>ProCast����ci_data.csv</h2><p>��visual-viewer�����ؼ������ļ���</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180111886.png" srcset="/img/loading.gif" lazyload></p>
+<p>ע�⵼���������ǵ�ǰ�����µļ������ݣ����Ըı䲽��ʵ�ֲ�ͬ���������ݵĵ�����</p>
+<p>�ڹ������Ҽ���Selection���������л���Nodeģʽ��</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180315074.png" srcset="/img/loading.gif" lazyload alt="image-20221031180315074"></p>
+<p>������ģ�͵����нڵ�ѡ�ϡ��ڵ�ѡ�����������ͼ�����Ҽ�ѡ��<code>Properties</code>��<code>Ctrl+A</code>ѡ�е��������������нڵ�󣬵������ͼ�꣬��Ĭ�ϵ�<code>ci_data.txt</code>�ļ�����Ϊ<code>ci_data.csv</code>�������������</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180809860.png" srcset="/img/loading.gif" lazyload></p>
+<p>�ü��±��򿪵��������ݣ�������ʾ��</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031181331668.png" srcset="/img/loading.gif" lazyload></p>
+<p>���Կ�����ʱ���ݺ����࣬�����ܹ����Ƿ�������������Ҫ����format��������Ҫ�ĸ�ʽ��</p>
+<blockquote>
+<p>ע�⣬���ַ���ÿ��ֻ�ܵ���10000���ڵ����ݣ������������޵������Ҫʹ��<code>Filter</code>����������</p>
+</blockquote>
+<h2 id="Excel��ʽ��"><a href="#Excel��ʽ��" class="headerlink" title="Excel��ʽ��"></a>Excel��ʽ��</h2><p>��Excel�����ǵ�����ci_data.csv�ļ����ο���ʽ��˼·���£�</p>
+<ul>
+<li><p>ѡ�е�һ�У�����/����-&gt;�ָ�����-&gt;�ո�</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182001997.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>ȫѡ������/ɾ���ظ�ֵ��</p>
+</li>
+<li><p>ѡ��������ʾ���У���1��4�С���1�У���ɾ����</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182258778.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>�½�һ�У�����Ϊ<code>Effective Stress</code>������ʹ�ù�ʽ���п�ݸ�ֵ��䡣</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182557960.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>�����ɵ��н��и��ƣ�ֻ����ֵ����ɾ����ʽ���ɵ���һ�С�</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182946438.png" srcset="/img/loading.gif" lazyload>ѡ�е�һ�У�����/ɸѡ������Ԫ����Ϊ<code>Effective</code>����ɸѡ������ȫѡ���Ҽ�ɾ���С�</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183411239.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>ɾ����ɺ󣬽�����������ʾ�������˳�ɸѡ��</p>
+</li>
+<li><p>���ˣ������ļ���ʽ����ɣ��������£�</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183803088.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<blockquote>
+<p>�����������ļ��Ļ�������ɸ�ʽ���󣬻��轫�ļ����кϲ��������Ⱥϲ��ٸ�ʽ����</p>
+</blockquote>
+<h2 id="Python�u���ʽ��"><a href="#Python�u���ʽ��" class="headerlink" title="Python�ű���ʽ��"></a>Python�ű���ʽ��</h2><p>�����ʹ��Excel������и�ʽ��������д�ű����и�ʽ���������ݡ�</p>
+<p><strong><code>procast_ES_format.py</code></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>filesPath = <span class="hljs-string">r&quot;./procast����Ӧ������/&quot;</span><br>nodeNum = <span class="hljs-number">24154</span><br>ESTable = pd.DataFrame(columns = [<span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-string">&#x27;y&#x27;</span>, <span class="hljs-string">&#x27;z&#x27;</span>, <span class="hljs-string">&#x27;Mpa&#x27;</span>], index = <span class="hljs-built_in">range</span>(nodeNum))<br><br><span class="hljs-keyword">for</span> fname <span class="hljs-keyword">in</span> os.listdir(filesPath):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filesPath + fname) <span class="hljs-keyword">as</span> f:<br>        content = f.read()<br>        data_txt = re.findall(<span class="hljs-string">r&#x27;[-+]?\d+(?:\.\d+(?:E[-+]?\d+)?)?&#x27;</span>, content)<br>        data_list = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">float</span>, data_txt))<br>        <span class="hljs-keyword">for</span> i, d <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(data_list):<br>            <span class="hljs-keyword">if</span> i % <span class="hljs-number">5</span> == <span class="hljs-number">0</span>:<br>                <span class="hljs-keyword">if</span> d % <span class="hljs-number">1</span> != <span class="hljs-number">0</span>:<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Invalid data in Node <span class="hljs-subst">&#123;<span class="hljs-built_in">int</span>(d)&#125;</span> !&quot;</span>)<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] = data_list[i + <span class="hljs-number">1</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] = data_list[i + <span class="hljs-number">2</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">2</span>] = data_list[i + <span class="hljs-number">3</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">3</span>] = data_list[i + <span class="hljs-number">4</span>]<br>ESTable.to_csv(filesPath + <span class="hljs-string">&quot;ES_result.csv&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>�ļ�Ŀ¼�ṹ���£�</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184638793.png" srcset="/img/loading.gif" lazyload></p>
+<p>����������£�</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184840198.png" srcset="/img/loading.gif" lazyload>—<br>title: ProCast导出节点应力数据并格式化<br>date: 2022-10-31 19:01:37<br>tags: 学习记录</p>
+<hr>
+<h2 id="ProCast导出ci-data-csv"><a href="#ProCast导出ci-data-csv" class="headerlink" title="ProCast导出ci_data.csv"></a>ProCast导出ci_data.csv</h2><p>打开visual-viewer，加载计算结果文件。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180111886.png" srcset="/img/loading.gif" lazyload></p>
+<p>注意导出的数据是当前步数下的计算数据，可以改变步数实现不同步数下数据的导出。</p>
+<p>在工具栏右键打开Selection工具条，切换到Node模式。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180315074.png" srcset="/img/loading.gif" lazyload alt="image-20221031180315074"></p>
+<p>将导出模型的所有节点选上。节点选中无误后，在视图窗口右键选择<code>Properties</code>，<code>Ctrl+A</code>选中弹出窗口左侧的所有节点后，点击保存图标，将默认的<code>ci_data.txt</code>文件名改为<code>ci_data.csv</code>方便后续操作。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031180809860.png" srcset="/img/loading.gif" lazyload></p>
+<p>用记事本打开导出的数据，如下所示，</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031181331668.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看出此时数据很冗余，并不能供我们分析，接下来需要将其format成我们需要的格式。</p>
+<blockquote>
+<p>注意，这种方法每次只能导出10000个节点数据，超过单次上限的情况需要使用<code>Filter</code>分批导出。</p>
+</blockquote>
+<h2 id="Excel格式化"><a href="#Excel格式化" class="headerlink" title="Excel格式化"></a>Excel格式化</h2><p>用Excel打开我们导出的ci_data.csv文件，参考格式化思路如下：</p>
+<ul>
+<li><p>选中第一列，数据/分列-&gt;分隔符号-&gt;空格。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182001997.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>全选后，数据/删除重复值。</p>
+</li>
+<li><p>选中如下所示行列（第1、4行、第1列），删除。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182258778.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>新建一列，命名为<code>Effective Stress</code>，当列使用公式进行快捷赋值填充。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182557960.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>将生成的列进行复制，只保留值，再删除公式生成的那一列。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031182946438.png" srcset="/img/loading.gif" lazyload>选中第一列，数据/筛选，将单元内容为<code>Effective</code>的行筛选出来后，全选，右键删除行。</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183411239.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>删除完成后，将其他数据显示出来，退出筛选。</p>
+</li>
+<li><p>至此，单个文件格式化完成，内容如下：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031183803088.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<blockquote>
+<p>如果导出多个文件的话，在完成格式化后，还需将文件进行合并。或者先合并再格式化。</p>
+</blockquote>
+<h2 id="Python脚本格式化"><a href="#Python脚本格式化" class="headerlink" title="Python脚本格式化"></a>Python脚本格式化</h2><p>相较于使用Excel表格进行格式化操作，写脚本进行格式化更方便快捷。</p>
+<p><strong><code>procast_ES_format.py</code></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>filesPath = <span class="hljs-string">r&quot;./procast导出应力数据/&quot;</span><br>nodeNum = <span class="hljs-number">24154</span><br>ESTable = pd.DataFrame(columns = [<span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-string">&#x27;y&#x27;</span>, <span class="hljs-string">&#x27;z&#x27;</span>, <span class="hljs-string">&#x27;Mpa&#x27;</span>], index = <span class="hljs-built_in">range</span>(nodeNum))<br><br><span class="hljs-keyword">for</span> fname <span class="hljs-keyword">in</span> os.listdir(filesPath):<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filesPath + fname) <span class="hljs-keyword">as</span> f:<br>        content = f.read()<br>        data_txt = re.findall(<span class="hljs-string">r&#x27;[-+]?\d+(?:\.\d+(?:E[-+]?\d+)?)?&#x27;</span>, content)<br>        data_list = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">float</span>, data_txt))<br>        <span class="hljs-keyword">for</span> i, d <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(data_list):<br>            <span class="hljs-keyword">if</span> i % <span class="hljs-number">5</span> == <span class="hljs-number">0</span>:<br>                <span class="hljs-keyword">if</span> d % <span class="hljs-number">1</span> != <span class="hljs-number">0</span>:<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Invalid data in Node <span class="hljs-subst">&#123;<span class="hljs-built_in">int</span>(d)&#125;</span> !&quot;</span>)<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] = data_list[i + <span class="hljs-number">1</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] = data_list[i + <span class="hljs-number">2</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">2</span>] = data_list[i + <span class="hljs-number">3</span>]<br>                ESTable.iloc[<span class="hljs-built_in">int</span>(d) - <span class="hljs-number">1</span>, <span class="hljs-number">3</span>] = data_list[i + <span class="hljs-number">4</span>]<br>ESTable.to_csv(filesPath + <span class="hljs-string">&quot;ES_result.csv&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>文件目录结构如下：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184638793.png" srcset="/img/loading.gif" lazyload></p>
+<p>导出结果如下：</p>
+<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221031184840198.png" srcset="/img/loading.gif" lazyload></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%D1%A7%CF%B0%EF%BF%BD%EF%BF%BD%C2%BC/">ѧϰ��¼</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/02/Pandas%E5%BF%AB%E9%80%9F%E7%AC%94%E8%AE%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Pandas���ٱʼ�</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/27/ProCAST%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">
+                        <span class="hidden-mobile">ProCASTʹ���ĵ�</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

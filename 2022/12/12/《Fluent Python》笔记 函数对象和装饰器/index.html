@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="description" content="在Python中函数是对象，本质是function类的实例。同样函数对象也是“一等对象”，即满足以下条件：  在运行时创建 能赋值给变量或数据结构中的元素 能作为参数传给函数 能作为函数的返回结果    函数对象的__doc__属性用于生成对象的帮助文本。 接受函数为参数， 或者把函数作为结果返回的函数是高阶函数（higherorder function），例如map、filter、reduce等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Fluent Python》笔记 函数对象和装饰器">
+<meta property="og:url" content="http://example.com/2022/12/12/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%87%BD%E6%95%B0%E5%AF%B9%E8%B1%A1%E5%92%8C%E8%A3%85%E9%A5%B0%E5%99%A8/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="在Python中函数是对象，本质是function类的实例。同样函数对象也是“一等对象”，即满足以下条件：  在运行时创建 能赋值给变量或数据结构中的元素 能作为参数传给函数 能作为函数的返回结果    函数对象的__doc__属性用于生成对象的帮助文本。 接受函数为参数， 或者把函数作为结果返回的函数是高阶函数（higherorder function），例如map、filter、reduce等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221212151316771.png">
+<meta property="article:published_time" content="2022-12-12T08:58:15.000Z">
+<meta property="article:modified_time" content="2023-01-03T09:31:50.959Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="c:/Users/MSTIFIY/AppData/Roaming/Typora/typora-user-images/image-20221212151316771.png">
+  
+  <title>《Fluent Python》笔记 函数对象和装饰器 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Breathing-the-World/">
+                <i class="iconfont icon-code"></i>
+                Breathing the World
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="《Fluent Python》笔记 函数对象和装饰器">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-12-12 16:58" pubdate>
+        2022年12月12日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《Fluent Python》笔记 函数对象和装饰器</h1>
+            
+            <div class="markdown-body">
+              <p>在Python中函数是<strong>对象</strong>，本质是<strong>function</strong>类的实例。同样函数对象也是“一等对象”，即满足以下条件：</p>
+<ul>
+<li>在运行时创建</li>
+<li>能赋值给变量或数据结构中的元素</li>
+<li>能作为参数传给函数</li>
+<li>能作为函数的返回结果  </li>
+</ul>
+<p>函数对象的<code>__doc__</code>属性用于生成对象的帮助文本。</p>
+<p>接受函数为参数， 或者把函数作为结果返回的函数是<strong>高阶函数</strong>（higherorder function），例如<code>map、filter、reduce</code>等函数。</p>
+<p><code>lambda</code>关键字在 Python 表达式内创建<strong>匿名函数</strong>。</p>
+<h2 id="可调用对象"><a href="#可调用对象" class="headerlink" title="可调用对象"></a>可调用对象</h2><p>可调用对象为可以应用<strong>调用运算符</strong><code>()</code>的对象。</p>
+<p>Python文档中列出以下7种可调用对象。</p>
+<ul>
+<li><p><strong>用户定义的函数</strong></p>
+<p>使用 def 语句或 lambda 表达式创建。</p>
+</li>
+<li><p><strong>内置函数</strong></p>
+<p>使用 C 语言（CPython） 实现的函数， 如 len 或 time.strftime。</p>
+</li>
+<li><p><strong>内置方法</strong></p>
+<p>使用 C 语言实现的方法， 如 dict.get。</p>
+</li>
+<li><p><strong>方法</strong><br>在类的定义体中定义的函数。</p>
+</li>
+<li><p><strong>类</strong><br>调用类时会运行类的 <code>__new__</code> 方法创建一个实例， 然后运行<code>__init__</code> 方法， 初始化实例， 最后把实例返回给调用方。</p>
+</li>
+<li><p><strong>类的实例</strong><br>如果类中定义了 <code>__call__</code>方法， 那么它的实例可以作为函数调用。</p>
+</li>
+<li><p><strong>生成器函数</strong><br>使用 <code>yield</code> 关键字的函数或方法。 调用生成器函数返回的是生成器对象。  </p>
+</li>
+</ul>
+<blockquote>
+<p>可以通过内置函数<code>callable()</code> 判断对象是否可调用。</p>
+</blockquote>
+<h2 id="函数属性"><a href="#函数属性" class="headerlink" title="函数属性"></a>函数属性</h2><p>既然我们说函数是一个对象，那么它也会像对象一样拥有属性。下表列出了一些只有用户定义的函数对象具有而常规对象没有的属性。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>__annotations__</code></td>
+<td>dict</td>
+<td>参数和返回值的注解</td>
+</tr>
+<tr>
+<td><code>__call__</code></td>
+<td>method wrapper</td>
+<td>实现 () 运算符； 即可调用对象协议</td>
+</tr>
+<tr>
+<td><code>__closure__</code></td>
+<td>tuple</td>
+<td>函数闭包， 即自由变量的绑定（通常是 None）</td>
+</tr>
+<tr>
+<td><code>__code__</code></td>
+<td>code</td>
+<td>编译成字节码的函数元数据和函数定义体</td>
+</tr>
+<tr>
+<td><code>__defaults__</code></td>
+<td>tuple</td>
+<td>形式参数的默认值</td>
+</tr>
+<tr>
+<td><code>__get__</code></td>
+<td>method wrapper</td>
+<td>实现只读描述符协议</td>
+</tr>
+<tr>
+<td><code>__globals__</code></td>
+<td>dict</td>
+<td>函数所在模块中的全局变量</td>
+</tr>
+<tr>
+<td><code>__kwdefaults__</code></td>
+<td>dict</td>
+<td>仅限关键字形式参数的默认值</td>
+</tr>
+<tr>
+<td><code>__name__</code></td>
+<td>str</td>
+<td>函数名称</td>
+</tr>
+<tr>
+<td><code>__qualname__</code></td>
+<td>str</td>
+<td>函数的限定名称， 如 Random.choice</td>
+</tr>
+</tbody></table>
+<h2 id="仅限关键字参数"><a href="#仅限关键字参数" class="headerlink" title="仅限关键字参数"></a>仅限关键字参数</h2><p>仅限关键字参数（keyword-only argument）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">tag</span>(<span class="hljs-params">name, *content, cls=<span class="hljs-literal">None</span>, **attrs</span>):</span> <span class="hljs-keyword">pass</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">f</span>(<span class="hljs-params">a, *, b</span>):</span> <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<p><code>tag</code>函数的输入参数中，第一个参数后面的任意个<strong>参数</strong>会被 <code>*content</code> 捕获， 存入一<strong>个元组</strong>（即content为元组）。在<code>tag</code>函数定义中没有明确指定名称的<strong>关键字参数</strong>会被 <code>**attrs</code> 捕获， 存入一个<strong>字典</strong>（即attrs为字典）。  在上面代码中，name参数和a参数为<strong>定位参数</strong>，cls参数和b参数为<strong>仅限关键字参数</strong>。如果仅限关键字参数没有默认值，那么强制传入对应实参。</p>
+<h2 id="获取函数的信息"><a href="#获取函数的信息" class="headerlink" title="获取函数的信息"></a>获取函数的信息</h2><ul>
+<li><p><strong>获取函数参数信息</strong></p>
+<p>函数对象有个 <code>__defaults__</code> 属性， 它的值是一个元组， 里面保存着定位参数和关键字参数的默认值。 仅限关键字参数的默认值在<code>__kwdefaults__</code> 属性中。 参数的名称在 <code>__code__</code> 属性中， 它的值是一个 code 对象引用， 自身也有很多属性。</p>
+</li>
+<li><p><strong>获取函数注解</strong></p>
+<p>带注解的函数声明示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">clip</span>(<span class="hljs-params">text:<span class="hljs-built_in">str</span>, max_len:<span class="hljs-string">&#x27;int &gt; 0&#x27;</span>=<span class="hljs-number">80</span></span>) -&gt; <span class="hljs-built_in">str</span>:</span> <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>各个参数在 <code>:</code> 之后添加注解表达式，若参数有默认值，则在参数名和<code>=</code>之间加入注解表达式。如果想注解返回值， 在 <code>)</code> 和函数声明末尾的 <code>:</code> 之间添加 <code>-&gt;</code> 和注解表达式。</p>
+</blockquote>
+<p>注解不会做任何处理， 只是存储在函数的 <code>__annotations__</code> 属性（一个字典） 中。</p>
+<h2 id="函数装饰器"><a href="#函数装饰器" class="headerlink" title="函数装饰器"></a>函数装饰器</h2><p>函数装饰器用于在源码中“标记”函数， 以某种方式增强函数的行为。 装饰器是可<strong>调用的对象</strong>， 其参数是另一个函数（被装饰的函数） 。 装饰器可能会处理被装饰的函数， 然后把它返回， 或者将其替换成另一个函数或可调用对象。 </p>
+<p>装饰器替换被装饰函数示例： </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">deco</span>(<span class="hljs-params">func</span>):</span>		<span class="hljs-comment"># deco是一个装饰器，其输入参数时另一个函数</span><br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inner</span>():</span><br>		<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;running inner()&#x27;</span>)<br>	<span class="hljs-keyword">return</span> inner<br><br><span class="hljs-meta">@deco</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">target</span>():</span>	<span class="hljs-comment"># 使用 deco 装饰 target</span><br>	<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;running target()&#x27;</span>)<br>    <br><span class="hljs-meta">&gt;&gt;&gt; </span>target()<br>running inner()<br><span class="hljs-meta">&gt;&gt;&gt; </span>target<br>&lt;function deco.&lt;<span class="hljs-built_in">locals</span>&gt;.inner at <span class="hljs-number">0x10063b598</span>&gt;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>装饰器的第一大特性是， 能把被装饰的函数<strong>替换</strong>成其他函数。 第二个特性是， 装饰器<strong>在加载模块时立即执行</strong>。  </p>
+<p>装饰器通常在一个模块中定义， 然后应用到其他模块中的函数上。</p>
+<p>大多数装饰器会在内部定义一个函数， 然后将其返回，替换被装饰的函数。</p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p><img src="C:\Users\MSTIFIY\AppData\Roaming\Typora\typora-user-images\image-20221212151316771.png" srcset="/img/loading.gif" lazyload alt="image-20221212151316771"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>avg = make_averager()<br><span class="hljs-meta">&gt;&gt;&gt; </span>avg(<span class="hljs-number">10</span>)<br><span class="hljs-number">10.0</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>avg(<span class="hljs-number">11</span>)<br><span class="hljs-number">10.5</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>avg(<span class="hljs-number">12</span>)<br><span class="hljs-number">11.0</span><br></code></pre></td></tr></table></figure>
+
+<p>在上面的示例中，<code>series</code> 是 <code>make_averager</code> 函数的局部变量。 可是， 调用 <code>avg(10)</code><br>时， <code>make_averager</code> 函数已经返回了，而它的本地作用域也一去不复返了。但代码测试结果告诉我们， <code>series</code>变量以某种形式保存了下来，这就是闭包的特性。<code>series</code>是<strong>自由变量</strong>，即未在本地作用域中绑定的变量。  </p>
+<p><strong>闭包</strong>是一种函数， 它会保留定义函数时存在的自由变量的绑定，这样调用函数时， 虽然定义作用域不可用了， 但是仍能使用那些绑定。</p>
+<blockquote>
+<p> 只有嵌套在其他函数中的函数才可能需要处理不在全局作用域中的外部变量，也就是说只有嵌套在其他函数中的函数才会涉及到闭包的知识。</p>
+</blockquote>
+<p><code>nonlocal</code>关键字能把变量标记为自由变量。示例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_averager</span>():</span><br>	count = <span class="hljs-number">0</span><br>	total = <span class="hljs-number">0</span><br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">averager</span>(<span class="hljs-params">new_value</span>):</span><br>		<span class="hljs-keyword">nonlocal</span> count, total	<span class="hljs-comment"># count, total都为自由变量，都会在闭包中进行绑定和更新</span><br>		count += <span class="hljs-number">1</span><br>		total += new_value<br>		<span class="hljs-keyword">return</span> total / count<br>	<span class="hljs-keyword">return</span> averager<br></code></pre></td></tr></table></figure>
+
+<p>实现一个简单的装饰器，用于计算被调用函数的运行时间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">clock</span>(<span class="hljs-params">func</span>):</span><br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">clocked</span>(<span class="hljs-params">*args</span>):</span><br>		t0 = time.perf_counter()<br>        result = func(*args)<br>        elapsed = time.perf_counter() - t0<br>        name = func.__name__<br>        arg_str = <span class="hljs-string">&#x27;, &#x27;</span>.join(<span class="hljs-built_in">repr</span>(arg) <span class="hljs-keyword">for</span> arg <span class="hljs-keyword">in</span> args)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;[%0.8fs] %s(%s) -&gt; %r&#x27;</span> % (elapsed, name, arg_str, result))<br>        <span class="hljs-keyword">return</span> result<br>	<span class="hljs-keyword">return</span> clocked<br></code></pre></td></tr></table></figure>
+
+<p>上述代码反映了装饰器的典型行为： 把被装饰的函数替换成新函数， 二者接受相同的参数， 而且通常返回被装饰的函数本该返回的值， 同时还会做些额外操作。</p>
+<h2 id="标准库中的装饰器"><a href="#标准库中的装饰器" class="headerlink" title="标准库中的装饰器"></a>标准库中的装饰器</h2><ul>
+<li><p><code>functools.lru_cache</code></p>
+<p><code>functools.lru_cache</code>是非常实用的装饰器， 实现了<strong>备忘</strong>功能。 这是一项优化技术， 它把耗时的函数的结果保存起来， 避免传入相同的参数时重复计算。 LRU 三个字母是“Least Recently Used”的缩写， 表明缓存不会无限制增长， 一段时间不用的缓存<br>条目会被清除。</p>
+<p>该装饰器可以使用两个可选参数进行配置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">functools.lru_cache(maxsize=<span class="hljs-number">128</span>, typed=<span class="hljs-literal">False</span>)  <br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>maxsize：指定存储多少个调用的结果。   </li>
+<li>typed：若为 True， 把不同参数类型得到的结果分开保存，即把通常认为相等的浮点数和整数参数（如 1 和 1.0） 区分开。</li>
+</ul>
+</li>
+<li><p><code>functools.singledispatch</code></p>
+<p><code>functools.singledispatch</code> 装饰器可以把整体方案拆分成多个模块， 甚至可以为无法修改的类提供专门的函数（使用<code>@&lt;base_function&gt;.register(&lt;type&gt;)</code> 装饰）。 使用<code>@singledispatch</code> 装饰的普通函数会变成<strong>泛函数</strong>（generic function） ：根据第一个参数的类型， 以不同方式执行相同操作的一组函数。  </p>
+</li>
+</ul>
+<h2 id="叠放装饰器"><a href="#叠放装饰器" class="headerlink" title="叠放装饰器"></a>叠放装饰器</h2><p>因为装饰器是一个函数（可调用对象），所以可以组合使用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@d1</span><br><span class="hljs-meta">@d2</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">f</span>():</span><br>	<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;f&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>等同于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">f</span>():</span><br>	<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;f&#x27;</span>)<br>f = d1(d2(f))  <br></code></pre></td></tr></table></figure>
+
+<h2 id="参数化装饰器"><a href="#参数化装饰器" class="headerlink" title="参数化装饰器"></a>参数化装饰器</h2><p>为了实现参数化装饰器，我们引入装饰器工厂函数，装饰器函数嵌套在该函数中。调用装饰器工厂函数会返回真正的装饰器， 这才是应用到目标函数上的装饰器。参数化装饰器示例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><br>DEFAULT_FMT = <span class="hljs-string">&#x27;[&#123;elapsed:0.8f&#125;s] &#123;name&#125;(&#123;args&#125;) -&gt; &#123;result&#125;&#x27;</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">clock</span>(<span class="hljs-params">fmt=DEFAULT_FMT</span>):</span> 	<span class="hljs-comment"># clock是参数化装饰器工厂函数</span><br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decorate</span>(<span class="hljs-params">func</span>):</span> 		<span class="hljs-comment"># decorate 是真正的装饰器</span><br>		<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">clocked</span>(<span class="hljs-params">*_args</span>):</span> 	<span class="hljs-comment"># clocked 包装被装饰的函数</span><br>            t0 = time.time()	<br>            _result = func(*_args)	<span class="hljs-comment"># _result 是被装饰的函数返回的真正结果 </span><br>            elapsed = time.time() - t0<br>            name = func.__name__<br>            args = <span class="hljs-string">&#x27;, &#x27;</span>.join(<span class="hljs-built_in">repr</span>(arg) <span class="hljs-keyword">for</span> arg <span class="hljs-keyword">in</span> _args) <br>            result = <span class="hljs-built_in">repr</span>(_result) <br>            <span class="hljs-built_in">print</span>(fmt.<span class="hljs-built_in">format</span>(**<span class="hljs-built_in">locals</span>())) <span class="hljs-comment"># **locals()是为了在fmt中引用clocked的局部变量</span><br>            <span class="hljs-keyword">return</span> _result <br>		<span class="hljs-keyword">return</span> clocked <br>	<span class="hljs-keyword">return</span> decorate <br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br><span class="hljs-meta">	@clock(<span class="hljs-params">DEFAULT_FMT</span>)</span><br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">snooze</span>(<span class="hljs-params">seconds</span>):</span><br>		time.sleep(seconds)<br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>		snooze(<span class="hljs-number">.123</span>)<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/13/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">《Fluent Python》笔记 迭代器和生成器</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/12/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%AD%97%E7%AC%A6%E5%92%8C%E5%AD%97%E8%8A%82/">
+                        <span class="hidden-mobile">《Fluent Python》笔记 字符和字节</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'fluid',
+              apikey: 'Fyuwd4JxCjiJLttT1lAkTOzmshSMmkAvd4RHCCk5IpO8NBQWFo7uZbGEolCqK8pw'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2021</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
