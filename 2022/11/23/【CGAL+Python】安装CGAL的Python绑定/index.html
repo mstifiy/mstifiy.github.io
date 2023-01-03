@@ -26,11 +26,8 @@
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123151619901.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123150645028.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123150847216.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123151619901.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123150645028.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123150847216.png">
 <meta property="article:published_time" content="2022-11-23T07:18:21.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:38:37.245Z">
+<meta property="article:modified_time" content="2023-01-03T09:42:20.230Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -215,7 +212,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      588 字
     </span>
   
 
@@ -224,7 +221,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4 分钟
+      2 分钟
     </span>
   
 
@@ -257,21 +254,6 @@
             
             <div class="markdown-body">
               <p>由于CGAL是由C++开发的，在Python中使用一般需要创建Python与C++程序的绑定。想了解更多Python调用C/C++程序的细节参见：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/143356193">Python Bindings - 从 Python 调用 C/C++</a>。而我们使用到的绑定是通过SWIG通用工具生成的。SWIG可用于创建与许多其他语言（不仅限于 Python）的 C 和 C++ 程序的绑定。 目前Github上已开源cgal-swig-bindings项目能帮助我们在Python下调用CGAL的一些程序包。这个项目仍处于实验阶段，未来会不断添加更多包。相关信息参见：<a target="_blank" rel="noopener" href="https://github.com/CGAL/cgal-swig-bindings/wiki%E3%80%82">https://github.com/CGAL/cgal-swig-bindings/wiki。</a></p>
-<p>cgal-swig-bindings项目已实现Python绑定的CGAL包如下：</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123151619901.png" srcset="/img/loading.gif" lazyload alt="image-20221123151619901"></p>
-<p>我们通过pip在Pyhton下安装CGAL，安装命令如下：</p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">pip install cgal<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123150645028.png" srcset="/img/loading.gif" lazyload alt="image-20221123150645028"></p>
-<p>测试一下安装是否成功，该python环境下运行下面代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> CGAL.CGAL_Kernel <span class="hljs-keyword">import</span> *<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    p1 = Point_2(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    p2 = Point_2(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>)<br>    <span class="hljs-built_in">print</span>(squared_distance(p1, p2))<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123150847216.png" srcset="/img/loading.gif" lazyload alt="image-20221123150847216"></p>
-<p>运行成功，结果正确，没有报错。接下来我们便可以愉快的在Python下调用CGAL的算法啦~</p>
-<hr>
-<p>title: 【CGAL+Python】安装CGAL的Python绑定<br>date: 2022-11-23 15:18:21<br>tags: 学习记录</p>
-<hr>
-<p>由于CGAL是由C++开发的，在Python中使用一般需要创建Python与C++程序的绑定。想了解更多Python调用C/C++程序的细节参见：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/143356193">Python Bindings - 从 Python 调用 C/C++</a>。而我们使用到的绑定是通过SWIG通用工具生成的。SWIG可用于创建与许多其他语言（不仅限于 Python）的 C 和 C++ 程序的绑定。 目前Github上已开源cgal-swig-bindings项目能帮助我们在Python下调用CGAL的一些程序包。这个项目仍处于实验阶段，未来会不断添加更多包。相关信息参见：<a target="_blank" rel="noopener" href="https://github.com/CGAL/cgal-swig-bindings/wiki%E3%80%82">https://github.com/CGAL/cgal-swig-bindings/wiki。</a></p>
 <p>cgal-swig-bindings项目已实现Python绑定的CGAL包如下：</p>
 <p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221123151619901.png" srcset="/img/loading.gif" lazyload alt="image-20221123151619901"></p>
 <p>我们通过pip在Pyhton下安装CGAL，安装命令如下：</p>

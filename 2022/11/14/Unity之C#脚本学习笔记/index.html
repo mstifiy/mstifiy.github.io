@@ -33,18 +33,8 @@
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114220943401.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114225136096.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/GIF%202022-11-14%2023-04-35.gif">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114091516041.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114203046046.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114203855476.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114212008422.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114212110752.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114212325727.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114213137816.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114220943401.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114225136096.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/GIF%202022-11-14%2023-04-35.gif">
 <meta property="article:published_time" content="2022-11-14T15:19:27.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:38:37.238Z">
+<meta property="article:modified_time" content="2023-01-03T09:42:20.216Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -229,7 +219,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.1k 字
+      4.5k 字
     </span>
   
 
@@ -238,7 +228,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      28 分钟
+      14 分钟
     </span>
   
 
@@ -450,196 +440,6 @@
 </li>
 </ul>
 <h2 id="总结示例"><a href="#总结示例" class="headerlink" title="总结示例"></a>总结示例</h2><p>通过滑动条实现对bunny兔子网格渲染颜色的改变，简称“变色兔”。</p>
-<p>首先，把bunny.obj文件拖到Assets文件夹，并进行一些调整配置。</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114220943401.png" srcset="/img/loading.gif" lazyload alt="image-20221114220943401"></p>
-<p>新建ColorChange.cs脚本，其代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c#">using System.Collections;<br>using System.Collections.Generic;<br>using UnityEngine;<br>using UnityEngine.UI;<br><br>public class ColorChange : MonoBehaviour<br>&#123;<br>    public Slider m_Slider;<br>    public GameObject bunny;<br><br>    public void bunny_color_change(float value)<br>    &#123;<br>        bunny.GetComponent&lt;Renderer&gt;().material.color = new Vector4(value, value, value, 1);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>绑定事件，运行。</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114225136096.png" srcset="/img/loading.gif" lazyload alt="image-20221114225136096"></p>
-<p>效果如下：</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/GIF%202022-11-14%2023-04-35.gif" srcset="/img/loading.gif" lazyload alt="GIF 2022-11-14 23-04-35"></h2><p>title: Unity之C#脚本学习笔记<br>date: 2022-11-14 23:19:27<br>tags: 学习记录</p>
-<hr>
-<blockquote>
-<p>参考书籍：《Unity 2017 从入门到精通》</p>
-</blockquote>
-<h2 id="C-脚本编写Tips-1"><a href="#C-脚本编写Tips-1" class="headerlink" title="C#脚本编写Tips"></a>C#脚本编写Tips</h2><ul>
-<li><p>所有添加到游戏对象的C#脚本类都必须直接或间接从<code>MonoBehaviour</code>类中继承。</p>
-</li>
-<li><p>使用<code>Start</code>或者<code>Awake</code>函数来初始化类，避免使用构造函数。</p>
-<blockquote>
-<p>Start和Awake函数在一定条件下会被自动调用，称为<strong>必然事件</strong>。常见的必然事件还有Update、FixedUpdate和LateUpdate。</p>
-</blockquote>
-</li>
-<li><p>类名（特指从<code>MonoBehaviour</code>类中继承的行为类）要与脚本文件名相同，否则在添加脚本到游戏对象时会提示错误。</p>
-</li>
-<li><p>协同函数（Coroutines）返回类型必须是IEnumerator，并且用yield return代替yield。</p>
-<blockquote>
-<p>这一条还不是很明白。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="访问游戏对象和组件-1"><a href="#访问游戏对象和组件-1" class="headerlink" title="访问游戏对象和组件"></a>访问游戏对象和组件</h2><p>访问游戏对象（GameObject）</p>
-<ul>
-<li><p>GameObject.Find()：寻找指定名称或路径的游戏对象。</p>
-<p>无法查找隐藏对象，使用方便但效率低下。</p>
-</li>
-<li><p>GameObject.FindWithTag()：寻找指定标签的游戏对象。</p>
-</li>
-<li><p>Transform.Find()：通过名字或路径查找子对象。</p>
-<p>可以查找隐藏对象，前提是transform所在根节点可见（active=true）。查找对象必须是transform节点下的子对象。</p>
-</li>
-</ul>
-<p>访问组件（Component）</p>
-<blockquote>
-<p>一个游戏对象可以包含多个组件，且脚本也属于组件的一种。</p>
-</blockquote>
-<ul>
-<li>GetComponent/GetComponents&lt;组件（类型）名称&gt;()：得到组件/组件列表。</li>
-<li>GetComponentInChildren/GetComponentsInChildren：得到得到对象或对象子物体上的组件/组件列表。</li>
-</ul>
-<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h3><ol>
-<li><p>新建命名为Player的空游戏对象，挂载Player.cs脚本。</p>
-</li>
-<li><p>脚本中在Player类中把要访问的游戏对象和组件声明为成员变量。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c#">//声明GameObject成员变量<br>public GameObject cube;<br>//声明Transform成员变量<br>public Transform sphereTransform;<br></code></pre></td></tr></table></figure></li>
-<li><p>返回Unity，此时打开Player的检视视图，发现多了两个值为None的变量Cube和Sphere Transform。</p>
-</li>
-<li><p>将层级视图中的Cube和Sphere拖到Player脚本的对应变量中进行赋值（将对象和组件的引用保存到成员变量中）。实现了在脚本中访问这两个成员变量。</p>
-</li>
-</ol>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114091516041.png" srcset="/img/loading.gif" lazyload alt="image-20221114091516041"></p>
-<h2 id="协同程序-1"><a href="#协同程序-1" class="headerlink" title="协同程序"></a>协同程序</h2><p>Coroutine称为协同程序，可以和主程序并行运行，和多线程类似。</p>
-<h2 id="鼠标输入-1"><a href="#鼠标输入-1" class="headerlink" title="鼠标输入"></a>鼠标输入</h2><p>鼠标输入的相关事件包括鼠标移动、按键的点击等。Input类中和鼠标有关的方法和变量如下：</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>mousePosition</td>
-<td>获取当前鼠标指针位置的像素坐标（只读）</td>
-</tr>
-<tr>
-<td>GetMouseButtonDown</td>
-<td>鼠标按键按下的第一帧返回true</td>
-</tr>
-<tr>
-<td>GetMouseButton</td>
-<td>鼠标按键按住期间一直返回true</td>
-</tr>
-<tr>
-<td>GetMouseButtonUp</td>
-<td>鼠标按键松开的第一帧返回true</td>
-</tr>
-<tr>
-<td>GetAxis(“Mouse X”)</td>
-<td>得到一帧内鼠标在水平方向的移动距离</td>
-</tr>
-<tr>
-<td>GetAxis(“Mouse Y”)</td>
-<td>得到一帧内鼠标在垂直方向的移动距离</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>鼠标指针位置通过屏幕的像素坐标来表示。屏幕左下角为原点(0,0)，右上角为(Screen.width,Screen.height)。mousePosition变量类型为Vector3，x分量对应水平坐标，y分量对应垂直坐标，z分量始终为0。</p>
-</blockquote>
-<h3 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c#">using System.Collections;<br>using System.Collections.Generic;<br>using UnityEngine;<br><br>public class RotateObjControl : MonoBehaviour<br>&#123;<br>    float horizontalSpeed = 2.0f;<br>    float verticalSpeed = 2.0f;<br><br>    // Update is called once per frame<br>    void Update()<br>    &#123;<br>        // 鼠标左键按住，0左键，1右键，2中键<br>        if (Input.GetMouseButton(0))<br>        &#123;<br>            float h = horizontalSpeed * Input.GetAxis(&quot;Mouse X&quot;);<br>            float v = verticalSpeed * Input.GetAxis(&quot;Mouse Y&quot;);<br>            transform.Rotate(v, h, 0);  // 此处的transform是当前脚本挂载对象的组件<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>该示例中，脚本通过读取鼠标左键输入控制挂载对象旋转。</p>
-<h2 id="Socket通信-1"><a href="#Socket通信-1" class="headerlink" title="Socket通信"></a>Socket通信</h2><h3 id="示例：创建简单的TCP客户端-1"><a href="#示例：创建简单的TCP客户端-1" class="headerlink" title="示例：创建简单的TCP客户端"></a>示例：创建简单的TCP客户端</h3><p><strong>创建流程：</strong></p>
-<ol>
-<li>创建Socket对象。</li>
-<li>将新建的Socket对象连接指定的服务器IP和端口号。</li>
-<li>发送数据到服务器和从服务器接收数据。</li>
-</ol>
-<p>首先，初始化客户端，与服务器建立连接。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#">String address = &quot;127.0.0.1&quot;;<br>int port = 8000;<br><br>IPAddress ip = IPAddress.Parse(address);  //将address地址字符串转换成IPAddress实例<br>ClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);//使用指定的地址簇协议、套接字类型和通信协议<br>IPEndPoint endPoint = new IPEndPoint(ip, port); // 用指定的ip和端口号初始化IPEndPoint实例<br>ClientSocket.Connect(endPoint);  //与远程主机建立连接<br></code></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里的address可以是局域网或者互联网的IP地址，也可以是本机的IP地址（相当于本机既做服务器又做客户端，主要用于开发测试方便）。</p>
-</blockquote>
-<p>客户端向服务器发送数据。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#">string data = &quot;hello mstifiy!&quot;;<br>byte[] message = Encoding.UTF8.GetBytes(data);<br>ClientSocket.Send(message);<br>//ByteBuffer buffer = new ByteBuffer();<br>//buffer.WriteString(data);<br>//ClientSocket.Send(WriteMessage(buffer.ToBytes()));<br></code></pre></td></tr></table></figure>
-
-<p>客户端从服务器接收数据。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#">byte[] receive = new byte[150000];<br>ClientSocket.Receive(receive);<br>string data = Encoding.UTF8.GetString(receive);<br>//ClientSocket.Receive(receive);<br>//ByteBuffer buffer = new ByteBuffer(receive);<br>//string data = buffer.ReadString();<br></code></pre></td></tr></table></figure>
-
-<h2 id="UGUI-1"><a href="#UGUI-1" class="headerlink" title="UGUI"></a>UGUI</h2><h3 id="Canvas-1"><a href="#Canvas-1" class="headerlink" title="Canvas"></a>Canvas</h3><p>Canvas（画布）是存放所以UI的容器，所有的UI都必须放到画布的子节点下。</p>
-<p>Inspector（检视视图）相关设置：</p>
-<table>
-<thead>
-<tr>
-<th>Render Mode</th>
-<th>渲染模式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Screen Space-Overlay</td>
-<td>画布拉伸以适应全屏大小，使控件渲染与其他物体前方。</td>
-</tr>
-<tr>
-<td>Screen Space-Camera</td>
-<td>画布以特定的距离放置在指定的相机前，UI被指定相机渲染。</td>
-</tr>
-<tr>
-<td>World Space</td>
-<td>画布和其他游戏对象一样渲染于世界空间，此时可以调整Rect Transform来改变画布大小。</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>UI Scale Mode</th>
-<th>UI的缩放模式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Constant Pixel Size</td>
-<td>固定的像素大小</td>
-</tr>
-<tr>
-<td>Scale With Screen Size</td>
-<td>根据屏幕大小进行缩放</td>
-</tr>
-<tr>
-<td>Constant Physical Size</td>
-<td>固定的物理大小（cm、mm等）</td>
-</tr>
-</tbody></table>
-<h3 id="Slider滑动条示例-1"><a href="#Slider滑动条示例-1" class="headerlink" title="Slider滑动条示例"></a>Slider滑动条示例</h3><ul>
-<li>在Scene中创建一个Slider对象，缩放到合适比例。</li>
-</ul>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114203046046.png" srcset="/img/loading.gif" lazyload alt="image-20221114203046046"></p>
-<p>控件的相关参数和事件说明如下：</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114203855476.png" srcset="/img/loading.gif" lazyload></p>
-<ul>
-<li><p>事件绑定</p>
-<ul>
-<li><p>可视化创建及事件绑定。</p>
-<p>新建脚本TestSlider.cs，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c#">using System.Collections;<br>using System.Collections.Generic;<br>using UnityEngine;<br><br>public class TestSlider : MonoBehaviour<br>&#123;<br>    public void SliderOnValueChanged(float value)<br>    &#123;<br>        Debug.Log(&quot;滑动条值变化：&quot; + value);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>将该脚本添加到Slider上，然后将层级视图中的Slider（也就是脚本挂载的对象）拖到On Value Changed事件中，然后选择对应的SliderOnValueChanged函数，即可完成事件绑定。</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114212008422.png" srcset="/img/loading.gif" lazyload alt="image-20221114212008422"></p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114212110752.png" srcset="/img/loading.gif" lazyload alt="image-20221114212110752"></p>
-<p>绑定成功后运行Unity，可以看到随着滑动条的拖动，控制台输出对应的值。</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114212325727.png" srcset="/img/loading.gif" lazyload alt="image-20221114212325727"></p>
-</li>
-<li><p>直接通过脚本监听事件。</p>
-<p>新建脚本TestSlider.cs，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c#">using UnityEngine;<br>using UnityEngine.UI;<br><br>public class TestSlider : MonoBehaviour<br>&#123;<br>    public Slider m_Slider;<br>    private void Start()<br>    &#123;<br>        //监听滑动条变化事件<br>        m_Slider.onValueChanged.AddListener(SliderOnValueChanged);<br>    &#125;<br>    void SliderOnValueChanged(float value)<br>    &#123;<br>        Debug.Log(&quot;滑动条值变化：&quot; + value);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>将该脚本添加到Slider对象上，并将其面板中的Slider变量设置为Slider对象。完成事件绑定。</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114213137816.png" srcset="/img/loading.gif" lazyload alt="image-20221114213137816"></p>
-<p>运行效果和上一种方法相同。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="总结示例-1"><a href="#总结示例-1" class="headerlink" title="总结示例"></a>总结示例</h2><p>通过滑动条实现对bunny兔子网格渲染颜色的改变，简称“变色兔”。</p>
 <p>首先，把bunny.obj文件拖到Assets文件夹，并进行一些调整配置。</p>
 <p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221114220943401.png" srcset="/img/loading.gif" lazyload alt="image-20221114220943401"></p>
 <p>新建ColorChange.cs脚本，其代码如下：</p>

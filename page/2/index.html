@@ -303,7 +303,7 @@ pyclipper基础pycl
       <h1 class="index-header">
         
         <a href="/2022/12/18/Clipper%E5%BA%93%20%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%A1%AB%E5%85%85%E8%A7%84%E5%88%99/" target="_self">
-          Clipper�� �������ͺ�������
+          Clipper库 基础类型和填充规则
         </a>
       </h1>
 
@@ -313,12 +313,13 @@ pyclipper基础pycl
           
             
           
-          �ü�����(ClipType)1234CT_INTERSECTION = 0CT_UNION = 1CT_DIFFERENCE = 2CT_XOR = 3
+          裁剪类型(ClipType)1234CT_INTERSECTION = 0CT_UNION = 1CT_DIFFERENCE = 2CT_XOR = 3
 
 
-������AND (intersection) ������Ͳü�������ཻ������  
-������OR (union) - ����Ͳü���������ߺϲ�������   
-��/�NOT (difference)
+交集，AND (intersection) ：主体和裁剪多边形相交的区域。  
+并集，OR (union) - 主体和裁剪多边形两者合并的区域。   
+非/差，NOT (difference) - 裁剪多边形以外主体的区域。
+异或，XOR (
         </a>
       </p>
 
@@ -336,7 +337,7 @@ pyclipper基础pycl
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%D1%A7%CF%B0%EF%BF%BD%EF%BF%BD%C2%BC/">ѧϰ��¼</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
             
           </div>
         
@@ -351,7 +352,7 @@ pyclipper基础pycl
       <h1 class="index-header">
         
         <a href="/2022/12/17/Clipper%E5%BA%93%20%20%E5%9D%90%E6%A0%87%E5%9C%86%E6%95%B4%E5%92%8C%E7%B2%BE%E5%BA%A6%E6%8E%A7%E5%88%B6/" target="_self">
-          Clipper��  ����Բ���;��ȿ���
+          Clipper库  坐标圆整和精度控制
         </a>
       </h1>
 
@@ -361,9 +362,16 @@ pyclipper基础pycl
           
             
           
-          ����Բ����ɵ�������Clipper���ж��㣨IntPoint��������ʹ�õ����������ͣ� Ŀ����Ϊ�˱������ֵ�³���ԣ������������������洢���꣬���������ǳ����ĸ��������ͣ�������ڲ���ȷ�ԣ���Ȼ������Բ������������������⣺
+          坐标圆整造成的问题在Clipper库中顶点（IntPoint）的坐标使用的是整数类型， 目的是为了保持数字的鲁棒性，所以用整数类型来存储坐标，而不是我们常见的浮点数类型（浮点存在不精确性）。然而坐标圆整会带来如下两个问题：
 
-�������Ķ���λ�ú���ʵ�Ķ���
+参与计算的顶点位置和真实的顶点位置存在一定偏差。对于一些数值极小的或相差极小的顶点难以处理。
+
+造成微小的自交。
+
+
+
+
+上图中，三个黑点是黄色和紫色多边形区域的实际交点，三
         </a>
       </p>
 
@@ -381,7 +389,7 @@ pyclipper基础pycl
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%D1%A7%CF%B0%EF%BF%BD%EF%BF%BD%C2%BC/">ѧϰ��¼</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
             
           </div>
         

@@ -24,7 +24,7 @@
 <meta property="og:description" content="Qt Designer使用Tips Designer新建窗体中，分为：Dialog、Widget、Main Window三大类。大致选择思路如下：如果是应用主窗体，即需要显示菜单、工具栏、状态栏等，选择Main Window；如果是顶级对话框，选择Dialog；如果不确定，一律选Widget。  布局方式：  绝对布局：通过设置geometry属性进行布局。 使用布局管理器进行布局：通过使用垂直布">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-15T10:01:54.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:38:37.235Z">
+<meta property="article:modified_time" content="2023-01-03T09:42:20.211Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,7 +208,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      552 字
     </span>
   
 
@@ -217,7 +217,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4 分钟
+      2 分钟
     </span>
   
 
@@ -250,49 +250,6 @@
             
             <div class="markdown-body">
               <h2 id="Qt-Designer使用Tips"><a href="#Qt-Designer使用Tips" class="headerlink" title="Qt Designer使用Tips"></a>Qt Designer使用Tips</h2><ul>
-<li><p>Designer新建窗体中，分为：Dialog、Widget、Main Window三大类。大致选择思路如下：如果是应用主窗体，即需要显示菜单、工具栏、状态栏等，选择Main Window；如果是顶级对话框，选择Dialog；如果不确定，一律选Widget。</p>
-</li>
-<li><p><strong>布局方式：</strong></p>
-<ul>
-<li>绝对布局：通过设置geometry属性进行布局。</li>
-<li>使用布局管理器进行布局：通过使用垂直布局、水平布局、网格布局等进行布局。</li>
-</ul>
-</li>
-<li><p><strong>QSizePolicy类</strong>，该类是布局属性类，描述了控件水平和垂直大小调整策略。</p>
-<p>示例：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)<br></code></pre></td></tr></table></figure>
-
-<p>示例化该类需传入两个参数（水平策略，垂直策略），有许多策略取值，部分取值如下表（其中sizeHint()返回为系统推荐该控件的适合（width，height）大小）：</p>
-<table>
-<thead>
-<tr>
-<th>尺寸调整策略</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Fixed</td>
-<td>size固定为sizeHint()返回的大小</td>
-</tr>
-<tr>
-<td>Minimum</td>
-<td>size不能小于sizeHint()返回的大小</td>
-</tr>
-<tr>
-<td>Preferred</td>
-<td>最佳size为sizeHint()返回的大小</td>
-</tr>
-<tr>
-<td>Expanding</td>
-<td>sizeHint()为推荐的size，但尽可能地获得更大的空间</td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<hr>
-<p>title: PyQt5学习笔记<br>date: 2022-11-15 18:01:54<br>tags: 学习记录</p>
-<hr>
-<h2 id="Qt-Designer使用Tips-1"><a href="#Qt-Designer使用Tips-1" class="headerlink" title="Qt Designer使用Tips"></a>Qt Designer使用Tips</h2><ul>
 <li><p>Designer新建窗体中，分为：Dialog、Widget、Main Window三大类。大致选择思路如下：如果是应用主窗体，即需要显示菜单、工具栏、状态栏等，选择Main Window；如果是顶级对话框，选择Dialog；如果不确定，一律选Widget。</p>
 </li>
 <li><p><strong>布局方式：</strong></p>

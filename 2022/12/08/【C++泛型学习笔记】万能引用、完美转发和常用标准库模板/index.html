@@ -24,7 +24,7 @@
 <meta property="og:description" content="学习参考书籍：王健伟《C++新经典：模板与泛型编程》  万能引用万能引用是一种类型，同int一样。万能引用既可以接受左值，又可以接受右值。  右值引用：     12int a &#x3D; 3;int &amp;b &#x3D; a;  &#x2F;&#x2F; 左值引用类型变量b  左值引用： 1int &amp;&amp;b &#x3D; 3;  &#x2F;&#x2F; 右值引用类型变量b  左值和右值的区分：  可以取地址的（如存在内存中），有名字的（有">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-08T04:51:08.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:38:37.243Z">
+<meta property="article:modified_time" content="2023-01-03T09:42:20.227Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,7 +208,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.5k 字
+      2.7k 字
     </span>
   
 
@@ -217,7 +217,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17 分钟
+      8 分钟
     </span>
   
 
@@ -283,93 +283,6 @@
 
 <p>上述完美转发实现方式为：通过一个函数模板A，可以把任意函数名B、任意类型参数传递给函数模板A，从而达到间接调用任意函数B的目的。<code>std::forward&lt;T&gt;(t)</code>是C++标准库中的函数，作用是<strong>保持函数模板输入原始实参的左值性或右值性</strong>，实现函数形参的完美转发。</p>
 <h2 id="常用标准库模板"><a href="#常用标准库模板" class="headerlink" title="常用标准库模板"></a>常用标准库模板</h2><ul>
-<li><p><code>std::declval</code></p>
-<blockquote>
-<p>作用：</p>
-<ol>
-<li>将一个类型转换成右值引用类型。</li>
-<li>配合decltype，让在decltype表达式中不必经过类类型的构造函数（不创建类对象）就能使用该类型的成员函数。</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">decltype</span>(std::declval&lt;A&gt;().<span class="hljs-built_in">Afunc</span>());<br></code></pre></td></tr></table></figure></blockquote>
-</li>
-<li><p><code>std::true_type和std::false_type</code></p>
-<blockquote>
-<p><code>std::true_type/std::false_type</code>为类型别名（类类型），代表一个类型。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">using</span> true_type = integral_constant&lt;<span class="hljs-keyword">bool</span>, <span class="hljs-literal">true</span>&gt;<br><span class="hljs-keyword">using</span> false_type = integral_constant&lt;<span class="hljs-keyword">bool</span>, <span class="hljs-literal">false</span>&gt;<br></code></pre></td></tr></table></figure>
-
-<p>作用：该类型在trait技术中应用广泛。</p>
-</blockquote>
-</li>
-<li><p><code>std::void_t</code></p>
-<blockquote>
-<p>C++17别名模板，应用：</p>
-<ul>
-<li><p><strong>判断类中是否存在某个类型别名</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">NoInnerType</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-keyword">int</span> m_i;<br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">HaveInnerType</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-keyword">using</span> type = <span class="hljs-keyword">int</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">()</span> </span>&#123;&#125;<br>&#125;;<br><br><span class="hljs-comment">// 类模板泛化版本</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span> U = std::<span class="hljs-keyword">void_t</span>&lt;&gt;&gt;<br>struct HasTypeMem : std::false_type<br>&#123;<br>    <br>&#125;;<br><br><span class="hljs-comment">// 偏特化版本</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">HasTypeMem</span>&lt;</span>T, std::<span class="hljs-keyword">void_t</span>&lt;<span class="hljs-keyword">typename</span> T::type&gt;&gt; : std::true_type<br>&#123;<br>    <br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    cout &lt;&lt; HasTypeMem&lt;NoInnerType&gt;::value &lt;&lt; endl;	<span class="hljs-comment">// 调用泛化版本</span><br>    cout &lt;&lt; HasTypeMem&lt;HaveInnerType&gt;::value &lt;&lt; endl;	<span class="hljs-comment">// 调用偏特化版本</span><br>&#125;	<br></code></pre></td></tr></table></figure></li>
-<li><p><strong>判断类中是否存在某个成员变量</strong></p>
-<p>改写上述偏特化版本实现，其他代码不变</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 偏特化版本</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">HasTypeMem</span>&lt;</span>T, std::<span class="hljs-keyword">void_t</span>&lt;<span class="hljs-keyword">decltype</span>(T::m_i)&gt; : std::true_type<br>&#123;<br>    <br>&#125;;<br></code></pre></td></tr></table></figure></li>
-<li><p><strong>判断类中是否存在某个成员函数</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">HasTypeMem</span>&lt;</span>T, std::<span class="hljs-keyword">void_t</span>&lt;<span class="hljs-keyword">decltype</span>(std::declval&lt;T&gt;().<span class="hljs-built_in">func</span>())&gt; : std::true_type<br></code></pre></td></tr></table></figure></li>
-</ul>
-</blockquote>
-</li>
-<li><p><code>std::conditional</code></p>
-<blockquote>
-<p>C++11类模板，表现编译期的分支逻辑。实现代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">bool</span> b, <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T</span>, <span class="hljs-keyword">class</span> <span class="hljs-title">U</span>&gt;</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">conditional</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-keyword">using</span> type = T;<br>&#125;;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T</span>, <span class="hljs-keyword">class</span> <span class="hljs-title">U</span>&gt;</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">conditional</span>&lt;</span><span class="hljs-literal">false</span>, T, U&gt;<br>&#123;<br>    <span class="hljs-keyword">using</span> type = U;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<p><code>std::conditional&lt;true, A, B&gt;::type</code>返回A；<code>std::conditional&lt;false, A, B&gt;::type</code>返回B，类似于<code>if-then-else</code>逻辑。</p>
-</blockquote>
-</li>
-<li><p><code>std::function</code></p>
-<blockquote>
-<p>可调用对象包装器，C++11类模板。</p>
-</blockquote>
-</li>
-<li><p><code>std::remove_all_extents</code></p>
-<blockquote>
-<p>C++11类模板，功能为把一个数组中的数组类型部分移除，只保留元素类型。即int[10]变为int。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>];<br>std::remove_all_extents&lt;<span class="hljs-keyword">decltype</span>(a)&gt;;<br></code></pre></td></tr></table></figure></blockquote>
-</li>
-</ul>
-<hr>
-<p>title: 【C++泛型学习笔记】万能引用、完美转发和常用标准库模板<br>date: 2022-12-08 12:51:08<br>tags: 学习记录</p>
-<hr>
-<blockquote>
-<p>学习参考书籍：王健伟《C++新经典：模板与泛型编程》</p>
-</blockquote>
-<h2 id="万能引用-1"><a href="#万能引用-1" class="headerlink" title="万能引用"></a>万能引用</h2><p><strong>万能引用</strong>是一种<strong>类型</strong>，同int一样。万能引用既可以接受左值，又可以接受右值。</p>
-<blockquote>
-<p>右值引用：    </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> a = <span class="hljs-number">3</span>;<br><span class="hljs-keyword">int</span> &amp;b = a;  <span class="hljs-comment">// 左值引用类型变量b</span><br></code></pre></td></tr></table></figure>
-
-<p>左值引用：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> &amp;&amp;b = <span class="hljs-number">3</span>;  <span class="hljs-comment">// 右值引用类型变量b</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>左值和右值</strong>的区分：</p>
-<ul>
-<li>可以取地址的（如存在内存中），有名字的（有标识符），非临时的就是左值；</li>
-<li>不能取地址的（如存在寄存器中），没有名字的（没有标识符），临时的就是右值；</li>
-</ul>
-</blockquote>
-<p>示例代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;&amp;tmprv)</span>	<span class="hljs-comment">// 参数tmprv是一个右值引用类型（int &amp;&amp;），只能传入右值引用类型的实参，传入左值引用类型实参将会报错</span></span><br><span class="hljs-function"></span>&#123;<br>    cout &lt;&lt; tmprv &lt;&lt; endl;<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(T&amp;&amp; tmprv)</span>	<span class="hljs-comment">// 参数tmprv是一个万能引用类型（T&amp;&amp;），既可以传入右值引用类型参数，也可以传入左值引用类型参数</span></span><br><span class="hljs-function"></span>&#123;<br>    cout &lt;&lt; tmprv &lt;&lt; endl;<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>参数成为<strong>万能引用</strong>（也叫做未定义引用）类型必须满足如下条件：</p>
-<ul>
-<li>必须是<strong>函数模板</strong>；</li>
-<li>必须是发生了模板参数<strong>类型推断</strong>并且函数模板参数形如T&amp;&amp;。</li>
-</ul>
-<blockquote>
-<p>在 <code>T&amp;&amp;</code> 前加 <code>const</code> 关键字进行修饰，会将万能引用退化为右值引用。</p>
-</blockquote>
-<h2 id="完美转发-1"><a href="#完美转发-1" class="headerlink" title="完美转发"></a>完美转发</h2><p>完美转发概念：从主函数中调用函数A，通过函数A调用函数B，这个过程叫做<strong>转发</strong>。函数A作为<strong>跳板函数</strong>，将主函数出入的参数传递给函数B。在普通转发过程中，参数的某些类型信息（如const属性、左值或右值属性）会丢失。而<strong>完美转发</strong>能够使在转发过程中参数的类型信息不丢失。</p>
-<p>函数形参的完美转发：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> F, <span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">A</span><span class="hljs-params">(F B, T&amp;&amp; t)</span>	<span class="hljs-comment">// t为万能引用类型</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">B</span>(std::forward&lt;T&gt;(t));<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>上述完美转发实现方式为：通过一个函数模板A，可以把任意函数名B、任意类型参数传递给函数模板A，从而达到间接调用任意函数B的目的。<code>std::forward&lt;T&gt;(t)</code>是C++标准库中的函数，作用是<strong>保持函数模板输入原始实参的左值性或右值性</strong>，实现函数形参的完美转发。</p>
-<h2 id="常用标准库模板-1"><a href="#常用标准库模板-1" class="headerlink" title="常用标准库模板"></a>常用标准库模板</h2><ul>
 <li><p><code>std::declval</code></p>
 <blockquote>
 <p>作用：</p>

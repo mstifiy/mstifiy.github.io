@@ -24,7 +24,7 @@
 <meta property="og:description" content="概述代理模型是工程问题中常用的一个优化方法。当实际问题（高精度模型）计算量很大、不容易求解时，可以使用计算量较小、求解迅速的简化模型来替代原模型，加速优化过程。代理模型的计算结果与原模型非常接近，但是求解计算量较小。通过在仔细选择的有限个点（输入）计算原模型的响应（输出），从而建立代理模型$^{[1]}$。建立得到的代理模型在优化设计中可近似替代比较复杂和费时的数值分析，也可称为响应面模型或者是近">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-07T07:47:59.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:38:37.252Z">
+<meta property="article:modified_time" content="2023-01-03T09:42:20.242Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,7 +208,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.9k 字
+      1.4k 字
     </span>
   
 
@@ -217,7 +217,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9 分钟
+      4 分钟
     </span>
   
 
@@ -285,46 +285,6 @@
 </li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%9E%8B">维基百科-代理模型</a></p>
-<p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/555814030">代理模型介绍大全 - 知乎 (zhihu.com)</a></p>
-<p>[3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/bushixiaofan/article/details/47664567">回归、插值、拟合</a></p>
-<p>[4] <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45928096/article/details/123479479">关于代理模型的一些理解</a>—<br>title: 代理模型学习记录<br>date: 2022-11-07 15:47:59<br>tags: 学习记录</p>
-<hr>
-<h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p><strong>代理模型</strong>是工程问题中常用的一个优化方法。当实际问题（高精度模型）计算量很大、不容易求解时，可以使用计算量较小、求解迅速的简化模型来替代原模型，加速优化过程。代理模型的计算结果与原模型非常接近，但是求解计算量较小。通过在仔细选择的有限个点（输入）计算原模型的响应（输出），从而建立代理模型$^{[1]}$。建立得到的代理模型在优化设计中可近似替代比较复杂和费时的数值分析，也可称为响应面模型或者是近似模型。对于优化过程中的一些难以用直观的函数表达式去表达目标函数，这时也可用代理模型来替代目标函数。使用代理模型可以极大的提高优化设计效率以及降低优化的难度。</p>
-<h2 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h2><p>从算法层面来分，代理模型通常有径向基模型，神经网络，多项式响应面模型，克里金模型，支持向量机模型等等。</p>
-<p>从解决工程问题的差异性来分，代理模型可分为两类：一种是直接基于实验设计的代理模型优化，一种是带加点准则的代理模型优化。两者区别在于，前者一次性抽取样本点，计算响应值并构建代理模型，在优化过程中代理模型保持不变。而后者是先抽取少量的样本点建立初始代理模型，再不断向总样本中添加新点，不断更新代理模型，直至优化收敛。所以从优化过程中的构造方式来看，前者又被称作”静态代理模型“，后者为”动态代理模型“。</p>
-<h2 id="构建步骤-1"><a href="#构建步骤-1" class="headerlink" title="构建步骤"></a>构建步骤</h2><pre><code class=" mermaid">graph TD
-    样本点获取 --&gt; 对样本点进行数值分析 --&gt; 组成数据集 --&gt; 构建代理模型 
-</code></pre>
-
-<ul>
-<li><p>样本点采集通常采用试验设计的方法，通常采用拉丁超立方和均匀设计；</p>
-</li>
-<li><p>样本点数值分析，通常采用线下实验或者线上计算机模拟（有限元分析等等）；</p>
-</li>
-<li><p>将样本点及其对应的数值分析结果组成数据集，用于代理模型构建；</p>
-</li>
-<li><p>建立代理模型时可先对某一模型的参数进行训练，可以极大增强代理模型的精准性，一般采用“最大似然估计”、“交叉验证”等。</p>
-</li>
-</ul>
-<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><ul>
-<li><p><strong>插值、逼近和回归的区别</strong></p>
-<p>从多项式的角度，插值是用一个多项式来近似替代数据列表函数，并要求多项式通过列表函数中给定的数据点。逼近是为复杂函数寻找近似的替代多项式函数，其误差在某种度量意义下最小。</p>
-<blockquote>
-<p>插值和逼近都是通过采样点寻找目标函数的近似替代，区别在于是否经过采样点。插值中替代函数经过样本点，故样本点误差为零；逼近中样本点误差不为零，而是在某种度量意义下最小。</p>
-</blockquote>
-<p>回归反映的是两组数据的关系，假设已知所有样本点同时满足一曲线方程，回归的目的在于求出该方程的系数$^{[3]}$。</p>
-<blockquote>
-<p>对于代理模型中回归模型有多项式响应面模型，插值模型有克里金模型和径向基模型等。</p>
-</blockquote>
-</li>
-<li><p><strong>代理模型的局限性</strong></p>
-<p>随着问题维度的上升，代理模型构建所花费的样本点数和时间会大幅度地增加，而且也会在一定程度上降低代理模型的精度从而影响其提供信息的可信度，从而会导致代理模型的辅助能力下降。因此，可将目前运用较为广泛的降维技术与代理模型所使用的算法相结合进一步提高在求解高维问题时的效果$^{[4]}$。</p>
-</li>
-<li><p><strong>代理模型的发展部分趋势</strong></p>
-<p>相较于静态代理模型，动态代理模型在优化效率和结果精度方面更具有优势。详细实现参见文献<a target="_blank" rel="noopener" href="http://d.g.wanfangdata.com.cn/Periodical_jxgcxb201107024.aspx">基于动态径向基函数代理模型的优化策略，DOI:10.3901/JME.2011.07.164</a>。对于多维的样本数据，在构建代理模型前可采用数据降维方法，如POD、PCA等。详情实现参见文献<a target="_blank" rel="noopener" href="https://d.wanfangdata.com.cn/periodical/CiFQZXJpb2RpY2FsQ0hJTmV3UzIwMjIxMDI0MjAyMjEwMjQSD2pzbHh4YjIwMjIwNDAxNRoId2puaDFiaDI%3D">基于POD-RBF代理模型的迭代更新反演方法，DOI:10.7511/jslx20201201001</a>。</p>
-</li>
-</ul>
-<h2 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%9E%8B">维基百科-代理模型</a></p>
 <p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/555814030">代理模型介绍大全 - 知乎 (zhihu.com)</a></p>
 <p>[3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/bushixiaofan/article/details/47664567">回归、插值、拟合</a></p>
 <p>[4] <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45928096/article/details/123479479">关于代理模型的一些理解</a></p>

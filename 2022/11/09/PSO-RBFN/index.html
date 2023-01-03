@@ -27,12 +27,8 @@
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/11133.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/Figu1.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221109213729271.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/%E7%BB%98%E5%9B%BE1.jpg">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/11133.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/Figu1.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221109213729271.png">
 <meta property="article:published_time" content="2022-11-09T14:17:20.000Z">
-<meta property="article:modified_time" content="2023-01-03T09:38:37.230Z">
+<meta property="article:modified_time" content="2023-01-03T09:42:20.203Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -217,7 +213,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.1k 字
+      2.5k 字
     </span>
   
 
@@ -226,7 +222,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      16 分钟
+      8 分钟
     </span>
   
 
@@ -304,55 +300,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><h2 id="1-庹婧艺-徐冰峰-徐悦-等-基于PSO算法优化的RBF神经网络水厂混凝投药控制-J-工业安全与环保-2022-48-9-83-86-DOI-10-3969-j-issn-1001-425X-2022-09-020"><a href="#1-庹婧艺-徐冰峰-徐悦-等-基于PSO算法优化的RBF神经网络水厂混凝投药控制-J-工业安全与环保-2022-48-9-83-86-DOI-10-3969-j-issn-1001-425X-2022-09-020" class="headerlink" title="[1] 庹婧艺,徐冰峰,徐悦,等. 基于PSO算法优化的RBF神经网络水厂混凝投药控制[J]. 工业安全与环保,2022,48(9):83-86. DOI:10.3969/j.issn.1001-425X.2022.09.020."></a>[1] 庹婧艺,徐冰峰,徐悦,等. 基于PSO算法优化的RBF神经网络水厂混凝投药控制[J]. 工业安全与环保,2022,48(9):83-86. DOI:10.3969/j.issn.1001-425X.2022.09.020.</h2><p>title: PSO-RBFN<br>date: 2022-11-09 22:17:20<br>tags: 学习记录</p>
-<hr>
-<h2 id="算法原理及流程-1"><a href="#算法原理及流程-1" class="headerlink" title="算法原理及流程"></a>算法原理及流程</h2><p>关于RBF神经网络的细节详见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/127699908">RBF神经网络学习及实践</a>。</p>
-<p>关于PSO算法的细节详见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/127750401">粒子群优化算法（PSO）python实践</a>。</p>
-<p>PSO算法优化RBF神经网络训练流程图如下所示。</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/%E7%BB%98%E5%9B%BE1.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h2><p>代码直接使用文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/127699908">RBF神经网络学习及实践</a>和<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39784672/article/details/127750401">粒子群优化算法（PSO）python实践</a>中的代码框架。</p>
-<p>为了能在PSO类内部计算fitness，我们给PSO类初始化方法添加rbfn参数，方便调用rbfn进行训练和计算适应度（适应度直接采用均方误差）。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">self.rbfn = rbfN<br></code></pre></td></tr></table></figure>
-
-<p>修改RBFN类中的训练测试函数，使之返回适应度。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test</span>(<span class="hljs-params">self</span>):</span><br>G = self._calcAct(self.X)<br>Y_pre = np.dot(G, self.W)<br><span class="hljs-comment"># 计算整体均方误差</span><br>E = <span class="hljs-number">0.5</span> * (np.linalg.norm(Y_pre - self.Y)) ** <span class="hljs-number">2</span><br><span class="hljs-keyword">return</span> E<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">predict</span>(<span class="hljs-params">self, x</span>):</span><br>G = self._calcAct(x)<br>Y_pre = np.dot(G, self.W)<br><span class="hljs-keyword">return</span> Y_pre<br></code></pre></td></tr></table></figure>
-
-<p>测试主函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python">num_sample, num_center, sample_dim = <span class="hljs-number">30</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span><br><span class="hljs-comment"># 数据生成</span><br>x_train = np.linspace(-<span class="hljs-number">4</span>, <span class="hljs-number">4</span>, num_sample).reshape(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>y_train = np.multiply(<span class="hljs-number">1.1</span> * (<span class="hljs-number">1</span> - x_train + <span class="hljs-number">2</span> * x_train ** <span class="hljs-number">2</span>), np.exp(-<span class="hljs-number">0.5</span> * x_train ** <span class="hljs-number">2</span>))<br>x_test = np.linspace(-<span class="hljs-number">4</span>, <span class="hljs-number">4</span>, <span class="hljs-number">500</span>).reshape(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>y_test = np.multiply(<span class="hljs-number">1.1</span> * (<span class="hljs-number">1</span> - x_test + <span class="hljs-number">2</span> * x_test ** <span class="hljs-number">2</span>), np.exp(-<span class="hljs-number">0.5</span> * x_test ** <span class="hljs-number">2</span>))<br><span class="hljs-comment"># PSO-RBF</span><br>rbfn = RBFN(<span class="hljs-number">1</span>, num_center, <span class="hljs-number">1</span>, x_train, y_train)<br>pso = PSO_RBFN(num_center * sample_dim, <span class="hljs-number">30</span>, <span class="hljs-number">400</span>, rbfN = rbfn)<br>pso.pso()<br><span class="hljs-comment"># print(pso.g_best)</span><br>rbfn.train(pso.g_best)<br>y_pre = rbfn.predict(x_test)<br><span class="hljs-comment"># 绘图</span><br>plt.figure(<span class="hljs-number">1</span>)<br>plt.plot(x_test, y_pre, <span class="hljs-string">&#x27;k&#x27;</span>)<br>plt.plot(x_test, y_test, <span class="hljs-string">&#x27;r:&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;y&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;x&#x27;</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(x_train)):<br>    plt.plot(x_train[i], y_train[i], <span class="hljs-string">&#x27;go&#x27;</span>, markerfacecolor = <span class="hljs-string">&#x27;none&#x27;</span>)<br>plt.legend(labels = [<span class="hljs-string">&#x27;reconstruction&#x27;</span>, <span class="hljs-string">&#x27;original&#x27;</span>, <span class="hljs-string">&#x27;sample point&#x27;</span>], loc = <span class="hljs-string">&#x27;lower left&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
-
-<p>测试PSO适应度收敛曲线如下图所示。</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/11133.png" srcset="/img/loading.gif" lazyload alt="11133"></p>
-<p>PSO-RBFN毕竟结果如下。</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/Figu1.png" srcset="/img/loading.gif" lazyload alt="Figu1"></p>
-<blockquote>
-<p>其中绿色空心圆点为样本数据，红色虚线为期望数据，黑色实线为预测数据。</p>
-</blockquote>
-<h2 id="结果分析与总结-1"><a href="#结果分析与总结-1" class="headerlink" title="结果分析与总结"></a>结果分析与总结</h2><ul>
-<li><p><strong>PSO粒子与RBFN中心点</strong></p>
-<p>这两个概念我曾混淆，认为：PSO优化RBFN时，每个中心点都编码成一个粒子。但是随后又想，既然在PSO中需要频繁计算每个粒子的适应度，而RBFN的预测结果是由所有中心点共同线性加权决定的，所以这个想法不成立。实际上，我们引入PSO算法的目的在于更好地优化RBFN，使其找到最优的网络构建参数：隐层中心点、方差、输出层到结果的权值。只要隐层中心点确定，方差可以由如下公式计算得到：</p>
-<p>$$<br>\sigma=\frac{d_{\max }}{\sqrt{2 n}}<br>$$<br>这里 $\mathrm{d}_{\max }$ 是选取中心的之间的最大距离。权值也可以通过伪逆法求解得到。</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20221109213729271.png" srcset="/img/loading.gif" lazyload alt="image-20221109213729271"></p>
-<p>因此，我们只需找到构建RBFN的最优中心点即可，即粒子编码中包括基函数中心值。设有 $m$ 个中心点，每个中心点为 $k$ 维（中心点维度等于输入样本数据维度），那么，每个粒子的位置和速度均为 $m\times{k}$ 维。</p>
-</li>
-<li><p><strong>粒子位置限制和速度限制</strong></p>
-<p>对于粒子的位置限制，取决于输入样本的各个维度的取值域，如果是取值无约束，可注释掉位置限制相关代码。对于速度限制，一般取最大速度取维度位置变化范围的10%~20%，在测试代码中粒子速度范围限制在[-1,1]之间。</p>
-</li>
-<li><p><strong>RBFN中心点个数确定和初始化</strong></p>
-<p>在测试代码中，对于RBFN中心点个数取3，且在 $[X_{min},X_{max}]$ 中均匀随机初始化，这属于比较简单粗暴的了。正常来说，一般是使用聚类进行初始化。如指定中心点个数进行K-Means聚类得到聚类中心初始化中心点位置。但是K-Means算法的缺点是需要指定聚类中心个数，所以可以考虑采用减法聚类<code>Subtrative Clustering</code>迭代得到一定数量的聚类中心点位置。</p>
-</li>
-<li><p><strong>样本数据归一化</strong></p>
-<p>对于样本数据的不同维度，其数据量纲、量纲单位、数量级存在差别，为防止计算饱和，需要对其进行归一化处理，以建立各类数据的可比性。</p>
-<ul>
-<li><p>min-max标准化</p>
-<p>min-max标准化最终将样本数据限定在[0,1]范围内，其转化函数为：<br>$$<br>X=\frac{X-X_{min}}{X_{max}-X_{min}}<br>$$<br>式中 $X$ 为样本数据，$X_{max}$ 为样本数据最大值，$X_{min}$ 为最小值。</p>
-</li>
-<li><p>z-score标准化</p>
-<p>经过 z-score标准化处理的数据符合标准正态分布，即均值为0，标准差为1，其转化函数为：<br>$$<br>z=\frac{x-\mu}{\sigma}<br>$$<br>其中 $\mu$ 为样本数据的均值，$\sigma$ 为样本数据的标准差，$x$ 为样本数据。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h2><p>[1] 庹婧艺,徐冰峰,徐悦,等. 基于PSO算法优化的RBF神经网络水厂混凝投药控制[J]. 工业安全与环保,2022,48(9):83-86. DOI:10.3969/j.issn.1001-425X.2022.09.020.</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] 庹婧艺,徐冰峰,徐悦,等. 基于PSO算法优化的RBF神经网络水厂混凝投药控制[J]. 工业安全与环保,2022,48(9):83-86. DOI:10.3969/j.issn.1001-425X.2022.09.020.</p>
 
             </div>
             <hr>
