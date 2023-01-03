@@ -16,6 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="MSTIFIY">
   <meta name="keywords" content="">
+  <meta name="referrer" content="no-referrer" />
   <meta name="description" content="原理原理类似文章点云梯度下采样中提到的梯度下采样。 大致采样思路如下： Step1：计算出每个待采样点 $p_i$ 的梯度 $G_i$，并计算节点点云整体的平均梯度作为梯度阈值 $G_t$。 Step2：比较 $G_i$ 与梯度阈值 $G_t$ 大小，如果小于梯度阈值 $G_t$，则把采样点 $p_i$ 划分到节点属性变化剧烈区间，反之划分到节点属性变化缓慢区间。 Step3：采用均匀网格法对两个">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一维离散数据的分区均匀采样">

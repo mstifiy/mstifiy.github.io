@@ -16,6 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="MSTIFIY">
   <meta name="keywords" content="">
+  <meta name="referrer" content="no-referrer" />
   <meta name="description" content="目的模型切片在3D打印喷头路径规划中是非常重要的一环。实现切片的算法有很多，主流的思想是平面与模型三角面片求交得到相交的线段，再将这些线段组织连接成折线轮廓，以便接下来进行切片层内的路径规划。下文将使用VTK简单实现模型Z轴方向的平面切片。 关键函数vtkCutte是一个用于剪切数据的过滤器。在代码中用于得到平面和模型面片求交得到的线段。 12345cutter &#x3D; vtk.vtkCutter()">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【VTK+增材CAM】模型切片">

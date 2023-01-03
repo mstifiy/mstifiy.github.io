@@ -16,6 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="MSTIFIY">
   <meta name="keywords" content="">
+  <meta name="referrer" content="no-referrer" />
   <meta name="description" content="坐标圆整造成的问题在Clipper库中顶点（IntPoint）的坐标使用的是整数类型， 目的是为了保持数字的鲁棒性，所以用整数类型来存储坐标，而不是我们常见的浮点数类型（浮点存在不精确性）。然而坐标圆整会带来如下两个问题：  参与计算的顶点位置和真实的顶点位置存在一定偏差。对于一些数值极小的或相差极小的顶点难以处理。  造成微小的自交。     上图中，三个黑点是黄色和紫色多边形区域的实际交点，三">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Clipper库  坐标圆整和精度控制">
