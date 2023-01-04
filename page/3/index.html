@@ -132,18 +132,6 @@
             </li>
           
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/Breathing-the-World/">
-                <i class="iconfont icon-code"></i>
-                Breathing the World
-              </a>
-            </li>
-          
-        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -163,7 +151,7 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/bg/bg_2.jpg') no-repeat center center;
+         style="background: url('/img/bg/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -212,15 +200,7 @@
         <a href="/2022/12/11/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88/" target="_self">
           
           
-            
           
-          用setdefault处理找不到的键对于如下两段代码，所实现的功能都是一样的。
-123if key not in my_dict:	my_dict[key] = []my_dict[key].append(new_value)
-
-1my_dict.setdefault(key, []).append(new_value)
-
-相较而言，使用setdefault来处理字典中不存在的键时，更加优雅。
-用
         </a>
       </p>
 
@@ -261,20 +241,7 @@
         <a href="/2022/12/10/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/" target="_self">
           
           
-            
           
-          内置序列类型按照序列存放元素方式的不同，可以分为：
-
-容器序列：list、 tuple 和 collections.deque。
-
-扁平序列：str、 bytes、 bytearray、 memoryview 和 array.array。
-
-容器序列中存放的是元素对象的引用，扁平序列存放的是值。所以前者能够存放不同类型的数据，而后者只能存放单一类型数据。
-
-
-
-按照序列类型能否被修改，可以分为：
-
         </a>
       </p>
 
@@ -315,14 +282,7 @@
         <a href="/2022/12/09/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" target="_self">
           
           
-            
           
-          本章主要围绕Python的特殊方法进行介绍，通过实现特殊方法利用Python数据模型。
-首先看两个例子：
-
-一个表示一副扑克牌的类。
-
-123456789101112131415161718import collectionsCard = collections.namedtuple(&#x27;Card&#x27;, [&#x27;rank&#x27;, &#x27;suit&#x27;])cl
         </a>
       </p>
 
@@ -363,22 +323,7 @@
         <a href="/2022/12/08/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E4%B8%87%E8%83%BD%E5%BC%95%E7%94%A8%E3%80%81%E5%AE%8C%E7%BE%8E%E8%BD%AC%E5%8F%91%E5%92%8C%E5%B8%B8%E7%94%A8%E6%A0%87%E5%87%86%E5%BA%93%E6%A8%A1%E6%9D%BF/" target="_self">
           
           
-            
           
-          
-学习参考书籍：王健伟《C++新经典：模板与泛型编程》
-
-万能引用万能引用是一种类型，同int一样。万能引用既可以接受左值，又可以接受右值。
-
-右值引用：    
-12int a = 3;int &amp;b = a;  // 左值引用类型变量b
-
-左值引用：
-1int &amp;&amp;b = 3;  // 右值引用类型变量b
-
-左值和右值的区分：
-
-可以取地址的（如存在内存中），有名字的（有
         </a>
       </p>
 
@@ -419,13 +364,7 @@
         <a href="/2022/12/07/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E6%A8%A1%E6%9D%BF%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/" target="_self">
           
           
-            
           
-          
-学习参考书籍：王健伟《C++新经典：模板与泛型编程》
-
-奇异的递归模板模式派生类作为基类的模板参数。
-12345678910111213141516template&lt;typename T&gt;class A	// 基类模板&#123;    &#125;;class B : public A&lt;B&gt;	// 派生普通类&#123;    &#125;;template&lt;ty
         </a>
       </p>
 
@@ -466,14 +405,7 @@
         <a href="/2022/12/06/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%8F%8B%E5%85%83%E3%80%81%E5%8F%AF%E5%8F%98%E5%8F%82%E6%A8%A1%E6%9D%BF/" target="_self">
           
           
-            
           
-          
-学习参考书籍：王健伟《C++新经典：模板与泛型编程》
-
-类模板中的友元友元，即若A为B的友元，那么A可以访问B中的所有成员（任何修饰符修饰）。
-友元类1.类模板的实例成为友元类
-1234567891011121314151617181920212223242526272829#include &lt;iostream&gt;using namespace std;template&lt;type
         </a>
       </p>
 
@@ -514,13 +446,7 @@
         <a href="/2022/12/05/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%B1%BB%E6%A8%A1%E6%9D%BF%E3%80%81%E5%8F%98%E9%87%8F%E6%A8%A1%E6%9D%BF%E5%92%8C%E5%88%AB%E5%90%8D%E6%A8%A1%E6%9D%BF/" target="_self">
           
           
-            
           
-          
-学习参考书籍：王健伟《C++新经典：模板与泛型编程》
-
-类模板和函数模板一样，类模板可以理解为产生类的模具，通过给定的模板参数生成具体的类。vector容器就是一个类模板应用的例子，vector可以存放不同类型的数据类型元素，其就是通过引入类模板来减少不同类型元素存储时重复的代码，代码更加精简和通用。示例如下：
-123456789101112131415161718192021222324252
         </a>
       </p>
 
@@ -561,9 +487,7 @@
         <a href="/2022/12/04/%E3%80%90C++%E6%B3%9B%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF/" target="_self">
           
           
-            
           
-          提到C++的程序设计方法，最先想到的便是两种：面向过程和面向对象编程。但是当我们去阅读一些优秀的C++库源码时（比如CGAL），就会直接被其的泛型编程劝退。泛型编程也是C++程序设计方法中的一种，不同于上述两种设计方法，其最突出的特点是提高代码复用性和减少代码冗余，这也是大型开源项目使用泛型的原因之一。而我学习泛型编程的目的在于，能够看懂CGAL等库的源码和具备高复用性代码编写能力，并且为学习ST
         </a>
       </p>
 
@@ -604,11 +528,7 @@
         <a href="/2022/12/01/%E3%80%90VTK+%E5%A2%9E%E6%9D%90CAM%E3%80%91%E6%A8%A1%E5%9E%8B%E5%88%87%E7%89%87/" target="_self">
           
           
-            
           
-          目的模型切片在3D打印喷头路径规划中是非常重要的一环。实现切片的算法有很多，主流的思想是平面与模型三角面片求交得到相交的线段，再将这些线段组织连接成折线轮廓，以便接下来进行切片层内的路径规划。下文将使用VTK简单实现模型Z轴方向的平面切片。
-关键函数vtkCutte是一个用于剪切数据的过滤器。在代码中用于得到平面和模型面片求交得到的线段。
-12345cutter = vtk.vtkCutter()
         </a>
       </p>
 
@@ -649,13 +569,7 @@
         <a href="/2022/11/28/%E4%B8%80%E7%BB%B4%E7%A6%BB%E6%95%A3%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E5%8C%BA%E5%9D%87%E5%8C%80%E9%87%87%E6%A0%B7/" target="_self">
           
           
-            
           
-          原理原理类似文章点云梯度下采样中提到的梯度下采样。
-大致采样思路如下：
-Step1：计算出每个待采样点 $p_i$ 的梯度 $G_i$，并计算节点点云整体的平均梯度作为梯度阈值 $G_t$。
-Step2：比较 $G_i$ 与梯度阈值 $G_t$ 大小，如果小于梯度阈值 $G_t$，则把采样点 $p_i$ 划分到节点属性变化剧烈区间，反之划分到节点属性变化缓慢区间。
-Step3：采用均匀网格法对两个
         </a>
       </p>
 

@@ -132,18 +132,6 @@
             </li>
           
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/Breathing-the-World/">
-                <i class="iconfont icon-code"></i>
-                Breathing the World
-              </a>
-            </li>
-          
-        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -163,7 +151,7 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/bg/bg_2.jpg') no-repeat center center;
+         style="background: url('/img/bg/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -212,12 +200,7 @@
         <a href="/2023/01/04/LaTex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
           
           
-            
           
-          1. VSCode+LaTex写作环境配置1.1 VSCode配置安装latex-workshop插件。
-
-配置默认的LaTex编译器和编译工具。我们使用miktex作为编译后端。在vscode的settings.json文件中添加：
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454
         </a>
       </p>
 
@@ -258,14 +241,7 @@
         <a href="/2023/01/02/hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/" target="_self">
           
           
-            
           
-          [TOC]
-1. Hexo搭建步骤1.1 安装GitWindows下载：Git for Windows
-Linux下载：sudo apt-get install git
-1.2 安装Node.jsWindows下载：Download | Node.js (nodejs.org)
-Linux下载：
-12sudo apt-get install nodejssudo apt-get install n
         </a>
       </p>
 
@@ -306,11 +282,7 @@ Linux下载：
         <a href="/2022/12/31/pybind11%E5%AD%A6%E4%B9%A0%20%E5%9C%A8Python%E4%B8%AD%E6%9E%84%E5%BB%BA%E7%BC%96%E8%AF%91%E7%94%9F%E6%88%90pyd%E6%96%87%E4%BB%B6/" target="_self">
           
           
-            
           
-          [TOC]
-0 准备项目文件夹结构树如下：
-1234567pybind11_setup_demo    └─demo				# demo包        │  	setup.py	# 用于编译C++代码，生成C/C++ python扩展        │  	test.py		# 用于测试生成的拓展        │        └─src			# 源码文件夹            exampl
         </a>
       </p>
 
@@ -351,10 +323,7 @@ Linux下载：
         <a href="/2022/12/30/pybind11%20%20%E7%BB%91%E5%AE%9ACGAL%E5%87%A0%E4%BD%95%E7%AE%97%E6%B3%95%EF%BC%88numpy%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%EF%BC%89/" target="_self">
           
           
-            
           
-          [TOC]
-一 前言对于CGAL，前段时间也用过相关的Python绑定，详情见文章：【CGAL+Python】安装CGAL的Python绑定。如果我们想要调用[Polygon Mesh Processing](CGAL 5.5.1 - Polygon Mesh Processing: User Manual)中的算法，在不就地读取网格文件的前提下，需要在Python代码中构建CGAL的多边形网格对
         </a>
       </p>
 
@@ -395,15 +364,7 @@ Linux下载：
         <a href="/2022/12/28/pybind11%E5%AD%A6%E4%B9%A0%20%E4%BD%BF%E7%94%A8CMake%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F%E5%B9%B6%E7%94%9F%E6%88%90pyd%E6%96%87%E4%BB%B6/" target="_self">
           
           
-            
           
-          [TOC]
-一 通过Visual Studio生成在我之前的一篇文章pybind11学习 | VS2022下安装配置中，描述了如何通过配置VS2022实现pybind11项目构建和编译成Python拓展模块。
-二 通过CMake生成项目结构如下：
-
-其中pybind11文件夹为从github上克隆的pybind11源码。
-CMakeLists.txt
-12345cmake_minimum_requ
         </a>
       </p>
 
@@ -444,14 +405,7 @@ CMakeLists.txt
         <a href="/2022/12/27/CMAKE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
           
           
-            
           
-          [TOC]
-1 CMakeLists.txt基础模板1.1 最小项目CMakeLists.txt
-123456# 指定使用 CMake 的最低版本号cmake_minimum_required (VERSION 2.6)# 指定项目名称project (Tutorial)# 添加可执行文件add_executable(Tutorial tutorial.cxx)
-
-tutorial.cxx
-123
         </a>
       </p>
 
@@ -492,21 +446,7 @@ tutorial.cxx
         <a href="/2022/12/25/pybind11%E5%AD%A6%E4%B9%A0%20%E5%BC%82%E5%B8%B8%E8%BD%AC%E6%8D%A2%E5%92%8C%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/" target="_self">
           
           
-            
           
-          
-本文主要记录官方文档中 EXCEPTIONS 和 TYPE CONVERSIONS 一章的学习笔记。
-
-[TOC]
-一 异常转换1.1 C++内置异常到Python异常的转换当Python通过pybind11调用C++代码时，pybind11将捕获C++异常，并将其翻译为对应的Python异常后抛出，这样Python代码就能够处理它们。
-
-
-
-C++抛出的异常
-转换到Python的异常类型
-
-
-
         </a>
       </p>
 
@@ -547,15 +487,7 @@ C++抛出的异常
         <a href="/2022/12/24/pybind11%E5%AD%A6%E4%B9%A0%20%E7%B1%BB%E7%9A%84%E7%BB%91%E5%AE%9A/" target="_self">
           
           
-            
           
-          
-本文主要记录官方文档中 CLASSES 一章的学习笔记。
-对于C++ 类的Python绑定，在前面的学习中已经有所涉及了，详见：pybind11学习 | 面向对象编程。本文主要是记录一些更加深入的知识。在本文中只涉及了一些我感兴趣的部分，其他部分详见官方文档CLASSES 一章。
-
-[TOC]
-1 在Python中重载虚函数一个含有虚函数的C++类。
-1234567891011121314151
         </a>
       </p>
 
@@ -596,14 +528,7 @@ C++抛出的异常
         <a href="/2022/12/23/pybind11%E5%AD%A6%E4%B9%A0%20%E5%87%BD%E6%95%B0%E7%9A%84%E7%BB%91%E5%AE%9A/" target="_self">
           
           
-            
           
-          
-本文主要记录官方文档中 FUNCTIONS 一章的学习笔记。
-对于C++ 函数的Python绑定，在前面的学习中已经有所涉及了，详见：pybind11学习 | 迈出第一步。本文主要是记录一些更加深入的知识。
-
-[TOC] 
-1 返回值策略Python和C++在内存管理和对象生命周期管理上存在本质的区别。为此，pybind11提供了一些返回值策略来确定由哪方管理资源。pybind11在绑定C++函
         </a>
       </p>
 
@@ -644,12 +569,7 @@ C++抛出的异常
         <a href="/2022/12/22/pybind11%E5%AD%A6%E4%B9%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" target="_self">
           
           
-            
           
-          本文主要记录官方文档中 **OBJECT-ORIENTED CODE  **一章的学习笔记。
-[TOC]
-1 自定义类的绑定在C++中自定义一个数据结构Pet，代码如下：
-1234567struct Pet &#123;    Pet(const std::string &amp;name) : name(name) &#123; &#125;    void setName(const std:
         </a>
       </p>
 

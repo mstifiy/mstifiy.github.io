@@ -132,18 +132,6 @@
             </li>
           
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/Breathing-the-World/">
-                <i class="iconfont icon-code"></i>
-                Breathing the World
-              </a>
-            </li>
-          
-        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -163,7 +151,7 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/bg/bg_2.jpg') no-repeat center center;
+         style="background: url('/img/bg/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -212,12 +200,7 @@
         <a href="/2022/12/21/pybind11%E5%AD%A6%E4%B9%A0%20%E8%BF%88%E5%87%BA%E7%AC%AC%E4%B8%80%E6%AD%A5/" target="_self">
           
           
-            
           
-          本文主要记录官方文档中FIRST STEPS一章的学习笔记。
-[TOC]
-1 简单函数的绑定先从一个简单的示例开始：
-1234567891011#include &lt;pybind11/pybind11.h&gt;namespace py = pybind11;int add(int i, int j) &#123;    return i + j;&#125;PYBIND11_MODULE(e
         </a>
       </p>
 
@@ -258,16 +241,7 @@
         <a href="/2022/12/20/pybind11%20VS2022%E4%B8%8B%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" target="_self">
           
           
-            
           
-          pybind11是一个只有头文件（header-only）的轻量级库，其主要目的是建立C++的Python代码绑定，实现C++和Python无缝连接。我学习这个工具的目的，是为了能够在Python中调用C++代码实现一些计算密集型任务，同时培养自己的混合编程的能力。
-1 环境
-Windows11
-VS2022
-pybind11
-Anaconda3 , with python 3.8
-
-2 源码下载
         </a>
       </p>
 
@@ -308,16 +282,7 @@ Anaconda3 , with python 3.8
         <a href="/2022/12/19/%E3%80%90pyclipper+%E5%A2%9E%E6%9D%90CAM%E3%80%91%E8%BD%AE%E5%BB%93%E5%81%8F%E7%BD%AE/" target="_self">
           
           
-            
           
-          在增材打印CAM中，我们需要在切片得到的每层轮廓中规划生成打印路径。传统的三轴3D打印的常见填充方式有：轮廓平行填充和方向平行填充。其中轮廓平行填充主要是通过轮廓偏置实现的。
-pyclipper安装使用Python下安装pyclipper库，命令行输入pip指令：
-1pip install pyclipper
-
-
-通过 import pyclipper 导入使用。
-
-pyclipper基础pycl
         </a>
       </p>
 
@@ -358,15 +323,7 @@ pyclipper基础pycl
         <a href="/2022/12/18/Clipper%E5%BA%93%20%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%A1%AB%E5%85%85%E8%A7%84%E5%88%99/" target="_self">
           
           
-            
           
-          裁剪类型(ClipType)1234CT_INTERSECTION = 0CT_UNION = 1CT_DIFFERENCE = 2CT_XOR = 3
-
-
-交集，AND (intersection) ：主体和裁剪多边形相交的区域。  
-并集，OR (union) - 主体和裁剪多边形两者合并的区域。   
-非/差，NOT (difference) - 裁剪多边形以外主体的区域。
-异或，XOR (
         </a>
       </p>
 
@@ -407,18 +364,7 @@ pyclipper基础pycl
         <a href="/2022/12/17/Clipper%E5%BA%93%20%20%E5%9D%90%E6%A0%87%E5%9C%86%E6%95%B4%E5%92%8C%E7%B2%BE%E5%BA%A6%E6%8E%A7%E5%88%B6/" target="_self">
           
           
-            
           
-          坐标圆整造成的问题在Clipper库中顶点（IntPoint）的坐标使用的是整数类型， 目的是为了保持数字的鲁棒性，所以用整数类型来存储坐标，而不是我们常见的浮点数类型（浮点存在不精确性）。然而坐标圆整会带来如下两个问题：
-
-参与计算的顶点位置和真实的顶点位置存在一定偏差。对于一些数值极小的或相差极小的顶点难以处理。
-
-造成微小的自交。
-
-
-
-
-上图中，三个黑点是黄色和紫色多边形区域的实际交点，三
         </a>
       </p>
 
@@ -459,11 +405,7 @@ pyclipper基础pycl
         <a href="/2022/12/14/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%8D%8F%E7%A8%8B/" target="_self">
           
           
-            
           
-          生成器作为协程协程是指一个过程， 这个过程与调用方协作， 产出由调用方提供的值。
-协程使用的简单演示（用作协程的生成器）：
-123456789101112131415&gt;&gt;&gt; def simple_coroutine(): # 生成器函数... print(&#x27;-&gt; coroutine started&#x27;)... x = yield # yield表达式右边为
         </a>
       </p>
 
@@ -504,11 +446,7 @@ pyclipper基础pycl
         <a href="/2022/12/14/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20else%E5%AD%90%E5%8F%A5%E5%92%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8/" target="_self">
           
           
-            
           
-          else子句else 子句不仅能在 if 语句中使用， 还能在 for、 while 和 try 语句中使用。在if语句中，else子句的作用是，如果不满足if的条件，那么执行else子句中的代码，这是Python学习中的基础知识。
-在 for 语句后加 else 子句作用是，仅当 for 循环运行完毕时（即 for 循环没有被 break 语句中止）才运行 else 子句中的代码。
-1234fo
         </a>
       </p>
 
@@ -549,12 +487,7 @@ pyclipper基础pycl
         <a href="/2022/12/13/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" target="_self">
           
           
-            
           
-          
- 迭代器用于从集合中取出元素； 而生成器用于“凭空”生成元素。
-
-可迭代对象解释器需要迭代对象 x 时， 会自动调用 iter(x)。内置的 iter 函数有以下作用：(1) 检查对象是否实现了 __iter__ 方法， 如果实现了就调用它， 获取一个迭代器对象。(2) 如果没有实现 __iter__ 方法， 但是实现了 __getitem__ 方法，Python 会创建一个迭代器， 尝试按顺序
         </a>
       </p>
 
@@ -595,17 +528,7 @@ pyclipper基础pycl
         <a href="/2022/12/12/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%87%BD%E6%95%B0%E5%AF%B9%E8%B1%A1%E5%92%8C%E8%A3%85%E9%A5%B0%E5%99%A8/" target="_self">
           
           
-            
           
-          在Python中函数是对象，本质是function类的实例。同样函数对象也是“一等对象”，即满足以下条件：
-
-在运行时创建
-能赋值给变量或数据结构中的元素
-能作为参数传给函数
-能作为函数的返回结果  
-
-函数对象的__doc__属性用于生成对象的帮助文本。
-接受函数为参数， 或者把函数作为结果返回的函数是高阶函数（higherorder function），例如map、filter、reduce等
         </a>
       </p>
 
@@ -646,10 +569,7 @@ pyclipper基础pycl
         <a href="/2022/12/12/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%AD%97%E7%AC%A6%E5%92%8C%E5%AD%97%E8%8A%82/" target="_self">
           
           
-            
           
-          编码和解码文本是用字符串来表示的，一个字符串是一个字符（Unicode字符）序列。码位是字符的标识，是01114111的数字。例如“A”的码位为“U+0041”（在Unicode 标准中以 46 个十六进制数字表示， 而且加前缀“U+”）。字符的具体表述取决于所用的编码，不同的编码标准会将字符（严谨讲是码位）转换成相应的字节序列。解码即是编码的逆向过程，将字节序列转换为码位。
-字节Python内置
         </a>
       </p>
 

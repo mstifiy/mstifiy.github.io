@@ -132,18 +132,6 @@
             </li>
           
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/Breathing-the-World/">
-                <i class="iconfont icon-code"></i>
-                Breathing the World
-              </a>
-            </li>
-          
-        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -163,7 +151,7 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/bg/bg_2.jpg') no-repeat center center;
+         style="background: url('/img/bg/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -212,11 +200,7 @@
         <a href="/2022/11/17/%E3%80%90PyQt5%E3%80%91Model-View%E5%88%86%E7%B1%BB%E6%96%87%E4%BB%B6%E6%A0%91/" target="_self">
           
           
-            
           
-          目的实现一个基于model/view的文件树。具体需求为：打开文件夹后，将文件夹目录下所有的文件归类到不同的父节点下，并通过信号槽机制实现自定义的双击文件事件。
-实现代码UI代码：
-12345678910def create_fileTreeView(self):    # 创建自定义文件树目录    self.fileTreeModel = MyFileTreeModel()    self.f
         </a>
       </p>
 
@@ -257,10 +241,7 @@
         <a href="/2022/11/16/%E3%80%90PyQt5%E3%80%91QTreeView%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89Model/" target="_self">
           
           
-            
           
-          Python代码TreeModel.py
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394
         </a>
       </p>
 
@@ -301,15 +282,7 @@
         <a href="/2022/11/15/PyQt5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
           
           
-            
           
-          Qt Designer使用Tips
-Designer新建窗体中，分为：Dialog、Widget、Main Window三大类。大致选择思路如下：如果是应用主窗体，即需要显示菜单、工具栏、状态栏等，选择Main Window；如果是顶级对话框，选择Dialog；如果不确定，一律选Widget。
-
-布局方式：
-
-绝对布局：通过设置geometry属性进行布局。
-使用布局管理器进行布局：通过使用垂直布
         </a>
       </p>
 
@@ -350,20 +323,7 @@ Designer新建窗体中，分为：Dialog、Widget、Main Window三大类。大�
         <a href="/2022/11/14/Unity%E4%B9%8BC#%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
           
           
-            
           
-          
-参考书籍：《Unity 2017 从入门到精通》
-
-C#脚本编写Tips
-所有添加到游戏对象的C#脚本类都必须直接或间接从MonoBehaviour类中继承。
-
-使用Start或者Awake函数来初始化类，避免使用构造函数。
-
-Start和Awake函数在一定条件下会被自动调用，称为必然事件。常见的必然事件还有Update、FixedUpdate和LateUpdate。
-
-
-类名（特指从Mono
         </a>
       </p>
 
@@ -404,27 +364,7 @@ Start和Awake函数在一定条件下会被自动调用，称为必然事件。�
         <a href="/2022/11/14/%E4%BD%BF%E7%94%A8Everything%E5%88%86%E6%9E%90%E5%92%8C%E6%B8%85%E7%90%86C%E7%9B%98/" target="_self">
           
           
-            
           
-          Everything是一款基于名称快速定位文件和文件夹的搜索工具
-下载地址：https://www.voidtools.com/zh-cn/
-常用操作
-路径下文件夹大小排序。
-
-搜索栏输入：
-1size:&gt;100mb c:\
-
-
-寻找C盘下所有大于100MB的目标。
-
-
-工具–&gt;选项，勾选上索引文件夹大小。
-
-
-搜索菜单，勾选文件夹。
-
-
-接下来便可以根据大小进行排序，找到路径下比较大
         </a>
       </p>
 
@@ -465,25 +405,7 @@ Start和Awake函数在一定条件下会被自动调用，称为必然事件。�
         <a href="/2022/11/14/Unity%E8%84%9A%E6%9C%AC%E5%9C%A8VS%E4%B8%AD%E6%98%BE%E7%A4%BA%E6%9D%82%E9%A1%B9%E4%B8%94%E6%97%A0%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98/" target="_self">
           
           
-            
           
-          
-环境：VS2022+Unity2021+C#脚本
-
-前提
-在Unity中已配置对应的VS。
-
-
-VS相关组件已安装。
-
-
-
-
-问题描述在Unity中新建C#脚本后，双击通过VS打开。如下图所示，未能正确显示“Assembly-CSharp”，而是显示“杂项”。并且，脚本编写时无代码提示和自动补全。
-
-解决方法VS界面，在Assets文件夹下随便新建一个C#脚本。
-
-新建成功后，同目录下的其他C#
         </a>
       </p>
 
@@ -524,17 +446,7 @@ VS相关组件已安装。
         <a href="/2022/11/13/Unity2021+VS2022%E8%B0%83%E8%AF%95/" target="_self">
           
           
-            
           
-          VS2022配置打开电脑上的VS安装程序。
-
-点击修改VS2022，勾选其中的Unity支持组件。如果Unity Hub已经安装好了，可以将其取消勾选。
-
-选完后，点击右下角修改。等待安装程序进行下载安装完成即可。
-
-如果在第一次安装VS2022时就已经勾选安装Unity相关组件，这部分可以略过。
-
-Unity2021配置打开项目后，配置外部脚本编辑器。从菜单栏Edit–&gt;Preferenc
         </a>
       </p>
 
@@ -575,12 +487,7 @@ Unity2021配置打开项目后，配置外部脚本编辑器。从菜单栏Edit�
         <a href="/2022/11/13/Unity%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/" target="_self">
           
           
-            
           
-          下载Unity HubHub的作用是方便管理不同版本的Unity和项目。
-Unity中国官网地址：Unity实时内容开发平台 - 3D、2D、VR &amp; AR可视化 | Unity中国官网。进入官网，注册用户并登录。
-点击右上角下载Unity。下滑页面，找到下载Unity Hub，下载对应平台的安装包。Hub的安装比较简单，无脑点几下就行了。
-下载的Unity Hub可能是英文，有需要可以更
         </a>
       </p>
 
@@ -621,9 +528,7 @@ Unity中国官网地址：Unity实时内容开发平台 - 3D、2D、VR &amp; AR�
         <a href="/2022/11/10/%E5%87%8F%E6%B3%95%E8%81%9A%E7%B1%BB/" target="_self">
           
           
-            
           
-          算法概述减法聚类算法（Subtractive Clustering Method)是一种不需要提前规定聚类数、只需根据样本数据即可快速决定聚类中心的一种密度聚类算法。该算法把所有样本数据点作为聚类中心的候选点，利用密度函数计算每个候选点的密度指标，选取其中密度指标最大的点作为聚类中心，再去掉已知选择的聚类中心，计算剩余点的密度指标，选取其中密度指标最大的点作为下一个聚类中心。不断重复上述过程，直到
         </a>
       </p>
 
@@ -664,14 +569,7 @@ Unity中国官网地址：Unity实时内容开发平台 - 3D、2D、VR &amp; AR�
         <a href="/2022/11/09/PSO-RBFN/" target="_self">
           
           
-            
           
-          算法原理及流程关于RBF神经网络的细节详见：RBF神经网络学习及实践。
-关于PSO算法的细节详见：粒子群优化算法（PSO）python实践。
-PSO算法优化RBF神经网络训练流程图如下所示。
-
-代码实现代码直接使用文章RBF神经网络学习及实践和粒子群优化算法（PSO）python实践中的代码框架。
-为了能在PSO类内部计算fitness，我们给PSO类初始化方法添加rbfn参数，方便调用rbfn进
         </a>
       </p>
 
