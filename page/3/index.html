@@ -203,6 +203,55 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2022/12/11/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88/" target="_self">
+          《Fluent Python》笔记 字典和集合
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/12/11/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88/" target="_self">
+          
+          
+            
+          
+          用setdefault处理找不到的键对于如下两段代码，所实现的功能都是一样的。
+123if key not in my_dict:	my_dict[key] = []my_dict[key].append(new_value)
+
+1my_dict.setdefault(key, []).append(new_value)
+
+相较而言，使用setdefault来处理字典中不存在的键时，更加优雅。
+用
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-11 15:02" pubdate>
+              2022-12-11
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2022/12/10/%E3%80%8AFluent%20Python%E3%80%8B%E7%AC%94%E8%AE%B0%20%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/" target="_self">
           《Fluent Python》笔记 序列类型
         </a>
@@ -616,50 +665,6 @@ Step3：采用均匀网格法对两个
             <i class="iconfont icon-date"></i>
             <time datetime="2022-11-28 09:20" pubdate>
               2022-11-28
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/11/27/%E7%82%B9%E4%BA%91%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%87%87%E6%A0%B7/" target="_self">
-          点云梯度下采样
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/11/27/%E7%82%B9%E4%BA%91%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%87%87%E6%A0%B7/" target="_self">
-          
-          
-            
-          
-          点云下采样又称点云精简。
-均匀网格下采样均匀网格下采样法是建立在空间包围盒精简算法之上对散乱点云快速简化的一种算法，其基本思想为：根据点云数据的密度确定最小三维网格（体素）的边长为$abc$，计算最小三维网格的重心，通过邻域搜索保留离重心点最近的点并删除其余的点。每个三维网格重心依据式下式进行计算。$$X=\frac{\sum_{i=1}^n x_i}{n}, \quad Y=\frac{\sum
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-11-27 12:08" pubdate>
-              2022-11-27
             </time>
           </div>
         

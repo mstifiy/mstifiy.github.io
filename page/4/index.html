@@ -203,6 +203,50 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2022/11/27/%E7%82%B9%E4%BA%91%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%87%87%E6%A0%B7/" target="_self">
+          点云梯度下采样
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/11/27/%E7%82%B9%E4%BA%91%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%87%87%E6%A0%B7/" target="_self">
+          
+          
+            
+          
+          点云下采样又称点云精简。
+均匀网格下采样均匀网格下采样法是建立在空间包围盒精简算法之上对散乱点云快速简化的一种算法，其基本思想为：根据点云数据的密度确定最小三维网格（体素）的边长为$abc$，计算最小三维网格的重心，通过邻域搜索保留离重心点最近的点并删除其余的点。每个三维网格重心依据式下式进行计算。$$X=\frac{\sum_{i=1}^n x_i}{n}, \quad Y=\frac{\sum
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-11-27 12:08" pubdate>
+              2022-11-27
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2022/11/25/%E3%80%90VTK+%E6%9C%89%E9%99%90%E5%85%83%E5%90%8E%E5%A4%84%E7%90%86%E3%80%91%E8%8A%82%E7%82%B9%E7%82%B9%E4%BA%91%E5%B1%9E%E6%80%A7%E9%A2%9C%E8%89%B2%E6%98%A0%E5%B0%84/" target="_self">
           【VTK+有限元后处理】节点点云属性颜色映射
         </a>
@@ -606,51 +650,6 @@
             <i class="iconfont icon-date"></i>
             <time datetime="2022-11-18 12:23" pubdate>
               2022-11-18
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/11/17/%E3%80%90PyQt5%E3%80%91Model-View%E5%88%86%E7%B1%BB%E6%96%87%E4%BB%B6%E6%A0%91/" target="_self">
-          【PyQt5】Model-View分类文件树
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/11/17/%E3%80%90PyQt5%E3%80%91Model-View%E5%88%86%E7%B1%BB%E6%96%87%E4%BB%B6%E6%A0%91/" target="_self">
-          
-          
-            
-          
-          目的实现一个基于model/view的文件树。具体需求为：打开文件夹后，将文件夹目录下所有的文件归类到不同的父节点下，并通过信号槽机制实现自定义的双击文件事件。
-实现代码UI代码：
-12345678910def create_fileTreeView(self):    # 创建自定义文件树目录    self.fileTreeModel = MyFileTreeModel()    self.f
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-11-17 23:45" pubdate>
-              2022-11-17
             </time>
           </div>
         
