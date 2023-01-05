@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>Zotero | 快速入门</title>
+    <link href="/2023/01/05/Zotero%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/"/>
+    <url>/2023/01/05/Zotero%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</url>
+    
+    <content type="html"><![CDATA[<p>[TOC] </p><h1 id="0-前言"><a href="#0-前言" class="headerlink" title="0. 前言"></a>0. 前言</h1><p>Zotero是一款自由及开放源代码的文献管理软件，管理书目信息（如作者、标题、出版社、摘要、阅读笔记等）及相关材料（如PDF文件等)。</p><h1 id="1-Zotero快速入门"><a href="#1-Zotero快速入门" class="headerlink" title="1. Zotero快速入门"></a>1. Zotero快速入门</h1><h2 id="1-1-下载Zotero和Connector"><a href="#1-1-下载Zotero和Connector" class="headerlink" title="1.1 下载Zotero和Connector"></a>1.1 下载Zotero和Connector</h2><p>官网下载地址：<a href="https://www.zotero.org/download/">Zotero | Downloads</a>。下载Zotero及浏览器对应的Zotero Connector。</p><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230105194834143.png" alt="image-20230105194834143"></p><p><span class="label label-info">注意，不同浏览器需要安装不同的Zotero Connector。</span></p><p>下载下来一路安装即可。</p><h2 id="2-2-联动sci-hub实现英文文献批量下载"><a href="#2-2-联动sci-hub实现英文文献批量下载" class="headerlink" title="2.2 联动sci-hub实现英文文献批量下载"></a>2.2 联动sci-hub实现英文文献批量下载</h2><p>zotero-&gt;编辑-&gt;首选项-&gt;高级，打开编辑器，搜索”findpdf”，双击搜索结果，将其值修改为如下内容：</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<span class="hljs-attr">&quot;name&quot;</span>:<span class="hljs-string">&quot;Sci-Hub&quot;</span>,     <span class="hljs-attr">&quot;method&quot;</span>:<span class="hljs-string">&quot;GET&quot;</span>,     <span class="hljs-attr">&quot;url&quot;</span>:<span class="hljs-string">&quot;https://sci-hub.st/&#123;doi&#125;&quot;</span>,     <span class="hljs-attr">&quot;mode&quot;</span>:<span class="hljs-string">&quot;html&quot;</span>,     <span class="hljs-attr">&quot;selector&quot;</span>:<span class="hljs-string">&quot;#pdf&quot;</span>,     <span class="hljs-attr">&quot;attribute&quot;</span>:<span class="hljs-string">&quot;src&quot;</span>,     <span class="hljs-attr">&quot;automatic&quot;</span>:<span class="hljs-literal">true</span>&#125;<br></code></pre></td></tr></table></figure><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230105201440727.png" alt="image-20230105201440727"></p><p>配置完成后，即可在英文文献检索网站的检索结果页面中进行批量下载文献到Zotero中。</p><h2 id="2-3-英文文献翻译"><a href="#2-3-英文文献翻译" class="headerlink" title="2.3 英文文献翻译"></a>2.3 英文文献翻译</h2><p>下载<a href="https://github.com/windingwind/zotero-pdf-translate">zotero-pdf-translate</a>插件。</p><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230105203633400.png" alt="image-20230105203633400"></p><p>打开工具-&gt;拓展组件，右上角选择<code>Install Add-on From File...</code>，选中下载的<code>.xpi</code>插件文件，即可进行安装。安装成功后重启Zotero生效。</p><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230105203858135.png" alt="image-20230105203858135"></p><p>插件安装成功后，打开文章后会在其右边显示<strong>翻译</strong>一栏，在其中即可实现英文文献的翻译功能。</p><h2 id="2-4-中文文献元数据识别"><a href="#2-4-中文文献元数据识别" class="headerlink" title="2.4 中文文献元数据识别"></a>2.4 中文文献元数据识别</h2><p>茉莉花插件下载：<a href="https://github.com/l0o0/jasminum">jasminum</a>。下载安装同上述的zotero-pdf-translate插件。</p><p>插件安装成功后，进行配置。<strong>知网参数设置勾选上前四个</strong>。</p><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230105204959869.png" alt="image-20230105204959869"></p><p>然后，还需要在Zotero和Zotero Connector中更新中文翻译器信息。</p><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230105205605884.png" alt="image-20230105205605884"></p><p>安装配置成功后，即可打开知网对文献进行批量下载及其元数据识别。</p><p><span class="label label-warning">知网需要具有下载权限（即需要登录知网且账号能下载目标文献），才能将PDF抓取到Zotero中。</span></p><h2 id="2-5-Zotero其他配置"><a href="#2-5-Zotero其他配置" class="headerlink" title="2.5 Zotero其他配置"></a>2.5 Zotero其他配置</h2><h3 id="2-5-1-语言切换"><a href="#2-5-1-语言切换" class="headerlink" title="2.5.1 语言切换"></a>2.5.1 语言切换</h3><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230105210136656.png" alt="image-20230105210136656"></p><h3 id="2-5-2-数据存储位置更改"><a href="#2-5-2-数据存储位置更改" class="headerlink" title="2.5.2 数据存储位置更改"></a>2.5.2 数据存储位置更改</h3><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230105210257974.png" alt="image-20230105210257974"></p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>[1] <a href="https://www.bilibili.com/video/BV1xg411f736">https://www.bilibili.com/video/BV1xg411f736</a></p><p>[2] <a href="https://www.bilibili.com/video/BV1F54y1k73n/?vd_source=fcfa2dbed408e07409a2d6ce55790b68">Zotero 更新 知网Translator</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+      <category>Zotero</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Zotero</tag>
+      
+      <tag>工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>LaTex学习笔记</title>
     <link href="/2023/01/04/LaTex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <url>/2023/01/04/LaTex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
