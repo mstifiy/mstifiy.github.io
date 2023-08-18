@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="referrer" content="no-referrer" />
+  <meta name="description" content="官方文档链接：CGAL 5.4.2 - Surface Mesh: User Manual 0 概述Surface_mesh 类是半边数据结构的实现，可用于表示多面体表面。 相较于 Halfedge Data Structures 和 3D Polyhedral Surface ，其具有以下特点：  不同于基于指针，Surface_mesh基于索引（数据结构使用整数索引作为顶点、半边、边和面的描述">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CGAL_网格】Surface_mesh">
+<meta property="og:url" content="http://example.com/2022/08/22/%E3%80%90CGAL_%E7%BD%91%E6%A0%BC%E3%80%91Surface_mesh/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="官方文档链接：CGAL 5.4.2 - Surface Mesh: User Manual 0 概述Surface_mesh 类是半边数据结构的实现，可用于表示多面体表面。 相较于 Halfedge Data Structures 和 3D Polyhedral Surface ，其具有以下特点：  不同于基于指针，Surface_mesh基于索引（数据结构使用整数索引作为顶点、半边、边和面的描述">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/08/22/vfTYrSuCtji2Bpw.png">
+<meta property="article:published_time" content="2022-08-22T11:28:10.000Z">
+<meta property="article:modified_time" content="2023-08-18T02:29:39.356Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2022/08/22/vfTYrSuCtji2Bpw.png">
+  
+  <title>【CGAL_网格】Surface_mesh - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="【CGAL_网格】Surface_mesh">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-08-22 19:28" pubdate>
+        2022年8月22日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      31 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【CGAL_网格】Surface_mesh</h1>
+            
+            <div class="markdown-body">
+              <p>官方文档链接：<a target="_blank" rel="noopener" href="https://doc.cgal.org/5.4.2/Surface_mesh/index.html#Chapter_3D_Surface_mesh">CGAL 5.4.2 - Surface Mesh: User Manual</a></p>
+<h2 id="0-概述"><a href="#0-概述" class="headerlink" title="0 概述"></a>0 概述</h2><p>Surface_mesh 类是半边数据结构的实现，可用于表示多面体表面。</p>
+<p>相较于 <code>Halfedge Data Structures</code> 和 <code>3D Polyhedral Surface </code>，其具有以下特点：</p>
+<ul>
+<li>不同于基于指针，Surface_mesh基于索引（数据结构使用整数索引作为顶点、半边、边和面的描述符）；</li>
+<li>向顶点、半边、边和面添加信息的机制要简单得多；</li>
+<li>具有更低的内存占用。</li>
+<li>元素被移除后，会被标记为已移除，需要调用垃圾回收函数才能实现真正地移除。</li>
+</ul>
+<h2 id="1-用法"><a href="#1-用法" class="headerlink" title="1 用法"></a>1 用法</h2><p>Surface_mesh类提供了如下四个类来表示网格的基本元素：</p>
+<ul>
+<li><code>Surface_mesh::Vertex_index</code></li>
+<li><code>Surface_mesh::Halfedge_index</code></li>
+<li><code>Surface_mesh::Face_index</code></li>
+<li><code>Surface_mesh::Edge_index</code></li>
+</ul>
+<p>由于Surface_mesh是基于索引值构造的，所以没有访问连接性或属性的成员函数。</p>
+<h3 id="1-1-栗子"><a href="#1-1-栗子" class="headerlink" title="1.1 栗子"></a>1.1 栗子</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Surface_mesh.h&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<br><span class="hljs-keyword">typedef</span> CGAL::Surface_mesh&lt;K::Point_3&gt; Mesh;<br><span class="hljs-keyword">typedef</span> Mesh::Vertex_index vertex_descriptor;   <span class="hljs-comment">//基于索引的顶点描述</span><br><span class="hljs-keyword">typedef</span> Mesh::Face_index face_descriptor;       <span class="hljs-comment">//基于索引的面描述</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    Mesh m;<br>    <span class="hljs-comment">// Add the points as vertices</span><br>    vertex_descriptor u = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>));<br>    vertex_descriptor v = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));<br>    vertex_descriptor w = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>));<br>    vertex_descriptor x = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));<br>    m.<span class="hljs-built_in">add_face</span>(u, v, w);<br>    face_descriptor f = m.<span class="hljs-built_in">add_face</span>(u, v, x);<br>    <span class="hljs-keyword">if</span> (f == Mesh::<span class="hljs-built_in">null_face</span>())<br>    &#123;<br>        std::cerr &lt;&lt; <span class="hljs-string">&quot;The face could not be added because of an orientation error.&quot;</span> &lt;&lt; std::endl;<br>        f = m.<span class="hljs-built_in">add_face</span>(u, x, v);<br>        <span class="hljs-built_in">assert</span>(f != Mesh::<span class="hljs-built_in">null_face</span>());<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在这个例子中，通过添加两个面创建一个简单的表面网格。可以看到，在使用<code>add_face()</code>添加face的时候，若其返回的Face_index值为<code>Surface_mesh::null_face()</code>则说明添加面的操作在拓扑上无效，添加失败。</p>
+<h2 id="2-连接关系"><a href="#2-连接关系" class="headerlink" title="2 连接关系"></a>2 连接关系</h2><p>在一个surface_mesh中可以使用如下函数进行基于连接关系的查询：<br><code>Surface_mesh::opposite()</code>, <code>Surface_mesh::next()</code>, <code>Surface_mesh::prev()</code>, <code>Surface_mesh::target()</code>, and <code>Surface_mesh::face()</code>。 此外，函数<code>Surface_mesh::halfedge()</code> 能够获取与顶点和面相关联的半边。</p>
+<p><img src="https://s2.loli.net/2022/08/22/vfTYrSuCtji2Bpw.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="范围和迭代器"><a href="#范围和迭代器" class="headerlink" title="范围和迭代器"></a>范围和迭代器</h2><p>surface_mesh提供了迭代器用以枚举所有的顶点、半边、边和面。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Surface_mesh.h&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<br><span class="hljs-keyword">typedef</span> CGAL::Surface_mesh&lt;K::Point_3&gt; Mesh;<br><span class="hljs-keyword">typedef</span> Mesh::Vertex_index vertex_descriptor;<br><span class="hljs-keyword">typedef</span> Mesh::Face_index face_descriptor;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  Mesh m;<br>  <span class="hljs-comment">// u            x</span><br>  <span class="hljs-comment">// +------------+</span><br>  <span class="hljs-comment">// |            |</span><br>  <span class="hljs-comment">// |            |</span><br>  <span class="hljs-comment">// |      f     |</span><br>  <span class="hljs-comment">// |            |</span><br>  <span class="hljs-comment">// |            |</span><br>  <span class="hljs-comment">// +------------+</span><br>  <span class="hljs-comment">// v            w</span><br>  <span class="hljs-comment">// Add the points as vertices</span><br>  vertex_descriptor u = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor v = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor w = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor x = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>));<br>  <span class="hljs-comment">/* face_descriptor f = */</span> m.<span class="hljs-built_in">add_face</span>(u,v,w,x);<br>  &#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;all vertices &quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-comment">// The vertex iterator type is a nested type of the Vertex_range</span><br>    Mesh::Vertex_range::iterator  vb, ve;<br>    Mesh::Vertex_range r = m.<span class="hljs-built_in">vertices</span>();<br>    <span class="hljs-comment">// The iterators can be accessed through the C++ range API</span><br>    vb = r.<span class="hljs-built_in">begin</span>();<br>    ve = r.<span class="hljs-built_in">end</span>();<br>    <span class="hljs-comment">// or the boost Range API</span><br>    vb = boost::<span class="hljs-built_in">begin</span>(r);<br>    ve = boost::<span class="hljs-built_in">end</span>(r);<br>    <span class="hljs-comment">// or with boost::tie, as the CGAL range derives from std::pair</span><br>    <span class="hljs-keyword">for</span>(boost::<span class="hljs-built_in">tie</span>(vb, ve) = m.<span class="hljs-built_in">vertices</span>(); vb != ve; ++vb)&#123;<br>            std::cout &lt;&lt; *vb &lt;&lt; std::endl;<br>    &#125;<br>    <span class="hljs-comment">// Instead of the classical for loop one can use</span><br>    <span class="hljs-comment">// the boost macro for a range</span><br>    <span class="hljs-keyword">for</span>(vertex_descriptor vd : m.<span class="hljs-built_in">vertices</span>())&#123;<br>      std::cout &lt;&lt; vd &lt;&lt; std::endl;<br>    &#125;<br>    <span class="hljs-comment">// or the C++11 for loop. Note that there is a &#x27;:&#x27; and not a &#x27;,&#x27; as in BOOST_FOREACH</span><br>    <span class="hljs-keyword">for</span>(vertex_descriptor vd : m.<span class="hljs-built_in">vertices</span>())&#123;<br>      std::cout &lt;&lt; vd &lt;&lt; std::endl;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这是一个遍历表面网格中所有顶点索引的例子。其中关键迭代器类型<code>Mesh::Vertex_range::iterator</code>，关键范围类型<code>Mesh::Vertex_range</code>。通过后者得到前者，进而对范围中元素进行迭代遍历。</p>
+<h2 id="4-循环器"><a href="#4-循环器" class="headerlink" title="4 循环器"></a>4 循环器</h2><p>围绕面的循环器：</p>
+<ul>
+<li><code>CGAL::Halfedge_around_face_circulator&lt;Mesh&gt;</code></li>
+<li><code>CGAL::Vertex_around_face_circulator&lt;Mesh&gt;</code></li>
+<li><code>CGAL::Face_around_face_circulator&lt;Mesh&gt;</code></li>
+</ul>
+<p>围绕目标顶点的循环器：</p>
+<ul>
+<li><code>CGAL::Halfedge_around_target_circulator&lt;Mesh&gt;</code></li>
+<li><code>CGAL::Vertex_around_target_circulator&lt;Mesh&gt;</code></li>
+<li><code>CGAL::Face_around_target_circulator&lt;Mesh&gt;</code></li>
+</ul>
+<blockquote>
+<p>所有循环器围绕方向为逆时针。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Surface_mesh.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<br><span class="hljs-keyword">typedef</span> CGAL::Surface_mesh&lt;K::Point_3&gt; Mesh;<br><span class="hljs-keyword">typedef</span> Mesh::Vertex_index vertex_descriptor;<br><span class="hljs-keyword">typedef</span> Mesh::Face_index face_descriptor;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  Mesh m;<br>  <span class="hljs-comment">// u            x</span><br>  <span class="hljs-comment">// +------------+</span><br>  <span class="hljs-comment">// |            |</span><br>  <span class="hljs-comment">// |            |</span><br>  <span class="hljs-comment">// |      f     |</span><br>  <span class="hljs-comment">// |            |</span><br>  <span class="hljs-comment">// |            |</span><br>  <span class="hljs-comment">// +------------+</span><br>  <span class="hljs-comment">// v            w</span><br>  <span class="hljs-comment">// Add the points as vertices</span><br>  vertex_descriptor u = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor v = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor w = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor x = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>));<br>  face_descriptor f = m.<span class="hljs-built_in">add_face</span>(u,v,w,x);<br>  &#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;vertices around vertex &quot;</span> &lt;&lt; v &lt;&lt; std::endl;<br>    <span class="hljs-function">CGAL::Vertex_around_target_circulator&lt;Mesh&gt; <span class="hljs-title">vbegin</span><span class="hljs-params">(m.halfedge(v),m)</span>, <span class="hljs-title">done</span><span class="hljs-params">(vbegin)</span></span>;<br>    <span class="hljs-keyword">do</span> &#123;<br>      std::cout &lt;&lt; *vbegin++ &lt;&lt; std::endl;<br>    &#125; <span class="hljs-keyword">while</span>(vbegin != done);<br>  &#125;<br>  &#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;vertices around face &quot;</span> &lt;&lt; f &lt;&lt; std::endl;<br>    CGAL::Vertex_around_face_iterator&lt;Mesh&gt; vbegin, vend;<br>    <span class="hljs-keyword">for</span>(boost::<span class="hljs-built_in">tie</span>(vbegin, vend) = <span class="hljs-built_in">vertices_around_face</span>(m.<span class="hljs-built_in">halfedge</span>(f), m);<br>        vbegin != vend;<br>        ++vbegin)&#123;<br>      std::cout &lt;&lt; *vbegin &lt;&lt; std::endl;<br>    &#125;<br>  &#125;<br>  <span class="hljs-comment">// or the same again, but directly with a range based loop</span><br>  <span class="hljs-keyword">for</span>(vertex_descriptor vd : <span class="hljs-built_in">vertices_around_face</span>(m.<span class="hljs-built_in">halfedge</span>(f), m))&#123;<br>    std::cout &lt;&lt; vd &lt;&lt; std::endl;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个例子中展示了<code>Vertex_around_target_circulator</code>的使用方法，其中也展示了使用迭代器达到相同的效果。</p>
+<h2 id="5-属性"><a href="#5-属性" class="headerlink" title="5 属性"></a>5 属性</h2><p>surface_mesh提供了可以在运行时指定顶点、半边、边和面的属性的机制。每个属性通过一个字符串和它的键类型进行标识。</p>
+<p>默认情况下，只有一个属性”v:point”。当通过 <code>Surface_mesh::add_vertex()</code> 向数据结构添加新点时，必须提供此属性的值。 可以使用 <code>Surface_mesh::points()</code> 或 <code>Surface_mesh::point(Surface_mesh::Vertex_index v)</code> 直接访问该属性。</p>
+<p>当一个元素被移除，它并不会立刻被真正意义上的删除，而是被标记为“已移除”，只有调用<code>Surface_mesh::collect_garbage()</code>才能真正地移除该元素的所有相关属性。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Surface_mesh.h&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<br><span class="hljs-keyword">typedef</span> CGAL::Surface_mesh&lt;K::Point_3&gt; Mesh;<br><span class="hljs-keyword">typedef</span> Mesh::Vertex_index vertex_descriptor;<br><span class="hljs-keyword">typedef</span> Mesh::Face_index face_descriptor;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  Mesh m;<br>  vertex_descriptor v0 = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor v1 = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor v2 = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor v3 = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">2</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>));<br>  vertex_descriptor v4 = m.<span class="hljs-built_in">add_vertex</span>(K::<span class="hljs-built_in">Point_3</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>));<br>  m.<span class="hljs-built_in">add_face</span>(v3, v1, v4);<br>  m.<span class="hljs-built_in">add_face</span>(v0, v4, v1);<br>  m.<span class="hljs-built_in">add_face</span>(v0, v2, v4);<br>  m.<span class="hljs-built_in">add_face</span>(v2, v3, v4);<br>  <span class="hljs-comment">// give each vertex a name, the default is empty</span><br>  Mesh::Property_map&lt;vertex_descriptor,std::string&gt; name;<br>  <span class="hljs-keyword">bool</span> created;<br>  boost::<span class="hljs-built_in">tie</span>(name, created) = m.add_property_map&lt;vertex_descriptor,std::string&gt;(<span class="hljs-string">&quot;v:name&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);<br>  <span class="hljs-built_in">assert</span>(created);<br>  <span class="hljs-comment">// add some names to the vertices</span><br>  name[v0] = <span class="hljs-string">&quot;hello&quot;</span>;<br>  name[v2] = <span class="hljs-string">&quot;world&quot;</span>;<br>  &#123;<br>    <span class="hljs-comment">// You get an existing property, and created will be false</span><br>    Mesh::Property_map&lt;vertex_descriptor,std::string&gt; name;<br>    <span class="hljs-keyword">bool</span> created;<br>    boost::<span class="hljs-built_in">tie</span>(name, created) = m.add_property_map&lt;vertex_descriptor,std::string&gt;(<span class="hljs-string">&quot;v:name&quot;</span>, <span class="hljs-string">&quot;&quot;</span>);<br>    <span class="hljs-built_in">assert</span>(! created);<br>  &#125;<br>  <span class="hljs-comment">//  You can&#x27;t get a property that does not exist</span><br>  Mesh::Property_map&lt;face_descriptor,std::string&gt; gnus;<br>  <span class="hljs-keyword">bool</span> found;<br>  boost::<span class="hljs-built_in">tie</span>(gnus, found) = m.property_map&lt;face_descriptor,std::string&gt;(<span class="hljs-string">&quot;v:gnus&quot;</span>);<br>  <span class="hljs-built_in">assert</span>(! found);<br>  <span class="hljs-comment">// retrieve the point property for which exists a convenience function</span><br>  Mesh::Property_map&lt;vertex_descriptor, K::Point_3&gt; location = m.<span class="hljs-built_in">points</span>();<br>  <span class="hljs-keyword">for</span>(vertex_descriptor vd : m.<span class="hljs-built_in">vertices</span>()) &#123;<br>    std::cout &lt;&lt; name[vd] &lt;&lt; <span class="hljs-string">&quot; @ &quot;</span> &lt;&lt; location[vd] &lt;&lt; std::endl;<br>  &#125;<br>  std::vector&lt;std::string&gt; props = m.properties&lt;vertex_descriptor&gt;();<br>  <span class="hljs-keyword">for</span>(std::string p : props)&#123;<br>    std::cout &lt;&lt; p &lt;&lt; std::endl;<br>  &#125;<br>  <span class="hljs-comment">// delete the string property again</span><br>  m.<span class="hljs-built_in">remove_property_map</span>(name);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上面例子中依次实现了property的创建、查询、删除等操作。</p>
+<h2 id="6-边界"><a href="#6-边界" class="headerlink" title="6 边界"></a>6 边界</h2><p>一个半边存储了其入射面的引用，如果它没有入射面，则表示该半边在边界上，即<code>sm.face(h) == Surface_mesh::null_face()</code>。若一个半边在边界上，那么包含它的边和以它为入射半边的顶点都位于边界上。</p>
+<ul>
+<li><p><code>Surface_mesh::is_border(Vertex_index v, bool check_all_incident_halfedges = false)</code>：检查一个顶点的关联半边是否在边界上。</p>
+</li>
+<li><p>```cpp<br>Surface_mesh::set_vertex_halfedge_to_border_halfedge(Vertex_index v) //将单个顶点的关联半边设置为边界半边<br>Surface_mesh::set_vertex_halfedge_to_border_halfedge(Halfedge_index h) //将面h的边界顶点的关联半边设置为边界半边<br>Surface_mesh::set_vertex_halfedge_to_border_halfedge() //将单表面网格上所有顶点的关联半边设置为边界半边</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><br>## <span class="hljs-number">7</span> 相关API<br><br>![image.png](https:<span class="hljs-comment">//s2.loli.net/2022/08/22/cjBmU3dV9GlS8Mi.png)</span><br><br>![image.png](https:<span class="hljs-comment">//s2.loli.net/2022/08/22/mdob7pJIBPF9swr.png)</span><br><br>### <span class="hljs-number">7.1</span> 栗子<br><br>```cpp<br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Surface_mesh.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;boost/graph/kruskal_min_spanning_tree.hpp&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;fstream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;list&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt;                       Kernel;<br><span class="hljs-keyword">typedef</span> Kernel::Point_3                                      Point;<br><span class="hljs-keyword">typedef</span> CGAL::Surface_mesh&lt;Point&gt;                            Mesh;<br><span class="hljs-keyword">typedef</span> boost::graph_traits&lt;Mesh&gt;::vertex_descriptor vertex_descriptor;<br><span class="hljs-keyword">typedef</span> boost::graph_traits&lt;Mesh&gt;::vertex_iterator   vertex_iterator;<br><span class="hljs-keyword">typedef</span> boost::graph_traits&lt;Mesh&gt;::edge_descriptor   edge_descriptor;<br><span class="hljs-keyword">void</span> <span class="hljs-built_in">kruskal</span>(<span class="hljs-keyword">const</span> Mesh&amp; sm)<br>&#123;<br>   <span class="hljs-comment">// We use the default edge weight which is the squared length of the edge</span><br>  std::list&lt;edge_descriptor&gt; mst;<br>  boost::<span class="hljs-built_in">kruskal_minimum_spanning_tree</span>(sm,<br>                                       std::<span class="hljs-built_in">back_inserter</span>(mst));<br>  std::cout &lt;&lt; <span class="hljs-string">&quot;#VRML V2.0 utf8\n&quot;</span><br>    <span class="hljs-string">&quot;Shape &#123;\n&quot;</span><br>    <span class="hljs-string">&quot;  appearance Appearance &#123;\n&quot;</span><br>    <span class="hljs-string">&quot;    material Material &#123; emissiveColor 1 0 0&#125;&#125;\n&quot;</span><br>    <span class="hljs-string">&quot;    geometry\n&quot;</span><br>    <span class="hljs-string">&quot;    IndexedLineSet &#123;\n&quot;</span><br>    <span class="hljs-string">&quot;      coord Coordinate &#123;\n&quot;</span><br>    <span class="hljs-string">&quot;        point [ \n&quot;</span>;<br>  vertex_iterator vb,ve;<br>  <span class="hljs-keyword">for</span>(boost::<span class="hljs-built_in">tie</span>(vb, ve) = <span class="hljs-built_in">vertices</span>(sm); vb!=ve; ++vb)&#123;<br>    std::cout &lt;&lt;  <span class="hljs-string">&quot;        &quot;</span> &lt;&lt; sm.<span class="hljs-built_in">point</span>(*vb) &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>  &#125;<br>  std::cout &lt;&lt; <span class="hljs-string">&quot;        ]\n&quot;</span><br>               <span class="hljs-string">&quot;     &#125;\n&quot;</span><br>    <span class="hljs-string">&quot;      coordIndex [\n&quot;</span>;<br>  <span class="hljs-keyword">for</span>(std::list&lt;edge_descriptor&gt;::iterator it = mst.<span class="hljs-built_in">begin</span>(); it != mst.<span class="hljs-built_in">end</span>(); ++it)<br>  &#123;<br>    edge_descriptor e = *it ;<br>    vertex_descriptor s = <span class="hljs-built_in">source</span>(e,sm);<br>    vertex_descriptor t = <span class="hljs-built_in">target</span>(e,sm);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;      &quot;</span> &lt;&lt; s &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; t &lt;&lt;  <span class="hljs-string">&quot;, -1\n&quot;</span>;<br>  &#125;<br>  std::cout &lt;&lt; <span class="hljs-string">&quot;]\n&quot;</span><br>    <span class="hljs-string">&quot;  &#125;#IndexedLineSet\n&quot;</span><br>    <span class="hljs-string">&quot;&#125;# Shape\n&quot;</span>;<br>&#125;<br><span class="hljs-keyword">int</span> <span class="hljs-built_in">main</span>(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>** argv)<br>&#123;<br>  Mesh sm;<br>  std::string fname = argc==<span class="hljs-number">1</span>?CGAL::<span class="hljs-built_in">data_file_path</span>(<span class="hljs-string">&quot;meshes/knot1.off&quot;</span>):argv[<span class="hljs-number">1</span>];<br>  <span class="hljs-keyword">if</span>(!CGAL::IO::<span class="hljs-built_in">read_polygon_mesh</span>(fname, sm))<br>  &#123;<br>    std::cerr &lt;&lt; <span class="hljs-string">&quot;Invalid input file.&quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span> EXIT_FAILURE;<br>  &#125;<br>  <span class="hljs-built_in">kruskal</span>(sm);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/27/%E3%80%90CGAL_%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E5%92%8C%E6%8E%92%E5%BA%8F%E3%80%913D%E5%BF%AB%E9%80%9F%E6%B1%82%E4%BA%A4%E5%92%8C%E8%B7%9D%E7%A6%BB%E8%AE%A1%E7%AE%97/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【CGAL_空间搜索和排序】3D快速求交和距离计算</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/16/%E3%80%90CGAL_%E7%82%B9%E4%BA%91%E3%80%91%E7%82%B9%E4%BA%91%E8%AF%BB%E5%86%99%E4%B8%8E%E6%98%BE%E7%A4%BA/">
+                        <span class="hidden-mobile">【CGAL_点云】点云读写与显示</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"SS90JJ96HGAB2tRm4Xh34VrB-MdYXbMMI","appKey":"SenUiYEnAA6z6s0OlqwHxST5","path":"window.location.pathname","placeholder":"欢迎交流讨论~(目前只能通过科学sw访问评论区)","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":false,"serverURLs":"https://ss90jj96.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2023</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

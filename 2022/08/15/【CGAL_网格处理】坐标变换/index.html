@@ -1,0 +1,616 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="referrer" content="no-referrer" />
+  <meta name="description" content="官方手册阅读文档函数链接：CGAL 5.5 - Polygon Mesh Processing: Polygon Mesh Processing Reference transform() 12345template&lt;class Transformation , class PolygonMesh , class NamedParameters &#x3D; parameters::Default_n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CGAL_网格处理】坐标变换">
+<meta property="og:url" content="http://example.com/2022/08/15/%E3%80%90CGAL_%E7%BD%91%E6%A0%BC%E5%A4%84%E7%90%86%E3%80%91%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="官方手册阅读文档函数链接：CGAL 5.5 - Polygon Mesh Processing: Polygon Mesh Processing Reference transform() 12345template&lt;class Transformation , class PolygonMesh , class NamedParameters &#x3D; parameters::Default_n">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/08/15/N734VmajyKbBZGp.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/15/SqigjL1FAWpNkxX.png">
+<meta property="article:published_time" content="2022-08-15T02:57:38.000Z">
+<meta property="article:modified_time" content="2023-08-18T02:29:39.369Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2022/08/15/N734VmajyKbBZGp.png">
+  
+  <title>【CGAL_网格处理】坐标变换 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="【CGAL_网格处理】坐标变换">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-08-15 10:57" pubdate>
+        2022年8月15日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【CGAL_网格处理】坐标变换</h1>
+            
+            <div class="markdown-body">
+              <h2 id="官方手册阅读"><a href="#官方手册阅读" class="headerlink" title="官方手册阅读"></a>官方手册阅读</h2><p>文档函数链接：<a target="_blank" rel="noopener" href="https://doc.cgal.org/latest/Polygon_mesh_processing/group__PkgPolygonMeshProcessingRef.html#gaf2cbaecebb112bc4857782728481ccec">CGAL 5.5 - Polygon Mesh Processing: Polygon Mesh Processing Reference</a></p>
+<p><code>transform()</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Transformation</span> , <span class="hljs-keyword">class</span> <span class="hljs-title">PolygonMesh</span> , <span class="hljs-keyword">class</span> <span class="hljs-title">NamedParameters</span> =</span> parameters::Default_named_parameters&gt;<br><span class="hljs-keyword">void</span> CGAL::Polygon_mesh_processing::<span class="hljs-built_in">transform</span>(<span class="hljs-keyword">const</span> Transformation &amp; 	transformation,<br>											  PolygonMesh &amp; 			mesh,<br>                                              <span class="hljs-keyword">const</span> NamedParameters &amp; 	np = parameters::<span class="hljs-built_in">default_values</span>() <br>                                             )		<br></code></pre></td></tr></table></figure>
+
+<p>包含头文件：#include &lt;CGAL/Polygon_mesh_processing/transform.h&gt;</p>
+<p>函数实现功能：对<code>PolygonMesh</code>中的每个顶点进行坐标变换。</p>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>transformation</td>
+<td>the transformation functor to apply to the points of <code>mesh</code>.</td>
+</tr>
+<tr>
+<td>mesh</td>
+<td>the <code>PolygonMesh</code> to transform.</td>
+</tr>
+</tbody></table>
+<p>接下来分析一下参数类型：</p>
+<ul>
+<li><strong>Transformation</strong>： 一个functor，能够对Point_3进行运算。可以是<code>CGAL::Aff_transformation_3</code>。</li>
+<li><strong>PolygonMesh</strong>：a model of <code>VertexListGraph</code></li>
+</ul>
+<p>其中，图概念<code>VertexListGraph</code>是Boost里Graph概念的细化分支，添加了遍历图形中所有顶点的需求。通过查阅官方文档中<a target="_blank" rel="noopener" href="https://doc.cgal.org/latest/BGL/group__PkgBGLTraits.html">CGAL and the Boost Graph Library</a>部分，我们发现网格常用的Surface_mesh Class和Polyhedron Class在CGAL中均提供有部分特化，使其能成为图概念 <code>BidirectionalGraph、VertexAndEdgeListGraph、AdjacencyMatrix 和 MutableFaceGraph</code> 的模型。其中，<code>VertexAndEdgeListGraph</code>就包括<a target="_blank" rel="noopener" href="https://www.boost.org/doc/libs/1_80_0/libs/graph/doc/VertexListGraph.html">VertexListGraph</a>, <a target="_blank" rel="noopener" href="https://www.boost.org/doc/libs/1_80_0/libs/graph/doc/EdgeListGraph.html">EdgeListGraph</a>。</p>
+<p>接下来再研究一下另一个参数类型<a target="_blank" rel="noopener" href="https://doc.cgal.org/latest/Kernel_23/classCGAL_1_1Aff__transformation__3.html"><code>Aff_transformation_3</code></a>。</p>
+<p>Aff_transformation_3代表了三维空间下的仿射变换。其中使用数字类型 <code>Kernel::RT</code> （homogeneous齐次坐标系）或者 <code>Kernel::FT</code>（cartesian笛卡尔坐标系）来表示变换矩阵中的元素。</p>
+<h5 id="构造示例"><a href="#构造示例" class="headerlink" title="构造示例"></a><strong>构造示例</strong></h5><ul>
+<li><strong>平移</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">Aff_transformation_3</span> (<span class="hljs-keyword">const</span> Translation, <span class="hljs-keyword">const</span> Vector_3&lt; Kernel &gt; &amp;v)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其中Translation是标记类，代表平移操作（此外还有Rotation、Reflection、Scaling等）。v是平移向量。</p>
+</blockquote>
+<p>创建向Z方向平移的仿射变换。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">CGAL::Aff_transformation_3&lt;Kernel&gt;(CGAL::<span class="hljs-built_in">Translation</span>(), Kernel::<span class="hljs-built_in">Vector_3</span>(<span class="hljs-built_in">FT</span>(<span class="hljs-number">0</span>), <span class="hljs-built_in">FT</span>(<span class="hljs-number">0</span>), <span class="hljs-built_in">FT</span>(<span class="hljs-number">1</span>)))<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>缩放</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">Aff_transformation_3</span> (<span class="hljs-keyword">const</span> Scaling, <span class="hljs-keyword">const</span> Kernel::RT &amp;s, <span class="hljs-keyword">const</span> Kernel::RT &amp;hw=<span class="hljs-built_in">RT</span>(<span class="hljs-number">1</span>))<br></code></pre></td></tr></table></figure>
+
+<p>缩放大小计算$s/hw$。</p>
+<ul>
+<li>4x4矩阵构造</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> Kernel &gt;<br>CGAL::Aff_transformation_3&lt; Kernel &gt;::<span class="hljs-built_in">Aff_transformation_3</span>	(	<span class="hljs-keyword">const</span> Kernel::RT &amp; 	m00,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m01,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m02,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m03,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m10,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m11,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m12,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m13,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m20,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m21,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m22,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	m23,<br>                                                                <span class="hljs-keyword">const</span> Kernel::RT &amp; 	hw = <span class="hljs-built_in">RT</span>(<span class="hljs-number">1</span>) <br>                                                            )	<br></code></pre></td></tr></table></figure>
+
+<p>从如下矩阵<br>$$<br>\small \mbox{(\left(\begin{array}{cccc} m_{00} &amp; m_{01} &amp; m_{02} &amp; m_{03}\ m_{10} &amp; m_{11} &amp; m_{12} &amp; m_{13}\ m_{20} &amp; m_{21} &amp; m_{22} &amp; m_{23}\ 0 &amp; 0 &amp; 0 &amp; hw \end{array}\right))}<br>$$<br>构造一个仿射变换。</p>
+<h5 id="相关操作"><a href="#相关操作" class="headerlink" title="相关操作"></a><strong>相关操作</strong></h5><ul>
+<li><p>```cpp<br>Aff_transformation_3&lt; Kernel &gt; operator* (const Aff_transformation_3&lt; Kernel &gt; &amp;s) const</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><br>  &gt; 重载了乘法运算符（*），可通过`tran1 * tran2`得到两个变换的组合变换。<br><br>- ```cpp<br>  Aff_transformation_3&lt; Kernel &gt; inverse () const<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>求逆变换。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Exact_predicates_inexact_constructions_kernel.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Aff_transformation_3.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Surface_mesh.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polyhedron_3.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polygon_mesh_processing/transform.h&gt;</span></span><br><span class="hljs-keyword">using</span> Kernel = CGAL::Exact_predicates_inexact_constructions_kernel;<br><span class="hljs-keyword">using</span> FT = <span class="hljs-keyword">typename</span> Kernel::FT;<br><span class="hljs-keyword">using</span> Point_3 = <span class="hljs-keyword">typename</span> Kernel::Point_3;<br><span class="hljs-keyword">using</span> Vector_3 = <span class="hljs-keyword">typename</span> Kernel::Vector_3;<br><span class="hljs-keyword">using</span> Polyhedron = CGAL::Polyhedron_3&lt;Kernel&gt;;<br><span class="hljs-keyword">using</span> Mesh = CGAL::Surface_mesh&lt;Point_3&gt;;<br><span class="hljs-keyword">using</span> Affine_transformation_3 = CGAL::Aff_transformation_3&lt;Kernel&gt;;<br><span class="hljs-keyword">namespace</span> PMP = CGAL::Polygon_mesh_processing;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">const</span> std::string filepath = <span class="hljs-string">&quot;meshes/blobby.off&quot;</span>;<br><br>    Mesh mesh;<br>    CGAL::IO::<span class="hljs-built_in">read_OFF</span>(filepath, mesh);<br>    Polyhedron polyhedron;<br>    CGAL::IO::<span class="hljs-built_in">read_OFF</span>(filepath, polyhedron);<br>    CGAL::IO::<span class="hljs-built_in">write_STL</span>(<span class="hljs-string">&quot;data/blobby.stl&quot;</span>, polyhedron,<br>        CGAL::parameters::<span class="hljs-built_in">use_binary_mode</span>(<span class="hljs-literal">false</span>));<br><br>    <span class="hljs-function">Affine_transformation_3 <span class="hljs-title">trans</span><span class="hljs-params">(FT(<span class="hljs-number">1</span>), FT(<span class="hljs-number">0</span>), FT(<span class="hljs-number">0</span>), FT(<span class="hljs-number">0</span>),</span></span><br><span class="hljs-params"><span class="hljs-function">                                  FT(<span class="hljs-number">0</span>), FT(<span class="hljs-number">1</span>), FT(<span class="hljs-number">0</span>), FT(<span class="hljs-number">0</span>),</span></span><br><span class="hljs-params"><span class="hljs-function">                                  FT(<span class="hljs-number">0</span>), FT(<span class="hljs-number">0</span>), FT(<span class="hljs-number">1</span>), FT(<span class="hljs-number">1</span>))</span></span>;<br>    PMP::<span class="hljs-built_in">transform</span>(trans, polyhedron);<br>    CGAL::IO::<span class="hljs-built_in">write_STL</span>(<span class="hljs-string">&quot;data/blobby_trans.stl&quot;</span>, polyhedron,<br>        CGAL::parameters::<span class="hljs-built_in">use_binary_mode</span>(<span class="hljs-literal">false</span>));<br>    <span class="hljs-keyword">return</span> EXIT_SUCCESS;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/08/15/N734VmajyKbBZGp.png" srcset="/img/loading.gif" lazyload alt="image-20220815104231530"></p>
+<p><img src="https://s2.loli.net/2022/08/15/SqigjL1FAWpNkxX.png" srcset="/img/loading.gif" lazyload alt="image-20220815104740465"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/16/%E3%80%90CGAL_%E7%82%B9%E4%BA%91%E3%80%91%E7%82%B9%E4%BA%91%E8%AF%BB%E5%86%99%E4%B8%8E%E6%98%BE%E7%A4%BA/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【CGAL_点云】点云读写与显示</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/13/%E3%80%90CGAL_%E7%BD%91%E6%A0%BC%E5%A4%84%E7%90%86%E3%80%91%E5%B9%B3%E6%BB%91%E5%A4%84%E7%90%86/">
+                        <span class="hidden-mobile">【CGAL_网格处理】平滑处理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"SS90JJ96HGAB2tRm4Xh34VrB-MdYXbMMI","appKey":"SenUiYEnAA6z6s0OlqwHxST5","path":"window.location.pathname","placeholder":"欢迎交流讨论~(目前只能通过科学sw访问评论区)","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":false,"serverURLs":"https://ss90jj96.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2023</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,619 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="referrer" content="no-referrer" />
+  <meta name="description" content="2D和3D线性几何内核1 介绍CGAL（ the Computational Geometry Algorithms Library），由C++编写。CGAL包含三个主要的部分：kernel（内核）、基本几何数据结构和算法的集合、非几何支持设施。 kernel（内核包含恒定大小的对象，例如点，向量，射线，四面体等等），每个类型都有其一系列的应用于类对象的函数（例如点的坐标、点相对于对象的位置的测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CGAL_几何内核】2D和3D线性几何内核">
+<meta property="og:url" content="http://example.com/2022/07/16/%E3%80%90CGAL_%E5%87%A0%E4%BD%95%E5%86%85%E6%A0%B8%E3%80%912D%E5%92%8C3D%E7%BA%BF%E6%80%A7%E5%87%A0%E4%BD%95%E5%86%85%E6%A0%B8/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="2D和3D线性几何内核1 介绍CGAL（ the Computational Geometry Algorithms Library），由C++编写。CGAL包含三个主要的部分：kernel（内核）、基本几何数据结构和算法的集合、非几何支持设施。 kernel（内核包含恒定大小的对象，例如点，向量，射线，四面体等等），每个类型都有其一系列的应用于类对象的函数（例如点的坐标、点相对于对象的位置的测试">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-16T08:04:27.000Z">
+<meta property="article:modified_time" content="2023-08-18T02:29:39.314Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>【CGAL_几何内核】2D和3D线性几何内核 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="【CGAL_几何内核】2D和3D线性几何内核">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-07-16 16:04" pubdate>
+        2022年7月16日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      12k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【CGAL_几何内核】2D和3D线性几何内核</h1>
+            
+            <div class="markdown-body">
+              <h1 id="2D和3D线性几何内核"><a href="#2D和3D线性几何内核" class="headerlink" title="2D和3D线性几何内核"></a>2D和3D线性几何内核</h1><h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1 介绍"></a>1 介绍</h2><p>CGAL（ the <em>Computational Geometry Algorithms Library</em>），由C++编写。CGAL包含三个主要的部分：kernel（内核）、基本几何数据结构和算法的集合、非几何支持设施。</p>
+<p>kernel（内核包含恒定大小的对象，例如点，向量，射线，四面体等等），每个类型都有其一系列的应用于类对象的函数（例如点的坐标、点相对于对象的位置的测试、返回边界框、对象的长度或面积的函数等等）。 CGAL 内核还包含基本操作，例如仿射变换、交叉点的检测和计算以及距离计算。</p>
+<h2 id="2-内核表示"><a href="#2-内核表示" class="headerlink" title="2 内核表示"></a>2 内核表示</h2><h3 id="笛卡尔核（Cartesian-Kernels）"><a href="#笛卡尔核（Cartesian-Kernels）" class="headerlink" title="笛卡尔核（Cartesian Kernels）"></a>笛卡尔核（Cartesian Kernels）</h3><p>使用 <code>Cartesian&lt;FieldNumberType&gt; </code>可以选择坐标的笛卡尔表示，必须同时声明坐标的类型（FieldNumberType，int不是FieldNumberType）。然鹅，对于某些使用笛卡尔表示的计算，不需要除法运算的话，<code>RingNumberType</code> 就足够了。</p>
+<p><code>Cartesian&lt;FieldNumberType&gt; </code>在内部使用引用计数来节省复制成本。 CGAL 还提供了 <code>Simple_cartesian&lt;FieldNumberType&gt;</code>，这是一个使用笛卡尔表示但没有引用计数的内核。 使用 <code>Simple_cartesian&lt;FieldNumberType&gt;</code> 进行调试更容易，因为坐标存储在类中，因此可以直接访问坐标。 根据算法的不同，它也可能比 <code>Cartesian&lt;FieldNumberType&gt;</code> 的效率略高或略低。</p>
+<h3 id="齐次核（Homogeneous-Kernels）"><a href="#齐次核（Homogeneous-Kernels）" class="headerlink" title="齐次核（Homogeneous Kernels）"></a>齐次核（Homogeneous Kernels）</h3><p>齐次坐标允许避免数值计算中的除法运算，因为附加坐标可以用作公分母。避免除法对于精确的几何计算很有用。使用 <code>Homogeneous&lt;RingNumberType&gt; </code>可以为内核对象的坐标选择齐次表示。由于齐次表示不使用除法，因此与齐次表示类关联的数字类型必须是仅用于较弱概念<code>RingNumberType</code>的模型。</p>
+<p>同样，CGAL 还提供了<code> Simple_homogeneous&lt;RingNumberType&gt;</code>，这是一个使用齐次表示但没有引用计数的内核。特点同<code>Simple_cartesian&lt;FieldNumberType&gt;</code> 。</p>
+<h3 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h3><ul>
+<li>几何对象的名称首字母大写，例如Point， Segment， Triangle。</li>
+<li>下划线后跟对象的维度，例如 _2、_3 或 _d。 </li>
+<li>内核类作为参数，它本身使用数字类型进行参数化，例如 <code>Cartesian&lt;double&gt; </code>或 <code>Homogeneous&lt;leda_integer&gt;</code>。</li>
+</ul>
+<h3 id="内核的选择和预定义"><a href="#内核的选择和预定义" class="headerlink" title="内核的选择和预定义"></a>内核的选择和预定义</h3><p>如果从积分笛卡尔坐标开始，许多几何计算将只涉及整数数值。尤其是对于仅评估谓词的几何计算而言，这是正确的，这相当于行列式计算。示例是点集的三角剖分和凸包计算。在这种情况下，笛卡尔表示可能是首选，即使是环类型。</p>
+<p>如果要构建新点，例如两条线的交点，笛卡尔坐标的计算通常涉及除法。因此，需要使用具有笛卡尔表示的 <code>FieldNumberType</code>（此时不再使用<code>RingNumberType</code>），或者切换到齐次表示。如果计算的可靠性至关重要，那么正确的选择数字类型可能是保证精确计算的关键。</p>
+<h4 id="预定义内核"><a href="#预定义内核" class="headerlink" title="预定义内核"></a>预定义内核</h4><p>CGAL 为一般有用的内核提供了 5 个 typedef，它们都是笛卡尔表示的内核，且都支持double类型的笛卡尔坐标构造点，都提供了精确的几何谓词：</p>
+<ul>
+<li><code>Exact_predicates_inexact_constructions_kernel</code>：提供精确的几何谓词，但由于舍入误差，几何构造可能不精确。然而，它对于许多 CGAL 算法来说已经足够了，并且比下面精确构造的内核更快。</li>
+<li> <code>Exact_predicates_exact_constructions_kernel</code>：除了精确的几何谓词之外，还提供精确的几何构造。 </li>
+<li><code>Exact_predicates_exact_constructions_kernel_with_sqrt</code>：同<code>Exact_predicates_exact_constructions_kernel</code>，但数字类型是概念<code>FieldWithSqrt</code>的模型。</li>
+<li><code>Exact_predicates_exact_constructions_kernel_with_kth_root</code>：同 <code>Exact_predicates_exact_constructions_kernel</code>，但数字类型是概念 <code>FieldWithKthRoot </code>的模型。 </li>
+<li><code>Exact_predicates_exact_constructions_kernel_with_root_of</code>：同<code>Exact_predicates_exact_constructions_kernel</code>，但数字类型是概念<code>FieldWithRootOf</code>的模型。</li>
+</ul>
+<h2 id="3-内核几何"><a href="#3-内核几何" class="headerlink" title="3 内核几何"></a>3 内核几何</h2><h3 id="点和向量（Points-and-Vectors）"><a href="#点和向量（Points-and-Vectors）" class="headerlink" title="点和向量（Points and Vectors）"></a>点和向量（Points and Vectors）</h3><p>CGAL严格区分点、向量和方向。一个点是欧几里得空间中的一个点，一个向量是两个点差，表示向量空间中从一个点到另一个点的方向和距离，一个方向实质上是一个忽略长度的向量。 </p>
+<p>CGAL 定义了一个 <code>Origin</code> 类型的符号常量 <code>ORIGIN</code>，它表示原点处的点。 该常数用于点和向量之间的转换。 从点 p 处减去它会得到 p 的轨迹向量。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">Cartesian&lt;<span class="hljs-keyword">double</span>&gt;::<span class="hljs-function">Point_2 <span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>)</span>, q</span>;<br>Cartesian&lt;<span class="hljs-keyword">double</span>&gt;::Vector_2 v;<br>v = p - ORIGIN;<br>q = ORIGIN + v;<br><span class="hljs-built_in">assert</span>( p == q );<br></code></pre></td></tr></table></figure>
+
+<p>如果需要确定两点的中点，可以写成</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++">q = p_1 + (p_2 - p_1) / <span class="hljs-number">2.0</span>;<br><span class="hljs-comment">// 或者直接调用函数midpoint(p_1,p_2)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="内核对象"><a href="#内核对象" class="headerlink" title="内核对象"></a>内核对象</h3><p>除了点 (<code>Kernel::Point_2</code>, <code>Kernel::Point_3</code>)、向量 (<code>Kernel::Vector_2</code>, <code>Kernel::Vector_3</code>) 和方向 (<code>Kernel::Direction_2</code>, <code>Kernel::Direction_3</code>)，CGAL 还提供线、射线、线段、平面、三角形、四面体、等长方形、等长方体、圆形和球体。</p>
+<p>CGAL 中的线 (<code>Kernel::Line_2</code>, <code>Kernel::Line_3</code>) 是有方向的。在二维空间中，它们将平面划分为正侧和负侧。一条射线（<code>Kernel::Ray_2</code>, <code>Kernel::Ray_3</code>）是一条线上的半无限区间，这条线从这个区间的有限端点朝向这个区间的任何其他点。段 (<code>Kernel::Segment_2</code>, <code>Kernel::Segment_3</code>) 是有向线上的有界区间，端点是有序的，因此它们的方向与线的方向相同。</p>
+<p>平面是环境空间 E3 中维数为 2 的仿射子空间，通过三个点，或者一个点和一条线、射线或线段。 平面也是有方向的，并将空间划分为正面和负面。</p>
+<p>关于多边形和多面体，内核提供三角形、等向矩形、等向长方体和四面体。更复杂的多边形和多面体或多面体表面可以从基本库（Polygon_2，Polyhedron_3）中获得。</p>
+<h3 id="方向和相对位置"><a href="#方向和相对位置" class="headerlink" title="方向和相对位置"></a>方向和相对位置</h3><p>CGAL 中的几何对象具有成员函数，用于测试<strong>点相对于对象</strong>的位置。</p>
+<ul>
+<li><code>orient_side()</code>，判断一个测试点是在正侧、负侧还是在有向边界上。这些函数返回 <code>Oriented_side</code> 类型的值。</li>
+<li><code>bounded_side()</code>，判断一个测试点相对于那些分成有界和无界部分的空间对象的位置，返回类型为 <code>Bounded_side</code> 。 </li>
+<li><code>has_on()</code>，判断一个测试点相对于那些低维对象的位置，例如三维空间中的三角形或二维空间中的线段，返回类型为布尔值。</li>
+</ul>
+<h2 id="4-谓词和构造（Predicates-and-Constructions）"><a href="#4-谓词和构造（Predicates-and-Constructions）" class="headerlink" title="4 谓词和构造（Predicates and Constructions）"></a>4 谓词和构造（Predicates and Constructions）</h2><h3 id="谓词"><a href="#谓词" class="headerlink" title="谓词"></a>谓词</h3><p>谓词是几何内核的核心。 </p>
+<p>CGAL 为点集的方向提供谓词（<code>orientation()、left_turn()、right_turn()、collinear()、coplanar()</code>），用于根据给定顺序比较点，特别是比较笛卡尔坐标（例如 lexicographically_xy_smaller() )、圆内和球内测试，以及比较距离的谓词。不仅返回布尔值的组件称为谓词，而且返回枚举类型（如比较结果或方向）的组件也称为谓词。</p>
+<h3 id="构造"><a href="#构造" class="headerlink" title="构造"></a>构造</h3><p>生成既不是 bool 类型也不是 enum 类型的对象的函数和函数对象称为构造。构造涉及新数值的计算，并且由于舍入误差可能不精确，除非使用具有精确数字类型的内核。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> Cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<br><span class="hljs-keyword">typedef</span> K::Point_2 Point_2;<br><span class="hljs-keyword">typedef</span> K::Segment_2 Segment_2;<br>Segment_2 segment_1, segment_2;<br>std::cin &gt;&gt; segment_1 &gt;&gt; segment_2;<br><span class="hljs-comment">/* use auto */</span><br><span class="hljs-keyword">auto</span> v = <span class="hljs-built_in">intersection</span>(segment_1, segment_2);<br><span class="hljs-keyword">if</span> (v) &#123;<br>  <span class="hljs-comment">/* not empty */</span><br>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">const</span> Point_2 *p = boost::get&lt;Point_2&gt;(&amp;*v) ) &#123;<br>    <span class="hljs-comment">/* do something with *p */</span><br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">const</span> Segment_2 *s = boost::get&lt;Segment_2&gt;(&amp;*v);<br>    <span class="hljs-comment">/* do something with *s */</span><br>  &#125;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>  <span class="hljs-comment">/* empty intersection */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="建设性谓词（Constructive-Predicates）"><a href="#建设性谓词（Constructive-Predicates）" class="headerlink" title="建设性谓词（Constructive Predicates）"></a>建设性谓词（Constructive Predicates）</h3><p>为了测试点 p 相对于由三个点 q、r 和 s 定义的平面的位置，可能会尝试构建平面 <code>Kernel::Plane_3(q,r,s) </code>并使用方法 <code>oriented_side(p)</code>。  然而，除非数字类型是精确的，否则构造的平面只是近似的，舍入误差可能导致<code>oriented_side(p)</code> 返回一个与p、q、r 和s 的真实方向不同的方向。 在 CGAL 中提供了谓词可以使此类几何决策直接参考输入点 p、q、r、s 做出，而不需要引入像平面这样的中间对象。 对于上述测试，获得结果的推荐方法是使用<code>orientation(p,q,r,s)</code>。 对于精确数字类型，情况有所不同。 如果要对同一平面进行多个测试，则构建平面并使用<code>oriented_side(p)</code> 是可行的。</p>
+<h2 id="5-可拓展内核（Extensible-Kernel）"><a href="#5-可拓展内核（Extensible-Kernel）" class="headerlink" title="5 可拓展内核（Extensible Kernel）"></a>5 可拓展内核（Extensible Kernel）</h2><p>CGAL支持用户将自定义的几何类插入到现有的CGAL内核中，实现内核的拓展。</p>
+<h3 id="一个栗子"><a href="#一个栗子" class="headerlink" title="一个栗子"></a>一个栗子</h3><p><code>MyPointC2.h</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> MY_POINTC2_H</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MY_POINTC2_H</span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Origin.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Bbox_2.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyPointC2</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>  <span class="hljs-keyword">double</span> vec[<span class="hljs-number">2</span>];<br>  <span class="hljs-keyword">int</span> col;<br><span class="hljs-keyword">public</span>:<br>  <span class="hljs-built_in">MyPointC2</span>()<br>    : <span class="hljs-built_in">col</span>(<span class="hljs-number">0</span>)<br>  &#123;<br>    *vec = <span class="hljs-number">0</span>;<br>    *(vec+<span class="hljs-number">1</span>) = <span class="hljs-number">0</span>;<br>  &#125;<br>  <span class="hljs-built_in">MyPointC2</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> x, <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> y, <span class="hljs-keyword">int</span> c = <span class="hljs-number">0</span>)<br>    : <span class="hljs-built_in">col</span>(c)<br>  &#123;<br>    *vec = x;<br>    *(vec+<span class="hljs-number">1</span>) = y;<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span>&amp; <span class="hljs-title">x</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span>  </span>&#123; <span class="hljs-keyword">return</span> *vec; &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span>&amp; <span class="hljs-title">y</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> *(vec+<span class="hljs-number">1</span>); &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">double</span>&amp; <span class="hljs-title">x</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> *vec; &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">double</span>&amp; <span class="hljs-title">y</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> *(vec+<span class="hljs-number">1</span>); &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">color</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> col; &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">int</span>&amp; <span class="hljs-title">color</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> col; &#125;<br>  <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>==(<span class="hljs-keyword">const</span> MyPointC2 &amp;p) <span class="hljs-keyword">const</span><br>  &#123;<br>    <span class="hljs-built_in"><span class="hljs-keyword">return</span></span> ( *vec == *(p.vec) )  &amp;&amp; ( *(vec+<span class="hljs-number">1</span>) == *(p.vec + <span class="hljs-number">1</span>) &amp;&amp; ( col == p.col) );<br>  &#125;<br>  <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>!=(<span class="hljs-keyword">const</span> MyPointC2 &amp;p) <span class="hljs-keyword">const</span><br>  &#123;<br>      <span class="hljs-keyword">return</span> !(*<span class="hljs-keyword">this</span> == p);<br>  &#125;<br>&#125;;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> <span class="hljs-comment">// MY_POINTC2_H</span></span><br></code></pre></td></tr></table></figure>
+
+<p>对于这个类，为了使它运行正常，必须提供<code>Kernel::Construct_bbox_2</code>这个仿函数。</p>
+<p><code>MyConstruct_bbox_2.h</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> MYCONSTRUCT_BBOX_2_H</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MYCONSTRUCT_BBOX_2_H</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MyPointC2.h&quot;</span></span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConstructBbox_2</span>&gt;</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyConstruct_bbox_2</span> :</span> <span class="hljs-keyword">public</span> ConstructBbox_2 &#123;<br><span class="hljs-keyword">public</span>:<br>  <span class="hljs-function"><span class="hljs-keyword">using</span> <span class="hljs-title">ConstructBbox_2::operator</span><span class="hljs-params">()</span></span>;<br>  <span class="hljs-function">CGAL::Bbox_2 <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> MyPointC2&amp; p)</span> <span class="hljs-keyword">const</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> CGAL::<span class="hljs-built_in">Bbox_2</span>(p.<span class="hljs-built_in">x</span>(), p.<span class="hljs-built_in">y</span>(), p.<span class="hljs-built_in">x</span>(), p.<span class="hljs-built_in">y</span>());<br>  &#125;<br>&#125;;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> <span class="hljs-comment">//MYCONSTRUCT_BBOX_2_H</span></span><br></code></pre></td></tr></table></figure>
+
+<p>随机访问一个点的笛卡尔坐标也是类似的。 由于坐标存储在双精度数组中，我们可以使用 double* 作为随机访问迭代器。</p>
+<p><code>MyConstruct_coord_iterator.h</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> MYCONSTRUCT_COORD_ITERATOR_H</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MYCONSTRUCT_COORD_ITERATOR_H</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MyPointC2.h&quot;</span></span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyConstruct_coord_iterator</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>  <span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span>* <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> MyPointC2&amp; p)</span></span><br><span class="hljs-function">  </span>&#123;<br>    <span class="hljs-keyword">return</span> &amp;p.<span class="hljs-built_in">x</span>();<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span>* <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> MyPointC2&amp; p, <span class="hljs-keyword">int</span>)</span></span><br><span class="hljs-function">  </span>&#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span>* pyptr = &amp;p.<span class="hljs-built_in">y</span>();<br>    pyptr++;<br>    <span class="hljs-keyword">return</span> pyptr;<br>  &#125;<br>&#125;;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> <span class="hljs-comment">//MYCONSTRUCT_COORD_ITERATOR_H</span></span><br></code></pre></td></tr></table></figure>
+
+<p>需要提供构造点的仿函数，不必将带有 <code>Origin</code> 作为参数的构造函数添加到类中，也不必强制添加具有齐次坐标的构造函数。</p>
+<p><code>MyConstruct_point_2.h</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> MYCONSTRUCT_POINT_2_H</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MYCONSTRUCT_POINT_2_H</span><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> K, <span class="hljs-keyword">typename</span> OldK&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyConstruct_point_2</span></span><br><span class="hljs-class">&#123;</span><br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> K::RT         RT;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> K::Point_2    Point_2;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> K::Line_2     Line_2;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> Point_2::Rep  Rep;<br><span class="hljs-keyword">public</span>:<br>  <span class="hljs-keyword">typedef</span> Point_2                result_type;<br>  <span class="hljs-comment">// Note : the CGAL::Return_base_tag is really internal CGAL stuff.</span><br>  <span class="hljs-comment">// Unfortunately it is needed for optimizing away copy-constructions,</span><br>  <span class="hljs-comment">// due to current lack of delegating constructors in the C++ standard.</span><br>  Rep <span class="hljs-comment">// Point_2</span><br>  <span class="hljs-built_in"><span class="hljs-keyword">operator</span></span>()(CGAL::Return_base_tag, CGAL::Origin o) <span class="hljs-keyword">const</span><br>  &#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">Rep</span>(o); &#125;<br>  Rep <span class="hljs-comment">// Point_2</span><br>  <span class="hljs-built_in"><span class="hljs-keyword">operator</span></span>()(CGAL::Return_base_tag, <span class="hljs-keyword">const</span> RT&amp; x, <span class="hljs-keyword">const</span> RT&amp; y) <span class="hljs-keyword">const</span><br>  &#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">Rep</span>(x, y); &#125;<br>  Rep <span class="hljs-comment">// Point_2</span><br>  <span class="hljs-built_in"><span class="hljs-keyword">operator</span></span>()(CGAL::Return_base_tag, <span class="hljs-keyword">const</span> RT&amp; x, <span class="hljs-keyword">const</span> RT&amp; y, <span class="hljs-keyword">const</span> RT&amp; w) <span class="hljs-keyword">const</span><br>  &#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">Rep</span>(x, y, w); &#125;<br>  <span class="hljs-function">Point_2</span><br><span class="hljs-function">  <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> CGAL::Origin&amp;)</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">MyPointC2</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>); &#125;<br>  <span class="hljs-function">Point_2</span><br><span class="hljs-function">  <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> RT&amp; x, <span class="hljs-keyword">const</span> RT&amp; y)</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">MyPointC2</span>(x, y, <span class="hljs-number">0</span>);<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">const</span> Point_2&amp;</span><br><span class="hljs-function">  <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Point_2 &amp; p)</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123;<br>    <span class="hljs-keyword">return</span> p;<br>  &#125;<br>  <span class="hljs-function">Point_2</span><br><span class="hljs-function">  <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Line_2&amp; l)</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123;<br>    <span class="hljs-keyword">typename</span> OldK::Construct_point_2 base_operator;<br>    Point_2 p = <span class="hljs-built_in">base_operator</span>(l);<br>    <span class="hljs-keyword">return</span> p;<br>  &#125;<br>  <span class="hljs-function">Point_2</span><br><span class="hljs-function">  <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Line_2&amp; l, <span class="hljs-keyword">int</span> i)</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123;<br>    <span class="hljs-keyword">typename</span> OldK::Construct_point_2 base_operator;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">base_operator</span>(l, i);<br>  &#125;<br>  <span class="hljs-comment">// We need this one, as such a functor is in the Filtered_kernel</span><br>  <span class="hljs-function">Point_2</span><br><span class="hljs-function">  <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> RT&amp; x, <span class="hljs-keyword">const</span> RT&amp; y, <span class="hljs-keyword">const</span> RT&amp; w)</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123;<br>    <span class="hljs-keyword">if</span>(w != <span class="hljs-number">1</span>)&#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-built_in">MyPointC2</span>(x/w, y/w, <span class="hljs-number">0</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-built_in">MyPointC2</span>(x,y, <span class="hljs-number">0</span>);<br>    &#125;<br>  &#125;<br>&#125;;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> <span class="hljs-comment">//MYCONSTRUCT_POINT_2_H</span></span><br></code></pre></td></tr></table></figure>
+
+<p>把程序合起来</p>
+<p><code>MyKernel.h</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> MYKERNEL_H</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MYKERNEL_H</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MyPointC2.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MySegmentC2.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MyConstruct_bbox_2.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MyConstruct_coord_iterator.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MyConstruct_point_2.h&quot;</span></span><br><span class="hljs-comment">// K_ is the new kernel, and K_Base is the old kernel</span><br><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> K_, <span class="hljs-keyword">typename</span> K_Base &gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCartesian_base</span></span><br><span class="hljs-class">  :</span> <span class="hljs-keyword">public</span> K_Base::<span class="hljs-keyword">template</span> Base&lt;K_&gt;::Type<br>&#123;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> K_Base::<span class="hljs-keyword">template</span> Base&lt;K_&gt;::Type   OldK;<br><span class="hljs-keyword">public</span>:<br>  <span class="hljs-keyword">typedef</span> K_                                Kernel;<br>  <span class="hljs-keyword">typedef</span> MyPointC2                         Point_2;<br>  <span class="hljs-keyword">typedef</span> MySegmentC2&lt;Kernel&gt;               Segment_2;<br>  <span class="hljs-keyword">typedef</span> MyConstruct_point_2&lt;Kernel, OldK&gt;       Construct_point_2;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span>*                     Cartesian_const_iterator_2;<br>  <span class="hljs-keyword">typedef</span> MyConstruct_coord_iterator        Construct_cartesian_const_iterator_2;<br>  <span class="hljs-keyword">typedef</span> MyConstruct_bbox_2&lt;<span class="hljs-keyword">typename</span> OldK::Construct_bbox_2&gt;<br>                                            Construct_bbox_2;<br>  <span class="hljs-function">Construct_point_2</span><br><span class="hljs-function">  <span class="hljs-title">construct_point_2_object</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">Construct_point_2</span>(); &#125;<br>  <span class="hljs-function">Construct_bbox_2</span><br><span class="hljs-function">  <span class="hljs-title">construct_bbox_2_object</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">Construct_bbox_2</span>(); &#125;<br>  <span class="hljs-function">Construct_cartesian_const_iterator_2</span><br><span class="hljs-function">  <span class="hljs-title">construct_cartesian_const_iterator_2_object</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">Construct_cartesian_const_iterator_2</span>(); &#125;<br>  <span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> Kernel2 &gt;<br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Base</span> &#123;</span> <span class="hljs-keyword">typedef</span> MyCartesian_base&lt;Kernel2, K_Base&gt;  Type; &#125;;<br>&#125;;<br><span class="hljs-keyword">template</span> &lt; <span class="hljs-keyword">typename</span> FT_ &gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">MyKernel</span></span><br><span class="hljs-class">  :</span> <span class="hljs-keyword">public</span> CGAL::Type_equality_wrapper&lt;<br>                MyCartesian_base&lt;MyKernel&lt;FT_&gt;, CGAL::Cartesian&lt;FT_&gt; &gt;,<br>                MyKernel&lt;FT_&gt; &gt;<br>&#123;&#125;;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> <span class="hljs-comment">// MYKERNEL_H</span></span><br></code></pre></td></tr></table></figure>
+
+<p>最后，谓词和构造与新点一起使用，它们可用于构造线段和三角形，以及基本库中的数据结构，因为 Delaunay 三角剖分与它们一起使用。 </p>
+<p><code>MyKernel.cpp</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/basic.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Filtered_kernel.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Delaunay_triangulation_2.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/squared_distance_2.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cassert&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MyKernel.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;MyPointC2_iostream.h&quot;</span></span><br><span class="hljs-keyword">typedef</span> MyKernel&lt;<span class="hljs-keyword">double</span>&gt;                   MK;<br><span class="hljs-keyword">typedef</span> CGAL::Filtered_kernel_adaptor&lt;MK&gt;  K;<br><span class="hljs-keyword">typedef</span> CGAL::Delaunay_triangulation_2&lt;K&gt;  Delaunay_triangulation_2;<br><span class="hljs-keyword">typedef</span> K::Point_2         Point;<br><span class="hljs-keyword">typedef</span> K::Segment_2       Segment;<br><span class="hljs-keyword">typedef</span> K::Ray_2           Ray;<br><span class="hljs-keyword">typedef</span> K::Line_2          Line;<br><span class="hljs-keyword">typedef</span> K::Triangle_2      Triangle;<br><span class="hljs-keyword">typedef</span> K::Iso_rectangle_2 Iso_rectangle;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> RED= <span class="hljs-number">1</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> BLACK=<span class="hljs-number">2</span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-function">Point <span class="hljs-title">a</span><span class="hljs-params">(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)</span>, <span class="hljs-title">b</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>)</span>, <span class="hljs-title">c</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)</span>, <span class="hljs-title">d</span><span class="hljs-params">(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>)</span></span>;<br>  a.<span class="hljs-built_in">color</span>()=RED;<br>  b.<span class="hljs-built_in">color</span>()=BLACK;<br>  d.<span class="hljs-built_in">color</span>()=RED;<br>  Delaunay_triangulation_2 dt;<br>  dt.<span class="hljs-built_in">insert</span>(a);<br>  K::Orientation_2 orientation;<br>  <span class="hljs-built_in">orientation</span>(a,b,c);<br>  <span class="hljs-function">Point <span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)</span>, q</span>;<br>  p.<span class="hljs-built_in">color</span>() = RED;<br>  q.<span class="hljs-built_in">color</span>() = BLACK;<br>  std::cout &lt;&lt; p &lt;&lt; std::endl;<br>  K::Compute_squared_distance_2 squared_distance;<br>  std::cout &lt;&lt; <span class="hljs-string">&quot;squared_distance(a, b) == &quot;</span><br>            &lt;&lt; <span class="hljs-built_in">squared_distance</span>(a, b) &lt;&lt; std::endl;<br>  <span class="hljs-function">Segment <span class="hljs-title">s1</span><span class="hljs-params">(p,q)</span>, <span class="hljs-title">s2</span><span class="hljs-params">(a, c)</span></span>;<br>  K::Construct_midpoint_2 construct_midpoint_2;<br>  Point mp = <span class="hljs-built_in">construct_midpoint_2</span>(p,q);<br>  std::cout &lt;&lt; <span class="hljs-string">&quot;midpoint(&quot;</span> &lt;&lt; p &lt;&lt; <span class="hljs-string">&quot; , &quot;</span> &lt;&lt; q &lt;&lt; <span class="hljs-string">&quot;) == &quot;</span> &lt;&lt; mp &lt;&lt; std::endl;<br>  <span class="hljs-built_in">assert</span>(s1.<span class="hljs-built_in">source</span>().<span class="hljs-built_in">color</span>() == RED);<br>  K::Intersect_2 intersection;<br>  <span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span> intersect = <span class="hljs-built_in">intersection</span>(s1, s2);<br>  K::Construct_cartesian_const_iterator_2 construct_it;<br>  K::Cartesian_const_iterator_2  cit = <span class="hljs-built_in">construct_it</span>(a);<br>  <span class="hljs-built_in">assert</span>(*cit == a.<span class="hljs-built_in">x</span>());<br>  cit = <span class="hljs-built_in">construct_it</span>(a,<span class="hljs-number">0</span>);<br>  cit--;<br>  <span class="hljs-built_in">assert</span>(*cit == a.<span class="hljs-built_in">y</span>());<br>  <span class="hljs-function">Line <span class="hljs-title">l1</span><span class="hljs-params">(a,b)</span>, <span class="hljs-title">l2</span><span class="hljs-params">(p, q)</span></span>;<br>  <span class="hljs-built_in">intersection</span>(l1, l2);<br>  <span class="hljs-built_in">intersection</span>(s1, l1);<br>  <span class="hljs-function">Ray <span class="hljs-title">r1</span><span class="hljs-params">(d,b)</span>, <span class="hljs-title">r2</span><span class="hljs-params">(d,c)</span></span>;<br>  <span class="hljs-built_in">intersection</span>(r1, r2);<br>  <span class="hljs-built_in">intersection</span>(r1, l1);<br>  <span class="hljs-built_in">squared_distance</span>(r1, r2);<br>  <span class="hljs-built_in">squared_distance</span>(r1, l2);<br>  <span class="hljs-built_in">squared_distance</span>(r1, s2);<br>  <span class="hljs-function">Triangle <span class="hljs-title">t1</span><span class="hljs-params">(a,b,c)</span>, <span class="hljs-title">t2</span><span class="hljs-params">(a,c,d)</span></span>;<br>  <span class="hljs-built_in">intersection</span>(t1, t2);<br>  <span class="hljs-built_in">intersection</span>(t1, l1);<br>  <span class="hljs-built_in">intersection</span>(t1, s1);<br>  <span class="hljs-built_in">intersection</span>(t1, r1);<br>  <span class="hljs-function">Iso_rectangle <span class="hljs-title">i1</span><span class="hljs-params">(a,c)</span>, <span class="hljs-title">i2</span><span class="hljs-params">(d,p)</span></span>;<br>  <span class="hljs-built_in">intersection</span>(i1, i2);<br>  <span class="hljs-built_in">intersection</span>(i1, s1);<br>  <span class="hljs-built_in">intersection</span>(i1, r1);<br>  <span class="hljs-built_in">intersection</span>(i1, l1);<br>  t1.<span class="hljs-built_in">orientation</span>();<br>  std::cout &lt;&lt; s1.<span class="hljs-built_in">source</span>() &lt;&lt; std::endl;<br>  std::cout &lt;&lt; t1.<span class="hljs-built_in">bbox</span>() &lt;&lt; std::endl;<br>  std::cout &lt;&lt; <span class="hljs-string">&quot;done&quot;</span> &lt;&lt; std::endl;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最后一个例子中官方文档里似乎缺少了几个头文件。</p>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://doc.cgal.org/latest/Kernel_23/index.html">CGAL 5.5 - 2D and 3D Linear Geometry Kernel: User Manual</a></p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/17/CGAL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9C%A8VS%E4%B8%AD%E7%9A%84%E9%85%8D%E7%BD%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CGAL的安装与在VS中的配置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/29/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/">
+                        <span class="hidden-mobile">测试文章</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"SS90JJ96HGAB2tRm4Xh34VrB-MdYXbMMI","appKey":"SenUiYEnAA6z6s0OlqwHxST5","path":"window.location.pathname","placeholder":"欢迎交流讨论~(目前只能通过科学sw访问评论区)","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":false,"serverURLs":"https://ss90jj96.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2023</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

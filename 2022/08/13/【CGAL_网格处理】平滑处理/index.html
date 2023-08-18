@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="referrer" content="no-referrer" />
+  <meta name="description" content="CGAL网格处理中封装了针对网格平滑或形状平滑的算法来实现三角网格区域的平滑。  形状平滑：CGAL::Polygon_mesh_processing::smooth_shape()通过使用平均曲率流来平滑网格的整体形状。沿着平均曲率流将顶点逐渐移向其邻居的加权重心。基于Desbrun等人的用于形状平滑的曲率流算法。 网格平滑：CGAL::Polygon_mesh_processing::angl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CGAL_网格处理】平滑处理">
+<meta property="og:url" content="http://example.com/2022/08/13/%E3%80%90CGAL_%E7%BD%91%E6%A0%BC%E5%A4%84%E7%90%86%E3%80%91%E5%B9%B3%E6%BB%91%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="CGAL网格处理中封装了针对网格平滑或形状平滑的算法来实现三角网格区域的平滑。  形状平滑：CGAL::Polygon_mesh_processing::smooth_shape()通过使用平均曲率流来平滑网格的整体形状。沿着平均曲率流将顶点逐渐移向其邻居的加权重心。基于Desbrun等人的用于形状平滑的曲率流算法。 网格平滑：CGAL::Polygon_mesh_processing::angl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/UNVYJ4bkhaRnQX7.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/JSRGlKE4k1CPzt9.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/wn3X1vHkbeRl8FS.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/kxisVDeOBFGt8hn.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/qNyoGRpkv9CJMfF.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/P2kVe1gj3molCnw.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/1taEOxD7TyinAHG.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/B4tQi5H9LuX8xqG.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/oMdIq5n87zf1XPk.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/Hq9iXF2lzLVaYNU.png">
+<meta property="og:image" content="https://s2.loli.net/2022/08/12/2wvuMyj7zkGHlmf.png">
+<meta property="article:published_time" content="2022-08-13T03:29:58.000Z">
+<meta property="article:modified_time" content="2023-08-18T02:29:39.376Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2022/08/12/UNVYJ4bkhaRnQX7.png">
+  
+  <title>【CGAL_网格处理】平滑处理 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="【CGAL_网格处理】平滑处理">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-08-13 11:29" pubdate>
+        2022年8月13日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【CGAL_网格处理】平滑处理</h1>
+            
+            <div class="markdown-body">
+              <p>CGAL网格处理中封装了针对网格平滑或形状平滑的算法来实现三角网格区域的平滑。</p>
+<ul>
+<li>形状平滑：<code>CGAL::Polygon_mesh_processing::smooth_shape()</code>通过使用平均曲率流来平滑网格的整体形状。沿着平均曲率流将顶点逐渐移向其邻居的加权重心。基于Desbrun等人的用于形状平滑的曲率流算法。</li>
+<li>网格平滑：<code>CGAL::Polygon_mesh_processing::angle_and_area_smoothing()</code>通过移动（非约束顶点）使三角形角度和面积分布尽可能均匀。</li>
+</ul>
+<h2 id="形状平滑"><a href="#形状平滑" class="headerlink" title="形状平滑"></a>形状平滑</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> TriangleMesh , <span class="hljs-keyword">typename</span> FaceRange , <span class="hljs-keyword">typename</span> NamedParameters = parameters::Default_named_parameters&gt;<br><span class="hljs-keyword">void</span> CGAL::Polygon_mesh_processing::<span class="hljs-built_in">smooth_shape</span>(<span class="hljs-keyword">const</span> FaceRange &amp; 			faces,<br>												 TriangleMesh &amp; 			tmesh,<br>												 <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> 				time,<br>												 <span class="hljs-keyword">const</span> NamedParameters &amp; 	np = parameters::<span class="hljs-built_in">default_values</span>() <br>												)	<br></code></pre></td></tr></table></figure>
+
+<p>#include &lt;CGAL/Polygon_mesh_processing/smooth_shape.h&gt;</p>
+<table>
+<thead>
+<tr>
+<th align="left">参数名</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">tmesh</td>
+<td>a polygon mesh with triangulated surface patches to be smoothed.</td>
+</tr>
+<tr>
+<td align="left">faces</td>
+<td>the range of triangular faces defining one or several surface patches to be smoothed.</td>
+</tr>
+<tr>
+<td align="left">time</td>
+<td>a time step that corresponds to the speed by which the surface is smoothed. A larger time step results in faster convergence but details may be distorted to a larger extent compared to more iterations with a smaller step. Typical values scale in the interval (1e-6, 1].</td>
+</tr>
+<tr>
+<td align="left">np</td>
+<td>an optional sequence of <a target="_blank" rel="noopener" href="https://doc.cgal.org/latest/BGL/group__bgl__namedparameters.html">Named Parameters</a> among the ones listed below</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>tmesh：三角化表面后的多边形网格。</p>
+<p>faces：面片序列。</p>
+<p>time：时间步长。越大收敛越快，平滑速度越快。但是细节上可能会导致丢失。取值(1e-6, 1]。</p>
+</blockquote>
+<p>可选np：</p>
+<ul>
+<li><code>number_of_iterations</code>：平滑操作迭代次数。默认1次平滑操作。</li>
+<li><code>vertex_is_constrained_map</code>：一个包含了<code>tmesh</code>每个顶点在平滑过程中是否受约束的property map。如果某一顶点受约束，其在平滑操作中将不会被修改。</li>
+</ul>
+<h3 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Exact_predicates_inexact_constructions_kernel.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Surface_mesh.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polygon_mesh_processing/smooth_shape.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polygon_mesh_processing/IO/polygon_mesh_io.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/draw_surface_mesh.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;set&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Exact_predicates_inexact_constructions_kernel   K;<br><span class="hljs-keyword">typedef</span> CGAL::Surface_mesh&lt;K::Point_3&gt;                        Mesh;<br><span class="hljs-keyword">namespace</span> PMP = CGAL::Polygon_mesh_processing;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">const</span> std::string filename = <span class="hljs-string">&quot;data/remeshing_surface_layer_1.off&quot;</span>;<br>    Mesh mesh;<br>    <span class="hljs-keyword">if</span> (!PMP::IO::<span class="hljs-built_in">read_polygon_mesh</span>(filename, mesh))<br>    &#123;<br>        std::cerr &lt;&lt; <span class="hljs-string">&quot;Invalid input.&quot;</span> &lt;&lt; std::endl;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    CGAL::<span class="hljs-built_in">draw</span>(mesh);<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> nb_iterations = <span class="hljs-number">5</span>;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> time = <span class="hljs-number">0.3</span>;<br>    std::set&lt;Mesh::Vertex_index&gt; constrained_vertices;<br>    <span class="hljs-keyword">for</span> (Mesh::Vertex_index v : <span class="hljs-built_in">vertices</span>(mesh))<br>    &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">is_border</span>(v, mesh))<br>            constrained_vertices.<span class="hljs-built_in">insert</span>(v);<br>    &#125;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Constraining: &quot;</span> &lt;&lt; constrained_vertices.<span class="hljs-built_in">size</span>() &lt;&lt; <span class="hljs-string">&quot; border vertices&quot;</span> &lt;&lt; std::endl;<br>    CGAL::Boolean_property_map&lt;std::set&lt;Mesh::Vertex_index&gt; &gt; <span class="hljs-built_in">vcmap</span>(constrained_vertices);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Smoothing shape... (&quot;</span> &lt;&lt; nb_iterations &lt;&lt; <span class="hljs-string">&quot; iterations)&quot;</span> &lt;&lt; std::endl;<br>    PMP::<span class="hljs-built_in">smooth_shape</span>(mesh, time, CGAL::parameters::<span class="hljs-built_in">number_of_iterations</span>(nb_iterations)<br>        .<span class="hljs-built_in">vertex_is_constrained_map</span>(vcmap));<br>    CGAL::IO::<span class="hljs-built_in">write_polygon_mesh</span>(<span class="hljs-string">&quot;mesh_shape_smoothed.off&quot;</span>, mesh, CGAL::parameters::<span class="hljs-built_in">stream_precision</span>(<span class="hljs-number">17</span>));<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Done!&quot;</span> &lt;&lt; std::endl;<br>    CGAL::<span class="hljs-built_in">draw</span>(mesh);<br>    <span class="hljs-keyword">return</span> EXIT_SUCCESS;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>报错如下：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd"><span class="hljs-number">1</span>&gt;D:\CGAL\CGAL-<span class="hljs-number">5</span>.<span class="hljs-number">4</span>.<span class="hljs-number">1</span>\include\CGAL/Polygon_mesh_processing/smooth_shape.h(<span class="hljs-number">149</span>,<span class="hljs-number">1</span>): error C2338: static_assert failed: &#x27;Eigen3 version <span class="hljs-number">3</span>.<span class="hljs-number">2</span> or later is required.&#x27;<br></code></pre></td></tr></table></figure>
+
+<p>原因很简单，Eigen3版本太低。所以我们只需重新下载安装最新版本的eigen即可。</p>
+<p>参考下文进行Eigen3的安装和在VS中的配置：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/panpan_jiang1/article/details/79649452">VS2015中配置Eigen_Aria_J的博客-CSDN博客_vs2015配置eigen</a></p>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><p>下面是pig.stl进行形状平滑前后的对照。</p>
+<p>参数：time=0.5，number_of_iterations=10。</p>
+<p><img src="https://s2.loli.net/2022/08/12/UNVYJ4bkhaRnQX7.png" srcset="/img/loading.gif" lazyload alt="image-20220812132831145"></p>
+<p><img src="https://s2.loli.net/2022/08/12/JSRGlKE4k1CPzt9.png" srcset="/img/loading.gif" lazyload alt="image-20220812133438172"></p>
+<p><img src="https://s2.loli.net/2022/08/12/wn3X1vHkbeRl8FS.png" srcset="/img/loading.gif" lazyload alt="image-20220812134135238"></p>
+<p><img src="https://s2.loli.net/2022/08/12/kxisVDeOBFGt8hn.png" srcset="/img/loading.gif" lazyload alt="image-20220812134117998"></p>
+<p>下图是默认vertex_is_constrained_map下，对有界网格进行形状平滑结果对照。</p>
+<p>参数：time=0.3，number_of_iterations=5。</p>
+<p><img src="https://s2.loli.net/2022/08/12/qNyoGRpkv9CJMfF.png" srcset="/img/loading.gif" lazyload alt="image-20220812134803235"></p>
+<p><img src="https://s2.loli.net/2022/08/12/P2kVe1gj3molCnw.png" srcset="/img/loading.gif" lazyload alt="image-20220812134837714"></p>
+<p>可见，边界点未约束将造成边界萎缩。</p>
+<h2 id="网格平滑"><a href="#网格平滑" class="headerlink" title="网格平滑"></a>网格平滑</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> TriangleMesh , <span class="hljs-keyword">typename</span> FaceRange , <span class="hljs-keyword">typename</span> NamedParameters = parameters::Default_named_parameters&gt;<br><span class="hljs-keyword">void</span> CGAL::Polygon_mesh_processing::<span class="hljs-built_in">angle_and_area_smoothing</span>(<span class="hljs-keyword">const</span> FaceRange &amp; 			faces,<br>															 TriangleMesh &amp; 			tmesh,<br>															 <span class="hljs-keyword">const</span> NamedParameters &amp; 	np = parameters::<span class="hljs-built_in">default_values</span>() <br>															)		<br></code></pre></td></tr></table></figure>
+
+<p>#include &lt;CGAL/Polygon_mesh_processing/angle_and_area_smoothing.h&gt;</p>
+<blockquote>
+<p>注意，如果CGAL版本是5.5以前，<code>angle_and_area_smoothing</code>应改为<code>smooth_mesh</code>，否则报错找不到头文件。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tmesh</td>
+<td>a polygon mesh with triangulated surface patches to be smoothed.</td>
+</tr>
+<tr>
+<td>faces</td>
+<td>the range of triangular faces defining one or several surface patches to be smoothed.</td>
+</tr>
+<tr>
+<td>np</td>
+<td>an optional sequence of <a target="_blank" rel="noopener" href="https://doc.cgal.org/latest/BGL/group__bgl__namedparameters.html">Named Parameters</a> among the ones listed below</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>tmesh：同上<code>smooth_shape()</code>。</p>
+<p>faces：同上<code>smooth_shape()</code>。</p>
+</blockquote>
+<p>部分可选np：</p>
+<ul>
+<li><code>number_of_iterations</code>：平滑操作迭代次数。默认1次平滑操作。</li>
+<li><code>using_angle_smoothing</code>、<code>using_area_smoothing</code>：基于角度平滑和基于面积平滑的开关，默认为true。</li>
+<li><code>vertex_is_constrained_map</code>、<code>edge_is_constrained_map</code>：顶点和边的是否受约束映射关系。默认没有顶点和边受约束，即在平滑过程中都会被调整。</li>
+<li><code>use_safety_constraints</code>：布尔值。如果为true，会忽略那些使网格恶化的顶点移动行为。默认为false。</li>
+<li><code>use_Delaunay_flips</code>：布尔值。如果为true，则基于面积的平滑将通过基于 Delaunay 的边缘翻转来完成，以防止产生被拉长的三角面片。</li>
+</ul>
+<h3 id="测试代码-1"><a href="#测试代码-1" class="headerlink" title="测试代码"></a>测试代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> CGAL_PMP_USE_CERES_SOLVER</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Exact_predicates_inexact_constructions_kernel.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Surface_mesh.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polygon_mesh_processing/smooth_mesh.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polygon_mesh_processing/detect_features.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polygon_mesh_processing/IO/polygon_mesh_io.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/draw_surface_mesh.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Exact_predicates_inexact_constructions_kernel     K;<br><span class="hljs-keyword">typedef</span> CGAL::Surface_mesh&lt;K::Point_3&gt;                          Mesh;<br><span class="hljs-keyword">typedef</span> boost::graph_traits&lt;Mesh&gt;::edge_descriptor              edge_descriptor;<br><span class="hljs-keyword">namespace</span> PMP = CGAL::Polygon_mesh_processing;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">const</span> std::string filename = <span class="hljs-string">&quot;data/surface_layer_1.off&quot;</span>;<br>    Mesh mesh;<br>    <span class="hljs-keyword">if</span> (!PMP::IO::<span class="hljs-built_in">read_polygon_mesh</span>(filename, mesh))<br>    &#123;<br>        std::cerr &lt;&lt; <span class="hljs-string">&quot;Invalid input.&quot;</span> &lt;&lt; std::endl;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    CGAL::<span class="hljs-built_in">draw</span>(mesh);<br>    <span class="hljs-comment">// Constrain edges with a dihedral angle over 60°</span><br>    <span class="hljs-keyword">typedef</span> boost::property_map&lt;Mesh, CGAL::<span class="hljs-keyword">edge_is_feature_t</span>&gt;::type EIFMap;<br>    EIFMap eif = <span class="hljs-built_in">get</span>(CGAL::edge_is_feature, mesh);<br>    PMP::<span class="hljs-built_in">detect_sharp_edges</span>(mesh, <span class="hljs-number">60</span>, eif);<br>    <span class="hljs-keyword">int</span> sharp_counter = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (edge_descriptor e : <span class="hljs-built_in">edges</span>(mesh))<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">get</span>(eif, e))<br>            ++sharp_counter;<br>    std::cout &lt;&lt; sharp_counter &lt;&lt; <span class="hljs-string">&quot; sharp edges&quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> nb_iterations = <span class="hljs-number">10</span>;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Smoothing mesh... (&quot;</span> &lt;&lt; nb_iterations &lt;&lt; <span class="hljs-string">&quot; iterations)&quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-comment">// Smooth with both angle and area criteria + Delaunay flips</span><br>    PMP::<span class="hljs-built_in">smooth_mesh</span>(mesh, CGAL::parameters::<span class="hljs-built_in">number_of_iterations</span>(nb_iterations)<br>        <span class="hljs-comment">//.use_angle_smoothing(false)</span><br>        <span class="hljs-comment">//.use_area_smoothing(false)</span><br>        <span class="hljs-comment">//.use_Delaunay_flips(false)</span><br>        .<span class="hljs-built_in">use_safety_constraints</span>(<span class="hljs-literal">false</span>) <span class="hljs-comment">// authorize all moves</span><br>        .<span class="hljs-built_in">edge_is_constrained_map</span>(eif));<br>    CGAL::IO::<span class="hljs-built_in">write_polygon_mesh</span>(<span class="hljs-string">&quot;mesh_smoothed.off&quot;</span>, mesh, CGAL::parameters::<span class="hljs-built_in">stream_precision</span>(<span class="hljs-number">17</span>));<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Done!&quot;</span> &lt;&lt; std::endl;<br>    CGAL::<span class="hljs-built_in">draw</span>(mesh);<br>    <span class="hljs-keyword">return</span> EXIT_SUCCESS;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行上面代码，程序未报错，但是控制台输出如下内容：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmd">Area-based smoothing requires the Ceres Library, which is <span class="hljs-keyword">not</span> available.<br>No such smoothing will be performed!<br></code></pre></td></tr></table></figure>
+
+<p>查看CGAL5.4.2官方文档：</p>
+<p><img src="https://s2.loli.net/2022/08/12/1taEOxD7TyinAHG.png" srcset="/img/loading.gif" lazyload alt="image-20220812163639546"></p>
+<p>果不其然，因此我们需要按照第三方库Ceres。</p>
+<p>参见这篇文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/sunzhao1000/article/details/106652142">Win10 + VS2017 + Ceres配置_四片叶子的三叶草的博客-CSDN博客_ceres vs2017</a>，安装并配置完成后，程序成功运行（运行时间比较长）。</p>
+<p><font color=red><b>注意：在程序最开始需加入如下一行：</b></font></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> CGAL_PMP_USE_CERES_SOLVER</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h3><p>原网格：</p>
+<p><img src="https://s2.loli.net/2022/08/12/B4tQi5H9LuX8xqG.png" srcset="/img/loading.gif" lazyload alt="image-20220812211240555"></p>
+<p>Smooth with angle，number_of_iterations=10.</p>
+<p><img src="https://s2.loli.net/2022/08/12/oMdIq5n87zf1XPk.png" srcset="/img/loading.gif" lazyload alt="image-20220812211316440"></p>
+<p>Smooth with area，number_of_iterations=10.</p>
+<p><img src="https://s2.loli.net/2022/08/12/Hq9iXF2lzLVaYNU.png" srcset="/img/loading.gif" lazyload alt="image-20220812211601771"></p>
+<p>Smooth with both angle and area criteria + Delaunay flips，number_of_iterations=10.</p>
+<p><img src="https://s2.loli.net/2022/08/12/2wvuMyj7zkGHlmf.png" srcset="/img/loading.gif" lazyload alt="image-20220812211803547"></p>
+<h2 id="问题与总结"><a href="#问题与总结" class="headerlink" title="问题与总结"></a>问题与总结</h2><p>进一步理解了可选命名参数<code>vertex_is_constrained_map</code></p>
+<ul>
+<li><strong>Type:</strong> a class model of <code>ReadWritePropertyMap</code> with <code>boost::graph_traits&lt;TriangleMesh&gt;::vertex_descriptor</code> as key type and <code>bool</code> as value type. It must be default constructible.</li>
+<li><strong>Default:</strong> a default property map where no vertex is constrained</li>
+<li><strong>Extra:</strong> A constrained vertex cannot be modified at all during smoothing.</li>
+</ul>
+<p>对于<code>ReadWritePropertyMap</code>的构造。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp">std::set&lt;Mesh::Vertex_index&gt; constrained_vertices;<br><span class="hljs-keyword">for</span> (Mesh::Vertex_index v : <span class="hljs-built_in">vertices</span>(mesh))<br>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">is_border</span>(v, mesh))<br>        constrained_vertices.<span class="hljs-built_in">insert</span>(v);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>首先获得<code>std::set&lt;Mesh::Vertex_index&gt;</code>类型的变量<code>constrained_vertices</code>，其中元素类型为<code>Mesh::Vertex_index</code>，即顶点的索引值。这里通过<code>is_border()</code>判断mesh中的所有顶点，并将边界顶点放到<code>constrained_vertices</code>中。</p>
+<p>这里的</p>
+<p>接下来，使用<code>constrained_vertices</code>实例化<code>CGAL::Boolean_property_map&lt;std::set&lt;Mesh::Vertex_index&gt;&gt;</code>对象vcmap。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">CGAL::Boolean_property_map&lt;std::set&lt;Mesh::Vertex_index&gt; &gt; <span class="hljs-built_in">vcmap</span>(constrained_vertices);<br></code></pre></td></tr></table></figure>
+
+<p>这里我们转到<code>Boolean_property_map</code>的定义。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/// \ingroup PkgPropertyMapRef</span><br><span class="hljs-comment">/// Read-write property map turning a set (such a `std::set`,</span><br><span class="hljs-comment">/// `boost::unordered_set`, `std::unordered_set`) into a property map</span><br><span class="hljs-comment">/// associating a Boolean to the value type of the set. The function `get` will</span><br><span class="hljs-comment">/// return `true` if the key is inside the set and `false` otherwise. The `put`</span><br><span class="hljs-comment">/// function will insert an element in the set if `true` is passed and erase it</span><br><span class="hljs-comment">/// otherwise.</span><br><span class="hljs-comment">/// \cgalModels `ReadWritePropertyMap`</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Set</span>&gt;</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Boolean_property_map</span></span><br><span class="hljs-class">&#123;</span><br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> Set::value_type key_type;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">bool</span> value_type;<br>  <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">bool</span> reference;<br>  <span class="hljs-keyword">typedef</span> boost::read_write_property_map_tag category;<br><br>  Set* set_ptr;<br>  <span class="hljs-comment">/// Constructor taking a copy of the set. Note that `set_` must be valid</span><br>  <span class="hljs-comment">/// while the property map is in use.</span><br>  <span class="hljs-built_in">Boolean_property_map</span>(Set&amp; set_) : <span class="hljs-built_in">set_ptr</span>(&amp;set_) &#123;&#125;<br>  <span class="hljs-built_in">Boolean_property_map</span>() : <span class="hljs-built_in">set_ptr</span>(<span class="hljs-literal">nullptr</span>) &#123;&#125;<br><br>  <span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">get</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Boolean_property_map&lt;Set&gt;&amp; pm, <span class="hljs-keyword">const</span> key_type&amp; k)</span></span><br><span class="hljs-function">  </span>&#123;<br>    <span class="hljs-built_in">CGAL_assertion</span>(pm.set_ptr!=<span class="hljs-literal">nullptr</span>);<br>    <span class="hljs-keyword">return</span> pm.set_ptr-&gt;<span class="hljs-built_in">count</span>(k) != <span class="hljs-number">0</span>;<br>  &#125;<br><br>  <span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-keyword">void</span> <span class="hljs-title">put</span><span class="hljs-params">(Boolean_property_map&lt;Set&gt;&amp; pm, <span class="hljs-keyword">const</span> key_type&amp; k, <span class="hljs-keyword">bool</span> v)</span></span><br><span class="hljs-function">  </span>&#123;<br>    <span class="hljs-built_in">CGAL_assertion</span>(pm.set_ptr!=<span class="hljs-literal">nullptr</span>);<br>    <span class="hljs-keyword">if</span> (v)<br>      pm.set_ptr-&gt;<span class="hljs-built_in">insert</span>(k);<br>    <span class="hljs-keyword">else</span><br>      pm.set_ptr-&gt;<span class="hljs-built_in">erase</span>(k);<br>  &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>以上分析证实了<code>vertex_is_constrained_map</code>的参数类型。</p>
+<p><strong>Type:</strong> a class model of <code>ReadWritePropertyMap</code> with <code>boost::graph_traits&lt;TriangleMesh&gt;::vertex_descriptor</code> as key type and <code>bool</code> as value type. It must be default constructible.</p>
+<blockquote>
+<p><code>edge_is_constrained_map</code>构造同理。</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/15/%E3%80%90CGAL_%E7%BD%91%E6%A0%BC%E5%A4%84%E7%90%86%E3%80%91%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【CGAL_网格处理】坐标变换</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/13/%E3%80%90CGAL_%E7%BD%91%E6%A0%BC%E5%A4%84%E7%90%86%E3%80%91%E5%B8%83%E5%B0%94%E6%93%8D%E4%BD%9C/">
+                        <span class="hidden-mobile">【CGAL_网格处理】布尔操作</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"SS90JJ96HGAB2tRm4Xh34VrB-MdYXbMMI","appKey":"SenUiYEnAA6z6s0OlqwHxST5","path":"window.location.pathname","placeholder":"欢迎交流讨论~(目前只能通过科学sw访问评论区)","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":false,"serverURLs":"https://ss90jj96.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2023</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

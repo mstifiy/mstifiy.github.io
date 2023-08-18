@@ -1,0 +1,605 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="MSTIFIY">
+  <meta name="keywords" content="">
+  <meta name="referrer" content="no-referrer" />
+  <meta name="description" content="AABB Tree官方文档链接：CGAL 5.5 - 3D Fast Intersection and Distance Computation (AABB Tree): User Manual 1 介绍AABB树提供了一个静态的数据结构和算法，能够对有限3D几何对象集合进行高效的相交和距离查询。  相交查询可以是任何类型，前提是在traits类中实现了相应的交集谓词和构造函数。 距离查询仅限于点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CGAL_空间搜索和排序】3D快速求交和距离计算">
+<meta property="og:url" content="http://example.com/2022/08/27/%E3%80%90CGAL_%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E5%92%8C%E6%8E%92%E5%BA%8F%E3%80%913D%E5%BF%AB%E9%80%9F%E6%B1%82%E4%BA%A4%E5%92%8C%E8%B7%9D%E7%A6%BB%E8%AE%A1%E7%AE%97/index.html">
+<meta property="og:site_name" content="MSTIFIY&#39;S BLOG">
+<meta property="og:description" content="AABB Tree官方文档链接：CGAL 5.5 - 3D Fast Intersection and Distance Computation (AABB Tree): User Manual 1 介绍AABB树提供了一个静态的数据结构和算法，能够对有限3D几何对象集合进行高效的相交和距离查询。  相交查询可以是任何类型，前提是在traits类中实现了相应的交集谓词和构造函数。 距离查询仅限于点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://doc.cgal.org/latest/AABB_tree/anchor.png">
+<meta property="article:published_time" content="2022-08-27T07:49:59.000Z">
+<meta property="article:modified_time" content="2023-08-18T02:29:39.343Z">
+<meta property="article:author" content="MSTIFIY">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://doc.cgal.org/latest/AABB_tree/anchor.png">
+  
+  <title>【CGAL_空间搜索和排序】3D快速求交和距离计算 - MSTIFIY&#39;S BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>MSTIFIY</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="【CGAL_空间搜索和排序】3D快速求交和距离计算">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-08-27 15:49" pubdate>
+        2022年8月27日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      12k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【CGAL_空间搜索和排序】3D快速求交和距离计算</h1>
+            
+            <div class="markdown-body">
+              <h1 id="AABB-Tree"><a href="#AABB-Tree" class="headerlink" title="AABB Tree"></a>AABB Tree</h1><p>官方文档链接：<a target="_blank" rel="noopener" href="https://doc.cgal.org/latest/AABB_tree/index.html#Chapter_3D_Fast_Intersection_and_Distance_Computation">CGAL 5.5 - 3D Fast Intersection and Distance Computation (AABB Tree): User Manual</a></p>
+<h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1 介绍"></a>1 介绍</h2><p>AABB树提供了一个静态的数据结构和算法，能够对有限3D几何对象集合进行高效的相交和距离查询。</p>
+<ul>
+<li>相交查询可以是任何类型，前提是在traits类中实现了相应的交集谓词和构造函数。</li>
+<li>距离查询仅限于点的查询。</li>
+</ul>
+<p>AABB树的数据结构将几何数据的迭代器范围作为输入，然后将其转换为primitives（图元）。在这些primitives中，构造了一个轴对齐边界框（axis-aligned bounding boxes）（AABB）的层次结构，用于加速相交和距离查询。每个图元都能访问一个输入几何对象（datum）和该对象的参考id。例如，一个图元将3D triangle作为datum，多面体表面的face handle作为id。而通过AABB tree进行相交和距离查询时，返回值中就包含了相交对象/最近点和相交图元id/最近图元id。</p>
+<p><img src="https://doc.cgal.org/latest/AABB_tree/anchor.png" srcset="/img/loading.gif" lazyload alt="anchor.png"></p>
+<blockquote>
+<p>左图为表面三角网格模型，右图为其构建的AABB树。</p>
+</blockquote>
+<h2 id="2-接口"><a href="#2-接口" class="headerlink" title="2 接口"></a>2 接口</h2><p><strong>相交</strong>：</p>
+<ul>
+<li><code>AABB_tree::do_intersect()</code></li>
+<li> <code>AABB_tree::number_of_intersected_primitives()</code></li>
+<li> <code>AABB_tree::all_intersected_primitives()</code></li>
+<li> <code>AABB_tree::any_intersected_primitive()</code></li>
+<li> <code>AABB_tree::first_intersected_primitive()</code></li>
+</ul>
+<blockquote>
+<p>以上函数不会构造相交对象，仅做测试。</p>
+</blockquote>
+<ul>
+<li> <code>AABB_tree::all_intersections()</code></li>
+<li> <code>AABB_tree::any_intersection()</code> </li>
+<li> <code>AABB_tree::first_intersection()</code> </li>
+</ul>
+<blockquote>
+<p>以上函数会构造相交的对象。</p>
+</blockquote>
+<p><strong>距离</strong>：</p>
+<ul>
+<li> <code>AABB_tree::closest_point()</code></li>
+<li> <code>AABB_tree::closest_point_and_primitive()</code></li>
+<li> <code>AABB_tree::accelerate_distance_queries()</code> </li>
+</ul>
+<blockquote>
+<p>注意，在AABB Tree中应避免出现退化的图元，防止算法出错。</p>
+</blockquote>
+<h2 id="3-几个栗子"><a href="#3-几个栗子" class="headerlink" title="3 几个栗子"></a>3 几个栗子</h2><p>下面例子中，三维三角形集合以list的形式存储。AABB图元将三角形（triangle）作为<code>datum</code>（数据），list里的迭代器作为<code>id</code>。程序中实现了射线与三角形集合的相交查询，点与三角形集合的最近点查询和距离计算。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// Author(s) : Camille Wormser, Pierre Alliez</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;list&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_tree.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_traits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_triangle_primitive.h&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<span class="hljs-comment">//内核定义</span><br><span class="hljs-keyword">typedef</span> K::FT FT;<br><span class="hljs-keyword">typedef</span> K::Ray_3 Ray;<br><span class="hljs-keyword">typedef</span> K::Line_3 Line;<br><span class="hljs-keyword">typedef</span> K::Point_3 Point;<br><span class="hljs-keyword">typedef</span> K::Triangle_3 Triangle;<br><span class="hljs-keyword">typedef</span> std::list&lt;Triangle&gt;::iterator Iterator; <span class="hljs-comment">//三角形list迭代器</span><br><span class="hljs-keyword">typedef</span> CGAL::AABB_triangle_primitive&lt;K, Iterator&gt; Primitive;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_traits&lt;K, Primitive&gt; AABB_triangle_traits;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_tree&lt;AABB_triangle_traits&gt; Tree;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">Point <span class="hljs-title">a</span><span class="hljs-params">(<span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">b</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">c</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">d</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    std::list&lt;Triangle&gt; triangles;<br>    triangles.<span class="hljs-built_in">push_back</span>(<span class="hljs-built_in">Triangle</span>(a,b,c));<br>    triangles.<span class="hljs-built_in">push_back</span>(<span class="hljs-built_in">Triangle</span>(a,b,d));<br>    triangles.<span class="hljs-built_in">push_back</span>(<span class="hljs-built_in">Triangle</span>(a,d,c));<br>    <span class="hljs-comment">// constructs AABB tree</span><br>    <span class="hljs-function">Tree <span class="hljs-title">tree</span><span class="hljs-params">(triangles.begin(),triangles.end())</span></span>;<br>    <span class="hljs-comment">// counts #intersections</span><br>    <span class="hljs-function">Ray <span class="hljs-title">ray_query</span><span class="hljs-params">(a,b)</span></span>;<br>    std::cout &lt;&lt; tree.<span class="hljs-built_in">number_of_intersected_primitives</span>(ray_query)<br>        &lt;&lt; <span class="hljs-string">&quot; intersections(s) with ray query&quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-comment">// compute closest point and squared distance</span><br>    <span class="hljs-function">Point <span class="hljs-title">point_query</span><span class="hljs-params">(<span class="hljs-number">2.0</span>, <span class="hljs-number">2.0</span>, <span class="hljs-number">2.0</span>)</span></span>;<br>    Point closest_point = tree.<span class="hljs-built_in">closest_point</span>(point_query);<br>    std::cerr &lt;&lt; <span class="hljs-string">&quot;closest point is: &quot;</span> &lt;&lt; closest_point &lt;&lt; std::endl;<br>    FT sqd = tree.<span class="hljs-built_in">squared_distance</span>(point_query);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;squared distance: &quot;</span> &lt;&lt; sqd &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span> EXIT_SUCCESS;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在下面这个例子中，将创建一个多面体三角面片的AABB树。其中，AABB图元将三角形面片句柄包装为<code>id</code>，对应的面片作为几何对象（<code>datum</code>）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// Author(s) : Camille Wormser, Pierre Alliez</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;list&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_tree.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_traits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polyhedron_3.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_face_graph_triangle_primitive.h&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<br><span class="hljs-keyword">typedef</span> K::Point_3 Point;<br><span class="hljs-keyword">typedef</span> K::Plane_3 Plane;<br><span class="hljs-keyword">typedef</span> K::Vector_3 Vector;<br><span class="hljs-keyword">typedef</span> K::Segment_3 Segment;<br><span class="hljs-keyword">typedef</span> K::Ray_3 Ray;<br><span class="hljs-keyword">typedef</span> CGAL::Polyhedron_3&lt;K&gt; Polyhedron;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_face_graph_triangle_primitive&lt;Polyhedron&gt; Primitive;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_traits&lt;K, Primitive&gt; Traits;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_tree&lt;Traits&gt; Tree;<br><span class="hljs-keyword">typedef</span> boost::optional&lt; Tree::Intersection_and_primitive_id&lt;Segment&gt;::Type &gt; Segment_intersection;<br><span class="hljs-keyword">typedef</span> boost::optional&lt; Tree::Intersection_and_primitive_id&lt;Plane&gt;::Type &gt; Plane_intersection;<br><span class="hljs-keyword">typedef</span> Tree::Primitive_id Primitive_id;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">Point <span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">q</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">r</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">s</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    Polyhedron polyhedron;<br>    polyhedron.<span class="hljs-built_in">make_tetrahedron</span>(p, q, r, s);<br>    <span class="hljs-comment">// constructs AABB tree</span><br>    <span class="hljs-function">Tree <span class="hljs-title">tree</span><span class="hljs-params">(faces(polyhedron).first, faces(polyhedron).second, polyhedron)</span></span>;<br>    <span class="hljs-comment">// constructs segment query</span><br>    <span class="hljs-function">Point <span class="hljs-title">a</span><span class="hljs-params">(<span class="hljs-number">-0.2</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">-0.2</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">b</span><span class="hljs-params">(<span class="hljs-number">1.3</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">1.3</span>)</span></span>;<br>    <span class="hljs-function">Segment <span class="hljs-title">segment_query</span><span class="hljs-params">(a,b)</span></span>;<br>    <span class="hljs-comment">// tests intersections with segment query</span><br>    <span class="hljs-keyword">if</span>(tree.<span class="hljs-built_in">do_intersect</span>(segment_query))<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;intersection(s)&quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-keyword">else</span><br>        std::cout &lt;&lt; <span class="hljs-string">&quot;no intersection&quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-comment">// computes #intersections with segment query</span><br>    std::cout &lt;&lt; tree.<span class="hljs-built_in">number_of_intersected_primitives</span>(segment_query)<br>        &lt;&lt; <span class="hljs-string">&quot; intersection(s)&quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-comment">// computes first encountered intersection with segment query</span><br>    <span class="hljs-comment">// (generally a point)</span><br>    Segment_intersection intersection =<br>        tree.<span class="hljs-built_in">any_intersection</span>(segment_query);<br>    <span class="hljs-keyword">if</span>(intersection)<br>    &#123;<br>        <span class="hljs-comment">// gets intersection object</span><br>      <span class="hljs-keyword">const</span> Point* p = boost::get&lt;Point&gt;(&amp;(intersection-&gt;first));<br>      <span class="hljs-keyword">if</span>(p)<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;intersection object is a point &quot;</span> &lt;&lt; *p &lt;&lt; std::endl;<br>    &#125;<br>    <span class="hljs-comment">// computes all intersections with segment query (as pairs object - primitive_id)</span><br>    std::list&lt;Segment_intersection&gt; intersections;<br>    tree.<span class="hljs-built_in">all_intersections</span>(segment_query, std::<span class="hljs-built_in">back_inserter</span>(intersections));<br>    <span class="hljs-comment">// computes all intersected primitives with segment query as primitive ids</span><br>    std::list&lt;Primitive_id&gt; primitives;<br>    tree.<span class="hljs-built_in">all_intersected_primitives</span>(segment_query, std::<span class="hljs-built_in">back_inserter</span>(primitives));<br>    <span class="hljs-comment">// constructs plane query</span><br>    <span class="hljs-function">Vector <span class="hljs-title">vec</span><span class="hljs-params">(<span class="hljs-number">0.0</span>,<span class="hljs-number">0.0</span>,<span class="hljs-number">1.0</span>)</span></span>;<br>    <span class="hljs-function">Plane <span class="hljs-title">plane_query</span><span class="hljs-params">(a,vec)</span></span>;<br>    <span class="hljs-comment">// computes first encountered intersection with plane query</span><br>    <span class="hljs-comment">// (generally a segment)</span><br>    Plane_intersection plane_intersection = tree.<span class="hljs-built_in">any_intersection</span>(plane_query);<br>    <span class="hljs-keyword">if</span>(plane_intersection)<br>    &#123;<br>      <span class="hljs-keyword">if</span>(boost::get&lt;Segment&gt;(&amp;(plane_intersection-&gt;first)))<br>            std::cout &lt;&lt; <span class="hljs-string">&quot;intersection object is a segment&quot;</span> &lt;&lt; std::endl;<br>    &#125;<br>    <span class="hljs-keyword">return</span> EXIT_SUCCESS;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>下面例子先读取一个闭合的多面体表面，然后以每个face的重心为起始点和垂直于face向模型内部的方向作射线，进行一个ray shooting query。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Surface_mesh.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_tree.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_traits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_face_graph_triangle_primitive.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polygon_mesh_processing/compute_normal.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polygon_mesh_processing/orientation.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;fstream&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<br><span class="hljs-keyword">typedef</span> K::FT FT;<br><span class="hljs-keyword">typedef</span> K::Point_3 Point;<br><span class="hljs-keyword">typedef</span> K::Vector_3 Vector;<br><span class="hljs-keyword">typedef</span> K::Ray_3 Ray;<br><span class="hljs-keyword">typedef</span> CGAL::Surface_mesh&lt;Point&gt; Mesh;<br><span class="hljs-keyword">typedef</span> boost::graph_traits&lt;Mesh&gt;::face_descriptor face_descriptor;<br><span class="hljs-keyword">typedef</span> boost::graph_traits&lt;Mesh&gt;::halfedge_descriptor halfedge_descriptor;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_face_graph_triangle_primitive&lt;Mesh&gt; Primitive;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_traits&lt;K, Primitive&gt; Traits;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_tree&lt;Traits&gt; Tree;<br><span class="hljs-keyword">typedef</span> boost::optional&lt;Tree::Intersection_and_primitive_id&lt;Ray&gt;::Type&gt; Ray_intersection;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Skip</span></span><br><span class="hljs-class">&#123;</span><br>  face_descriptor fd;<br>  <span class="hljs-built_in">Skip</span>(<span class="hljs-keyword">const</span> face_descriptor fd)<br>    : <span class="hljs-built_in">fd</span>(fd)<br>  &#123;&#125;<br>  <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> face_descriptor&amp; t)</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">  </span>&#123; <span class="hljs-keyword">if</span>(t == fd)&#123;<br>      std::cerr &lt;&lt; <span class="hljs-string">&quot;ignore &quot;</span> &lt;&lt; t  &lt;&lt;std::endl;<br>    &#125;;<br>    <span class="hljs-keyword">return</span>(t == fd);<br>  &#125;<br>&#125;;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">const</span> std::string filename = (argc &gt; <span class="hljs-number">1</span>) ? argv[<span class="hljs-number">1</span>] : CGAL::<span class="hljs-built_in">data_file_path</span>(<span class="hljs-string">&quot;meshes/tetrahedron.off&quot;</span>);<br>  Mesh mesh;<br>  <span class="hljs-keyword">if</span>(!CGAL::IO::<span class="hljs-built_in">read_polygon_mesh</span>(filename, mesh))<br>  &#123;<br>    std::cerr &lt;&lt; <span class="hljs-string">&quot;Invalid input.&quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>  &#125;<br>  <span class="hljs-function">Tree <span class="hljs-title">tree</span><span class="hljs-params">(faces(mesh).first, faces(mesh).second, mesh)</span></span>;<br>  <span class="hljs-keyword">double</span> d = CGAL::Polygon_mesh_processing::<span class="hljs-built_in">is_outward_oriented</span>(mesh)?<span class="hljs-number">-1</span>:<span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">for</span>(face_descriptor fd : <span class="hljs-built_in">faces</span>(mesh))<br>  &#123;<br>    halfedge_descriptor hd = <span class="hljs-built_in">halfedge</span>(fd,mesh);<br>    Point p = CGAL::<span class="hljs-built_in">centroid</span>(mesh.<span class="hljs-built_in">point</span>(<span class="hljs-built_in">source</span>(hd,mesh)),<br>                             mesh.<span class="hljs-built_in">point</span>(<span class="hljs-built_in">target</span>(hd,mesh)),<br>                             mesh.<span class="hljs-built_in">point</span>(<span class="hljs-built_in">target</span>(<span class="hljs-built_in">next</span>(hd,mesh),mesh)));<br>    Vector v = CGAL::Polygon_mesh_processing::<span class="hljs-built_in">compute_face_normal</span>(fd,mesh);<br>    <span class="hljs-function">Ray <span class="hljs-title">ray</span><span class="hljs-params">(p,d * v)</span></span>;<br>    <span class="hljs-function">Skip <span class="hljs-title">skip</span><span class="hljs-params">(fd)</span></span>;<br>    Ray_intersection intersection = tree.<span class="hljs-built_in">first_intersection</span>(ray, skip);<br>    <span class="hljs-keyword">if</span>(intersection)<br>    &#123;<br>      <span class="hljs-keyword">if</span>(boost::get&lt;Point&gt;(&amp;(intersection-&gt;first)))&#123;<br>        <span class="hljs-keyword">const</span> Point* p =  boost::get&lt;Point&gt;(&amp;(intersection-&gt;first) );<br>        std::cout &lt;&lt;  *p &lt;&lt; std::endl;<br>      &#125;<br>    &#125;<br>  &#125;<br>  std::cerr &lt;&lt; <span class="hljs-string">&quot;done&quot;</span> &lt;&lt; std::endl;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>因为重心计算属于浮点运算，因此射线第一个击中的面可能是起点质心所在的面。为了避免此状况，这里需要给<code>first_intersection()</code>传入一个skip functor将此面忽略。</p>
+<p>上个例子是计算的射线与mesh的相交，下面这个例子展示如何查询一个点到mesh的squared distance和closest point及其所在的triangle。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><br><span class="hljs-comment">// Author(s) : Pierre Alliez</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_tree.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_traits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polyhedron_3.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_face_graph_triangle_primitive.h&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<br><span class="hljs-keyword">typedef</span> K::FT FT;<br><span class="hljs-keyword">typedef</span> K::Point_3 Point;<br><span class="hljs-keyword">typedef</span> K::Segment_3 Segment;<br><span class="hljs-keyword">typedef</span> CGAL::Polyhedron_3&lt;K&gt; Polyhedron;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_face_graph_triangle_primitive&lt;Polyhedron&gt; Primitive;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_traits&lt;K, Primitive&gt; Traits;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_tree&lt;Traits&gt; Tree;<br><span class="hljs-keyword">typedef</span> Tree::Point_and_primitive_id Point_and_primitive_id;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">Point <span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">q</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">r</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">s</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    Polyhedron polyhedron;<br>    polyhedron.<span class="hljs-built_in">make_tetrahedron</span>(p, q, r, s);<br>    <span class="hljs-comment">// constructs AABB tree and computes internal KD-tree</span><br>    <span class="hljs-comment">// data structure to accelerate distance queries</span><br>    <span class="hljs-function">Tree <span class="hljs-title">tree</span><span class="hljs-params">(faces(polyhedron).first, faces(polyhedron).second, polyhedron)</span></span>;<br>    <span class="hljs-comment">// query point</span><br>    <span class="hljs-function">Point <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">3.0</span>)</span></span>;<br>    <span class="hljs-comment">// computes squared distance from query</span><br>    FT sqd = tree.<span class="hljs-built_in">squared_distance</span>(query);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;squared distance: &quot;</span> &lt;&lt; sqd &lt;&lt; std::endl;<br>    <span class="hljs-comment">// computes closest point</span><br>    Point closest = tree.<span class="hljs-built_in">closest_point</span>(query);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;closest point: &quot;</span> &lt;&lt; closest &lt;&lt; std::endl;<br>    <span class="hljs-comment">// computes closest point and primitive id</span><br>    Point_and_primitive_id pp = tree.<span class="hljs-built_in">closest_point_and_primitive</span>(query);<br>    Point closest_point = pp.first;<br>    Polyhedron::Face_handle f = pp.second; <span class="hljs-comment">// closest primitive id</span><br>    std::cout &lt;&lt; <span class="hljs-string">&quot;closest point: &quot;</span> &lt;&lt; closest_point &lt;&lt; std::endl;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;closest triangle: ( &quot;</span><br>              &lt;&lt; f-&gt;<span class="hljs-built_in">halfedge</span>()-&gt;<span class="hljs-built_in">vertex</span>()-&gt;<span class="hljs-built_in">point</span>() &lt;&lt; <span class="hljs-string">&quot; , &quot;</span><br>              &lt;&lt; f-&gt;<span class="hljs-built_in">halfedge</span>()-&gt;<span class="hljs-built_in">next</span>()-&gt;<span class="hljs-built_in">vertex</span>()-&gt;<span class="hljs-built_in">point</span>() &lt;&lt; <span class="hljs-string">&quot; , &quot;</span><br>              &lt;&lt; f-&gt;<span class="hljs-built_in">halfedge</span>()-&gt;<span class="hljs-built_in">next</span>()-&gt;<span class="hljs-built_in">next</span>()-&gt;<span class="hljs-built_in">vertex</span>()-&gt;<span class="hljs-built_in">point</span>()<br>              &lt;&lt; <span class="hljs-string">&quot; )&quot;</span> &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span> EXIT_SUCCESS;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最后一个例子，是对于AABB树中图元的增量插入。虽然AABB树是一个静态的数据结构，但是它允许插入primitives（图元）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Simple_cartesian.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_tree.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_traits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/Polyhedron_3.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;CGAL/AABB_face_graph_triangle_primitive.h&gt;</span></span><br><span class="hljs-keyword">typedef</span> CGAL::Simple_cartesian&lt;<span class="hljs-keyword">double</span>&gt; K;<br><span class="hljs-keyword">typedef</span> K::FT FT;<br><span class="hljs-keyword">typedef</span> K::Point_3 Point;<br><span class="hljs-keyword">typedef</span> K::Segment_3 Segment;<br><span class="hljs-keyword">typedef</span> CGAL::Polyhedron_3&lt;K&gt; Polyhedron;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_face_graph_triangle_primitive&lt;Polyhedron, CGAL::Default, CGAL::Tag_false&gt; Primitive;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_traits&lt;K, Primitive&gt; Traits;<br><span class="hljs-keyword">typedef</span> CGAL::AABB_tree&lt;Traits&gt; Tree;<br><span class="hljs-keyword">typedef</span> Tree::Point_and_primitive_id Point_and_primitive_id;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">Point <span class="hljs-title">p</span><span class="hljs-params">(<span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">q</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">r</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">s</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    Polyhedron polyhedron1;<br>    polyhedron1.<span class="hljs-built_in">make_tetrahedron</span>(p, q, r, s);<br>    <span class="hljs-function">Point <span class="hljs-title">p2</span><span class="hljs-params">(<span class="hljs-number">11.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">q2</span><span class="hljs-params">(<span class="hljs-number">10.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">r2</span><span class="hljs-params">(<span class="hljs-number">10.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>)</span></span>;<br>    <span class="hljs-function">Point <span class="hljs-title">s2</span><span class="hljs-params">(<span class="hljs-number">10.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>)</span></span>;<br>    Polyhedron polyhedron2;<br>    polyhedron2.<span class="hljs-built_in">make_tetrahedron</span>(p2, q2, r2, s2);<br>    <span class="hljs-comment">// constructs AABB tree and computes internal KD-tree</span><br>    <span class="hljs-comment">// data structure to accelerate distance queries</span><br>    <span class="hljs-function">Tree <span class="hljs-title">tree</span><span class="hljs-params">(faces(polyhedron1).first, faces(polyhedron1).second, polyhedron1)</span></span>;<br>    tree.<span class="hljs-built_in">insert</span>(<span class="hljs-built_in">faces</span>(polyhedron2).first, <span class="hljs-built_in">faces</span>(polyhedron2).second, polyhedron2);<br>    <span class="hljs-comment">// query point</span><br>    <span class="hljs-function">Point <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">3.0</span>)</span></span>;<br>    <span class="hljs-comment">// computes squared distance from query</span><br>    FT sqd = tree.<span class="hljs-built_in">squared_distance</span>(query);<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;squared distance: &quot;</span> &lt;&lt; sqd &lt;&lt; std::endl;<br>    <span class="hljs-keyword">return</span> EXIT_SUCCESS;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上面这个例子中，首先使用polyhedron1构建tree，然后使用<code>insert()</code>函数将polyhedron2的faces作为primitives插入到tree中。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/27/%E3%80%90CGAL_%E7%BD%91%E6%A0%BC%E5%A4%84%E7%90%86%E3%80%91%E6%B3%95%E5%90%91%E9%87%8F%E8%AE%A1%E7%AE%97/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【CGAL_网格处理】法向量计算</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/22/%E3%80%90CGAL_%E7%BD%91%E6%A0%BC%E3%80%91Surface_mesh/">
+                        <span class="hidden-mobile">【CGAL_网格】Surface_mesh</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"SS90JJ96HGAB2tRm4Xh34VrB-MdYXbMMI","appKey":"SenUiYEnAA6z6s0OlqwHxST5","path":"window.location.pathname","placeholder":"欢迎交流讨论~(目前只能通过科学sw访问评论区)","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":false,"serverURLs":"https://ss90jj96.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <span>2023</span> <i class="iconfont icon-love"></i> <a href="https://github.com/mstifiy" target="_blank" rel="nofollow noopener"><span>MSTIFIY</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  <!-- 页面点击烟花特效 -->
+  <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <!--浏览器搞笑标题-->
+  <script type="text/javascript" src="/js/FunnyTitle.js"></script>
+
+  <!--动态线条背景-->
+  <script type="text/javascript" color="34,34,34" opacity='0.5' zIndex="-2" count="200" src="/lib/canvas-nest/canvas-nest.min.js">
+  </script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":200,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
