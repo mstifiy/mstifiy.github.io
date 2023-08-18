@@ -32,24 +32,8 @@
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000140688.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000230337.png">
 <meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000546218.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730150803895.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730151429110.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730162827401.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730174452604.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/7377512-97e584db42a540bc.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000140688.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000230337.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000546218.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730150803895.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730151429110.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730162827401.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730174452604.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/7377512-97e584db42a540bc.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000140688.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000230337.png">
-<meta property="og:image" content="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000546218.png">
 <meta property="article:published_time" content="2023-08-01T16:24:51.000Z">
-<meta property="article:modified_time" content="2023-08-18T02:30:53.671Z">
+<meta property="article:modified_time" content="2023-08-18T02:40:32.786Z">
 <meta property="article:author" content="MSTIFIY">
 <meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary_large_image">
@@ -222,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      13k 字
+      4.2k 字
     </span>
   
 
@@ -231,7 +215,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      40 分钟
+      13 分钟
     </span>
   
 
@@ -354,198 +338,6 @@
 </li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1NA411E7Yr/?vd_source=fcfa2dbed408e07409a2d6ce55790b68">GAMES102:几何建模与处理</a></p>
-<p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/411865616">https://zhuanlan.zhihu.com/p/411865616</a></p>
-<p>[3] Michael Garland and Paul S. Heckbert. 1997. Surface simplification using quadric error metrics. In Proceedings of the 24th annual conference on Computer graphics and interactive techniques (SIGGRAPH ‘97). ACM Press/Addison-Wesley Publishing Co., USA, 209–216. <a target="_blank" rel="noopener" href="https://doi.org/10.1145/258734.258849">https://doi.org/10.1145/258734.258849</a></p>
-<p>[4] <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2bf615c38165">https://www.jianshu.com/p/2bf615c38165</a></p>
-<p>[5] <a target="_blank" rel="noopener" href="https://github.com/AntonotnaWang/Mesh_simplification_python---">https://github.com/AntonotnaWang/Mesh_simplification_python---</a><br>title: 网格简化(QEM)<br>date: 2023-08-02 00:24:51<br>tags: 学习记录</p>
-<hr>
-<p>[TOC]</p>
-<h1 id="网格简化-QEM-1"><a href="#网格简化-QEM-1" class="headerlink" title="网格简化(QEM)"></a>网格简化(QEM)</h1><h2 id="1-概述与原理-1"><a href="#1-概述与原理-1" class="headerlink" title="1 概述与原理"></a>1 概述与原理</h2><p>网格简化，通过减少复杂网格数据的顶点、边和面的数量简化模型的表达，在图形学领域，这种技术也叫做Level of details(LOD，多层次细节)。</p>
-<h3 id="1-1-网格简化的应用-1"><a href="#1-1-网格简化的应用-1" class="headerlink" title="1.1 网格简化的应用"></a>1.1 网格简化的应用</h3><ul>
-<li><strong>多分辨率渲染</strong>：对于投影尺寸较小（远距离显示）的模型，可以渲染它的简化版本替代原本丰富细节的高复杂度网格，提高渲染效率。</li>
-<li><strong>代理仿真</strong>：在简化模型上进行仿真，然后通过插值方法得到原本复杂网格的近似仿真结果，提高仿真效率。$^{[1]}$</li>
-</ul>
-<h3 id="1-2-常见的简化操作-1"><a href="#1-2-常见的简化操作-1" class="headerlink" title="1.2 常见的简化操作"></a>1.2 常见的简化操作</h3><ul>
-<li><p>Vertex Decimation（顶点抽取）</p>
-<blockquote>
-<p>选择一个顶点进行删除，移除该顶点相邻的面，然后对产生的孔洞重新三角化。</p>
-</blockquote>
-</li>
-<li><p>Vertex Clustering（顶点聚类）</p>
-<blockquote>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730150803895.png" srcset="/img/loading.gif" lazyload alt="image-20230730150803895"></p>
-<p>划分原始网格的包围盒成一个grid，将每个cell中的顶点聚类成一个，然后依据聚类后得到的顶点更新网格的面。</p>
-</blockquote>
-</li>
-<li><p>Edge Contraction（边收缩）</p>
-<blockquote>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730151429110.png" srcset="/img/loading.gif" lazyload alt="image-20230730151429110"></p>
-<p>$(v_1,v_2)\rightarrow{\overline{v}}$，将一条边收缩为一个点，删除退化的面（上图中阴影所示）。</p>
-</blockquote>
-</li>
-<li><p>Pair Contraction（点对收缩）</p>
-<blockquote>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730162827401.png" srcset="/img/loading.gif" lazyload alt="image-20230730162827401">作为边收缩的推广，如果点对$(v_1,v_2)$是一条边，那么等同于边收缩；如果点对$(v_1,v_2)$不是一条边，那么对该点对进行收缩会使原本不相连的部分连接到一起。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="1-3-二次误差度量-1"><a href="#1-3-二次误差度量-1" class="headerlink" title="1.3 二次误差度量"></a>1.3 二次误差度量</h3><p>为了保证收缩后的顶点与原始网格之间的局部距离不要太远，我们选择一种基于二次距离度量的方式寻找最优的收缩点。</p>
-<p><strong>根据二次距离寻找最优收缩点</strong></p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730174452604.png" srcset="/img/loading.gif" lazyload alt="image-20230730174452604"></p>
-<p>此处公式推导请移步至<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/411865616">网格简化 QEM 方法详解</a>，文中讲得十分清晰。</p>
-<blockquote>
-<p>考虑一次边收缩。对于两个点 $v_1, v_2$ ，收缩成一个点 $\bar{v}$ 。定义 plane $\left(v_i\right)$ 表示 $v_i$ 对应的那些原始三角面，则我们的优化目标是<br>$$<br>\bar{v}=\underset{v}{\arg \min } \sum_{p \in \text { plane }\left(v_1\right) \cup \text { plane }\left(v_2\right)} \operatorname{distance}(v, p)^2<br>$$<br>下面一步步化简。令平面 $p$ 的表达式为 $a x+b y+c z+d=0$ ，其中 $a^2+b^2+c^2=1$ 。 记 $v=[x, y, z, 1]^T, p=[a, b, c, d]^T$ ，可得<br>$$<br>\operatorname{distance}(v, p)^2=\left(v^T p\right)^2=v^T p p^T v=v^T K_p v<br>$$<br>其中 $K_p=p p^T$ ，则原式简化为<br>$$<br>\bar{v}=\underset{v}{\arg \min }\space v^T\left(\sum_{p \in \text { plane }\left(v_1\right) \cup p l a n e\left(v_2\right)} K_p\right) v<br>$$<br>此处取约等于<br>$$<br>\bar{v} \approx \underset{v}{\arg \min }\space v^T\left(\sum_{p \in \operatorname{plane}\left(v_1\right)} K_p+\sum_{p \in \operatorname{plane}\left(v_2\right)} K_p\right) v<br>$$<br>令 $Q_i=\sum_{p \in \text { plane }\left(v_i\right)} K_p$ ，则有<br>$$<br>\bar{v}=\underset{v}{\arg \min }\space  v^T\left(Q_1+Q_2\right) v<br>$$<br>初始化时，将 $\operatorname{plane}(v)$ 设为点 $\mathrm{v}$ 周围的三角形面即可。此时上面的约等号并无大碍，因为一个 三角形面至多重复三次 (三个顶点)，不仅不会带来较大的误差，而且简化了计算。<br>另外， $K_p$ 是对称矩阵，故 $Q$ 也是，所以只需要存储 10 个元素即可。<br>此时求解 $\bar{v}$ 的坐标变成求解二次函数极值点。$^{[2]}$</p>
-</blockquote>
-<p>令$Q=Q_1+Q_2$，通过解如下方程求解$\bar{v}$的坐标：<br>$$<br>\left[{\begin{array}{cccc}q_{11}&amp;q_{12}&amp;q_{13}&amp;q_{14}\q_{12}&amp;q_{22}&amp;q_{23}&amp;q_{24}\q_{13}&amp;q_{23}&amp;q_{33}&amp;q_{34}\0&amp;0&amp;0&amp;1\end{array}}\right]\bar{v}=\left[{\begin{array}{c}0\0\0\1\end{array}}\right]<br>$$<br>上式中，$q_{11}$表示$Q$的第一行的第一个元素的值，这里$\bar{v}$使用的是齐次坐标。如果上式中左侧矩阵可逆，则<br>$$<br>\bar{v}=\left[{\begin{array}{cccc}q_{11}&amp;q_{12}&amp;q_{13}&amp;q_{14}\q_{12}&amp;q_{22}&amp;q_{23}&amp;q_{24}\q_{13}&amp;q_{23}&amp;q_{33}&amp;q_{34}\0&amp;0&amp;0&amp;1\end{array}}\right]^{-1}\left[{\begin{array}{c}0\0\0\1\end{array}}\right]<br>$$<br>如果不可逆，则$^{[4]}$<br>$$<br>v=(1-k)v_1+kv_2,\text{where}\space{k}\in[0,1]\<br>\bar{v}=\underset{v}{\arg \min }\space  v^T\left(Q_1+Q_2\right) v<br>$$<br>如果还是不行，就选择端点$v_1,v_2$或者中点$\frac{v_1+v_2}2$三者中误差（$\Delta(v)=v^TQv$）最小的作为$\bar{v}$ $^{[3]}$。</p>
-<h2 id="2-算法流程-1"><a href="#2-算法流程-1" class="headerlink" title="2 算法流程"></a>2 算法流程</h2><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/7377512-97e584db42a540bc.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<blockquote>
-<p>图源自：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2bf615c38165">QEM网格简化 - 简书 (jianshu.com)</a></p>
-</blockquote>
-<h3 id="2-1-逐步分析-1"><a href="#2-1-逐步分析-1" class="headerlink" title="2.1 逐步分析"></a>2.1 逐步分析</h3><ul>
-<li><p><strong>计算所有初始顶点的$Q$矩阵</strong></p>
-<p>令平面 $p$ 的表达式为 $a x+b y+c z+d=0$ ，其中 $a^2+b^2+c^2=1$ 。记$p=[a, b, c, d]^T$。由此，我们定义$Q_i$（4x4，顶点$v_i$的$Q$矩阵）如下：<br>$$<br>Q_i=\sum_{p\in planes(v_i)}pp^T<br>$$</p>
-</li>
-<li><p><strong>选择合法点对</strong></p>
-<p>一个顶点对$(v_i,v_j)$是合法点对的条件为：</p>
-<ul>
-<li>$(v_i,v_j)$是一条边；</li>
-<li>$‖v_i − v_j‖ &lt; t$，$t$为阈值参数。</li>
-</ul>
-<blockquote>
-<p>以上条件满足其一即可。</p>
-</blockquote>
-</li>
-<li><p><strong>计算每个合法点对$(v_i,v_j)$的最小收缩误差$cost_{ij}$，以及最佳收缩点$v_{opt}$的位置</strong></p>
-<p>首先计算$v_{opt}$对应的$Q_{opt}$：<br>$$<br>Q_{opt}=Q_i+Q_j=\begin{bmatrix}q_{11}&amp;q_{12}&amp;q_{13}&amp;q_{14}\q_{12}&amp;q_{22}&amp;q_{23}&amp;q_{24}\q_{13}&amp;q_{32}&amp;q_{33}&amp;q_{34}\q_{14}&amp;q_{24}&amp;q_{34}&amp;q_{44}\end{bmatrix}.<br>$$<br>定义$cost_{ij}$如下：<br>$$<br>cost_{ij}=v^TQ_{opt}v<br>$$<br>最小化收缩误差，得到$v_{opt}$。具体计算参见上一节[二次误差度量](#1.3 二次误差度量)。</p>
-</li>
-<li><p><strong>将所有合法点对按其对应的$cost_{ij}$的顺序放置在一个堆中，最小$cost_{ij}$对位于顶部</strong></p>
-<p>一般使用小根堆进行排序。</p>
-</li>
-<li><p><strong>移除最小$cost_{ij}$对应的点对，收缩$(v_i,v_j)\rightarrow{v_{opt}}$，更新所有包含了$v_i$或$v_j$的合法点对的$cost$</strong></p>
-<p>这一步是迭代进行的，结束的标志为达到了设定的简化率或者堆空了$^{[5]}$。</p>
-</li>
-</ul>
-<h2 id="3-Python代码实现-1"><a href="#3-Python代码实现-1" class="headerlink" title="3 Python代码实现"></a>3 Python代码实现</h2><p>代码实现方面，推荐直接学习该项目：<a target="_blank" rel="noopener" href="https://github.com/AntonotnaWang/Mesh_simplification_python">Mesh_simplification_python: An implementation of mesh simplification algorithm using python</a>，其中代码注释很全，条理清晰，值得学习。</p>
-<h3 id="3-1-测试结果-1"><a href="#3-1-测试结果-1" class="headerlink" title="3.1 测试结果"></a>3.1 测试结果</h3><p>输入模型网格（9397 vertices, 18794 faces）：</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000140688.png" srcset="/img/loading.gif" lazyload alt="image-20230802000140688"></p>
-<p>$t=0,\space ratio=0.5$（4698 vertices, 9396 faces）：</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000230337.png" srcset="/img/loading.gif" lazyload alt="image-20230802000230337"></p>
-<p>$t=0,\space ratio=0.1$（939 vertices, 1878 faces）：</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000546218.png" srcset="/img/loading.gif" lazyload alt="image-20230802000546218"></p>
-<h2 id="4-总结-1"><a href="#4-总结-1" class="headerlink" title="4 总结"></a>4 总结</h2><ul>
-<li><p><strong>代码功能优化</strong></p>
-<p>在原论文中还提到了如下两个细节：</p>
-<ul>
-<li><p>保留边界</p>
-<blockquote>
-<p>对于一些在简化过程中需要保持边界的模型网格，我们在点对收缩时判断点对是否为边界边，如果是，我们可以给该点对cost加权一个较大的惩罚因子，阻止收缩。</p>
-</blockquote>
-</li>
-<li><p>防止面片翻转</p>
-<blockquote>
-<p>直接使用QEM算法进行网格简化，可能会导致一些面片翻转。所以我们需要在计算点对收缩cost时，同时判断点对的每一个相邻面片是否发生了翻转。可采用收缩前后面片法向量的夹角大小进行判断。同时，我们也对其代价进行惩罚。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1NA411E7Yr/?vd_source=fcfa2dbed408e07409a2d6ce55790b68">GAMES102:几何建模与处理</a></p>
-<p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/411865616">https://zhuanlan.zhihu.com/p/411865616</a></p>
-<p>[3] Michael Garland and Paul S. Heckbert. 1997. Surface simplification using quadric error metrics. In Proceedings of the 24th annual conference on Computer graphics and interactive techniques (SIGGRAPH ‘97). ACM Press/Addison-Wesley Publishing Co., USA, 209–216. <a target="_blank" rel="noopener" href="https://doi.org/10.1145/258734.258849">https://doi.org/10.1145/258734.258849</a></p>
-<p>[4] <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2bf615c38165">https://www.jianshu.com/p/2bf615c38165</a></p>
-<p>[5] <a target="_blank" rel="noopener" href="https://github.com/AntonotnaWang/Mesh_simplification_python---">https://github.com/AntonotnaWang/Mesh_simplification_python---</a><br>title: 网格简化(QEM)<br>date: 2023-08-02 00:24:51<br>tags: 学习记录</p>
-<hr>
-<p>[TOC]</p>
-<h1 id="网格简化-QEM-2"><a href="#网格简化-QEM-2" class="headerlink" title="网格简化(QEM)"></a>网格简化(QEM)</h1><h2 id="1-概述与原理-2"><a href="#1-概述与原理-2" class="headerlink" title="1 概述与原理"></a>1 概述与原理</h2><p>网格简化，通过减少复杂网格数据的顶点、边和面的数量简化模型的表达，在图形学领域，这种技术也叫做Level of details(LOD，多层次细节)。</p>
-<h3 id="1-1-网格简化的应用-2"><a href="#1-1-网格简化的应用-2" class="headerlink" title="1.1 网格简化的应用"></a>1.1 网格简化的应用</h3><ul>
-<li><strong>多分辨率渲染</strong>：对于投影尺寸较小（远距离显示）的模型，可以渲染它的简化版本替代原本丰富细节的高复杂度网格，提高渲染效率。</li>
-<li><strong>代理仿真</strong>：在简化模型上进行仿真，然后通过插值方法得到原本复杂网格的近似仿真结果，提高仿真效率。$^{[1]}$</li>
-</ul>
-<h3 id="1-2-常见的简化操作-2"><a href="#1-2-常见的简化操作-2" class="headerlink" title="1.2 常见的简化操作"></a>1.2 常见的简化操作</h3><ul>
-<li><p>Vertex Decimation（顶点抽取）</p>
-<blockquote>
-<p>选择一个顶点进行删除，移除该顶点相邻的面，然后对产生的孔洞重新三角化。</p>
-</blockquote>
-</li>
-<li><p>Vertex Clustering（顶点聚类）</p>
-<blockquote>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730150803895.png" srcset="/img/loading.gif" lazyload alt="image-20230730150803895"></p>
-<p>划分原始网格的包围盒成一个grid，将每个cell中的顶点聚类成一个，然后依据聚类后得到的顶点更新网格的面。</p>
-</blockquote>
-</li>
-<li><p>Edge Contraction（边收缩）</p>
-<blockquote>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730151429110.png" srcset="/img/loading.gif" lazyload alt="image-20230730151429110"></p>
-<p>$(v_1,v_2)\rightarrow{\overline{v}}$，将一条边收缩为一个点，删除退化的面（上图中阴影所示）。</p>
-</blockquote>
-</li>
-<li><p>Pair Contraction（点对收缩）</p>
-<blockquote>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730162827401.png" srcset="/img/loading.gif" lazyload alt="image-20230730162827401">作为边收缩的推广，如果点对$(v_1,v_2)$是一条边，那么等同于边收缩；如果点对$(v_1,v_2)$不是一条边，那么对该点对进行收缩会使原本不相连的部分连接到一起。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="1-3-二次误差度量-2"><a href="#1-3-二次误差度量-2" class="headerlink" title="1.3 二次误差度量"></a>1.3 二次误差度量</h3><p>为了保证收缩后的顶点与原始网格之间的局部距离不要太远，我们选择一种基于二次距离度量的方式寻找最优的收缩点。</p>
-<p><strong>根据二次距离寻找最优收缩点</strong></p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230730174452604.png" srcset="/img/loading.gif" lazyload alt="image-20230730174452604"></p>
-<p>此处公式推导请移步至<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/411865616">网格简化 QEM 方法详解</a>，文中讲得十分清晰。</p>
-<blockquote>
-<p>考虑一次边收缩。对于两个点 $v_1, v_2$ ，收缩成一个点 $\bar{v}$ 。定义 plane $\left(v_i\right)$ 表示 $v_i$ 对应的那些原始三角面，则我们的优化目标是<br>$$<br>\bar{v}=\underset{v}{\arg \min } \sum_{p \in \text { plane }\left(v_1\right) \cup \text { plane }\left(v_2\right)} \operatorname{distance}(v, p)^2<br>$$<br>下面一步步化简。令平面 $p$ 的表达式为 $a x+b y+c z+d=0$ ，其中 $a^2+b^2+c^2=1$ 。 记 $v=[x, y, z, 1]^T, p=[a, b, c, d]^T$ ，可得<br>$$<br>\operatorname{distance}(v, p)^2=\left(v^T p\right)^2=v^T p p^T v=v^T K_p v<br>$$<br>其中 $K_p=p p^T$ ，则原式简化为<br>$$<br>\bar{v}=\underset{v}{\arg \min }\space v^T\left(\sum_{p \in \text { plane }\left(v_1\right) \cup p l a n e\left(v_2\right)} K_p\right) v<br>$$<br>此处取约等于<br>$$<br>\bar{v} \approx \underset{v}{\arg \min }\space v^T\left(\sum_{p \in \operatorname{plane}\left(v_1\right)} K_p+\sum_{p \in \operatorname{plane}\left(v_2\right)} K_p\right) v<br>$$<br>令 $Q_i=\sum_{p \in \text { plane }\left(v_i\right)} K_p$ ，则有<br>$$<br>\bar{v}=\underset{v}{\arg \min }\space  v^T\left(Q_1+Q_2\right) v<br>$$<br>初始化时，将 $\operatorname{plane}(v)$ 设为点 $\mathrm{v}$ 周围的三角形面即可。此时上面的约等号并无大碍，因为一个 三角形面至多重复三次 (三个顶点)，不仅不会带来较大的误差，而且简化了计算。<br>另外， $K_p$ 是对称矩阵，故 $Q$ 也是，所以只需要存储 10 个元素即可。<br>此时求解 $\bar{v}$ 的坐标变成求解二次函数极值点。$^{[2]}$</p>
-</blockquote>
-<p>令$Q=Q_1+Q_2$，通过解如下方程求解$\bar{v}$的坐标：<br>$$<br>\left[{\begin{array}{cccc}q_{11}&amp;q_{12}&amp;q_{13}&amp;q_{14}\q_{12}&amp;q_{22}&amp;q_{23}&amp;q_{24}\q_{13}&amp;q_{23}&amp;q_{33}&amp;q_{34}\0&amp;0&amp;0&amp;1\end{array}}\right]\bar{v}=\left[{\begin{array}{c}0\0\0\1\end{array}}\right]<br>$$<br>上式中，$q_{11}$表示$Q$的第一行的第一个元素的值，这里$\bar{v}$使用的是齐次坐标。如果上式中左侧矩阵可逆，则<br>$$<br>\bar{v}=\left[{\begin{array}{cccc}q_{11}&amp;q_{12}&amp;q_{13}&amp;q_{14}\q_{12}&amp;q_{22}&amp;q_{23}&amp;q_{24}\q_{13}&amp;q_{23}&amp;q_{33}&amp;q_{34}\0&amp;0&amp;0&amp;1\end{array}}\right]^{-1}\left[{\begin{array}{c}0\0\0\1\end{array}}\right]<br>$$<br>如果不可逆，则$^{[4]}$<br>$$<br>v=(1-k)v_1+kv_2,\text{where}\space{k}\in[0,1]\<br>\bar{v}=\underset{v}{\arg \min }\space  v^T\left(Q_1+Q_2\right) v<br>$$<br>如果还是不行，就选择端点$v_1,v_2$或者中点$\frac{v_1+v_2}2$三者中误差（$\Delta(v)=v^TQv$）最小的作为$\bar{v}$ $^{[3]}$。</p>
-<h2 id="2-算法流程-2"><a href="#2-算法流程-2" class="headerlink" title="2 算法流程"></a>2 算法流程</h2><p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/7377512-97e584db42a540bc.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<blockquote>
-<p>图源自：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2bf615c38165">QEM网格简化 - 简书 (jianshu.com)</a></p>
-</blockquote>
-<h3 id="2-1-逐步分析-2"><a href="#2-1-逐步分析-2" class="headerlink" title="2.1 逐步分析"></a>2.1 逐步分析</h3><ul>
-<li><p><strong>计算所有初始顶点的$Q$矩阵</strong></p>
-<p>令平面 $p$ 的表达式为 $a x+b y+c z+d=0$ ，其中 $a^2+b^2+c^2=1$ 。记$p=[a, b, c, d]^T$。由此，我们定义$Q_i$（4x4，顶点$v_i$的$Q$矩阵）如下：<br>$$<br>Q_i=\sum_{p\in planes(v_i)}pp^T<br>$$</p>
-</li>
-<li><p><strong>选择合法点对</strong></p>
-<p>一个顶点对$(v_i,v_j)$是合法点对的条件为：</p>
-<ul>
-<li>$(v_i,v_j)$是一条边；</li>
-<li>$‖v_i − v_j‖ &lt; t$，$t$为阈值参数。</li>
-</ul>
-<blockquote>
-<p>以上条件满足其一即可。</p>
-</blockquote>
-</li>
-<li><p><strong>计算每个合法点对$(v_i,v_j)$的最小收缩误差$cost_{ij}$，以及最佳收缩点$v_{opt}$的位置</strong></p>
-<p>首先计算$v_{opt}$对应的$Q_{opt}$：<br>$$<br>Q_{opt}=Q_i+Q_j=\begin{bmatrix}q_{11}&amp;q_{12}&amp;q_{13}&amp;q_{14}\q_{12}&amp;q_{22}&amp;q_{23}&amp;q_{24}\q_{13}&amp;q_{32}&amp;q_{33}&amp;q_{34}\q_{14}&amp;q_{24}&amp;q_{34}&amp;q_{44}\end{bmatrix}.<br>$$<br>定义$cost_{ij}$如下：<br>$$<br>cost_{ij}=v^TQ_{opt}v<br>$$<br>最小化收缩误差，得到$v_{opt}$。具体计算参见上一节[二次误差度量](#1.3 二次误差度量)。</p>
-</li>
-<li><p><strong>将所有合法点对按其对应的$cost_{ij}$的顺序放置在一个堆中，最小$cost_{ij}$对位于顶部</strong></p>
-<p>一般使用小根堆进行排序。</p>
-</li>
-<li><p><strong>移除最小$cost_{ij}$对应的点对，收缩$(v_i,v_j)\rightarrow{v_{opt}}$，更新所有包含了$v_i$或$v_j$的合法点对的$cost$</strong></p>
-<p>这一步是迭代进行的，结束的标志为达到了设定的简化率或者堆空了$^{[5]}$。</p>
-</li>
-</ul>
-<h2 id="3-Python代码实现-2"><a href="#3-Python代码实现-2" class="headerlink" title="3 Python代码实现"></a>3 Python代码实现</h2><p>代码实现方面，推荐直接学习该项目：<a target="_blank" rel="noopener" href="https://github.com/AntonotnaWang/Mesh_simplification_python">Mesh_simplification_python: An implementation of mesh simplification algorithm using python</a>，其中代码注释很全，条理清晰，值得学习。</p>
-<h3 id="3-1-测试结果-2"><a href="#3-1-测试结果-2" class="headerlink" title="3.1 测试结果"></a>3.1 测试结果</h3><p>输入模型网格（9397 vertices, 18794 faces）：</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000140688.png" srcset="/img/loading.gif" lazyload alt="image-20230802000140688"></p>
-<p>$t=0,\space ratio=0.5$（4698 vertices, 9396 faces）：</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000230337.png" srcset="/img/loading.gif" lazyload alt="image-20230802000230337"></p>
-<p>$t=0,\space ratio=0.1$（939 vertices, 1878 faces）：</p>
-<p><img src="https://gitee.com/mstifiy/img-load/raw/master/noteImg/image-20230802000546218.png" srcset="/img/loading.gif" lazyload alt="image-20230802000546218"></p>
-<h2 id="4-总结-2"><a href="#4-总结-2" class="headerlink" title="4 总结"></a>4 总结</h2><ul>
-<li><p><strong>代码功能优化</strong></p>
-<p>在原论文中还提到了如下两个细节：</p>
-<ul>
-<li><p>保留边界</p>
-<blockquote>
-<p>对于一些在简化过程中需要保持边界的模型网格，我们在点对收缩时判断点对是否为边界边，如果是，我们可以给该点对cost加权一个较大的惩罚因子，阻止收缩。</p>
-</blockquote>
-</li>
-<li><p>防止面片翻转</p>
-<blockquote>
-<p>直接使用QEM算法进行网格简化，可能会导致一些面片翻转。所以我们需要在计算点对收缩cost时，同时判断点对的每一个相邻面片是否发生了翻转。可采用收缩前后面片法向量的夹角大小进行判断。同时，我们也对其代价进行惩罚。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="参考-2"><a href="#参考-2" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1NA411E7Yr/?vd_source=fcfa2dbed408e07409a2d6ce55790b68">GAMES102:几何建模与处理</a></p>
 <p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/411865616">https://zhuanlan.zhihu.com/p/411865616</a></p>
 <p>[3] Michael Garland and Paul S. Heckbert. 1997. Surface simplification using quadric error metrics. In Proceedings of the 24th annual conference on Computer graphics and interactive techniques (SIGGRAPH ‘97). ACM Press/Addison-Wesley Publishing Co., USA, 209–216. <a target="_blank" rel="noopener" href="https://doi.org/10.1145/258734.258849">https://doi.org/10.1145/258734.258849</a></p>
 <p>[4] <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2bf615c38165">https://www.jianshu.com/p/2bf615c38165</a></p>
