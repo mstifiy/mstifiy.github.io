@@ -42,6 +42,19 @@
   
   
   <entry>
+    <title>浮点数</title>
+    <link href="/2023/01/18/%E6%B5%AE%E7%82%B9%E6%95%B0/"/>
+    <url>/2023/01/18/%E6%B5%AE%E7%82%B9%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="浮点格式"><a href="#浮点格式" class="headerlink" title="浮点格式"></a>浮点格式</h2><p>IEEE标准中，一个<strong>浮点数字</strong>包含三个部分：<strong>符号</strong>（$\pm$）、<strong>尾数</strong>（包含一串有效数位）和<strong>指数</strong>。这些部分都在一个计算机<strong>字</strong>里。</p><p>常用精度级别及其数位分配如下：</p><table><thead><tr><th>精度级别</th><th>符号</th><th>指数</th><th>尾数</th></tr></thead><tbody><tr><td>单精度</td><td>1</td><td>8</td><td>23</td></tr><tr><td>双精度</td><td>1</td><td>11</td><td>52</td></tr><tr><td>长双精度</td><td>1</td><td>15</td><td>64</td></tr></tbody></table>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Zotero | 快速入门</title>
     <link href="/2023/01/05/Zotero%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/"/>
     <url>/2023/01/05/Zotero%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</url>
